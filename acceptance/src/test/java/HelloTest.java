@@ -7,6 +7,4 @@ public class HelloTest {
     void helloTest() {
         Assertions.assertTrue(true);
     }
-
-
 }

@@ -1,5 +1,6 @@
 plugins {
     java
+    id("com.diffplug.spotless") version "7.2.1"
 }
 
 repositories {
@@ -13,4 +14,10 @@ dependencies {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
+}
+
+spotless {
+    java {
+        googleJavaFormat().aosp()
+    }
 }
