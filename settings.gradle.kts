@@ -11,4 +11,4 @@ plugins {
 }
 
 rootProject.name = "the-library"
-include("app")
+include("app", "acceptance")
