@@ -3,4 +3,4 @@ plugins {
 }
 
 rootProject.name = "the-library"
-include("app", "acceptance")
+include("spring-boot", "acceptance")
