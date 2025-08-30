@@ -51,9 +51,9 @@ public class BookResource {
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
         try (var adminClient = AdminClient.create(props)) {
-            var topic = new NewTopic(NEW_BOOK_TOPIC_NAME, 3, (short) 1);
-            var createTopicsResult = adminClient.createTopics(Collections.singleton(topic));
-            createTopicsResult.config(NEW_BOOK_TOPIC_NAME).get(1, TimeUnit.SECONDS);
+//            var topic = new NewTopic(NEW_BOOK_TOPIC_NAME, 3, (short) 1);
+//            var createTopicsResult = adminClient.createTopics(Collections.singleton(topic));
+//            createTopicsResult.config(NEW_BOOK_TOPIC_NAME).get(1, TimeUnit.SECONDS);
             ListTopicsResult topics = adminClient.listTopics();
             var listings = topics.listings().get(1, TimeUnit.SECONDS);
             if (listings.stream()
