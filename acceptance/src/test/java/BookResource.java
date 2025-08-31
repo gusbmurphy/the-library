@@ -17,6 +17,7 @@ public class BookResource {
 
     private final KafkaProducer<String, String> kafkaProducer;
     private static final String NEW_BOOK_TOPIC_NAME = "book-arrivals";
+    private static final Book UNKNOWN_BOOK = new Book("WE_DONT_KNOW_THIS_ONE");
 
     public BookResource() {
         kafkaProducer = createKafkaProducer();
@@ -43,8 +44,9 @@ public class BookResource {
         return book;
     }
 
-    public Book unknownBook() {
-        return new Book("WE_DONT_KNOW_THIS_ONE");
+    /** Returns a book that does not exist in the library system. */
+    public static Book unknownBook() {
+        return UNKNOWN_BOOK;
     }
 
     private KafkaProducer<String, String> createKafkaProducer() {
