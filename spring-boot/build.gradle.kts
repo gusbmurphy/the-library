@@ -1,5 +1,8 @@
+import com.github.psxpaul.task.JavaExecFork
+
 plugins {
     application
+    id("com.github.psxpaul.execfork") version "0.2.2"
 }
 
 repositories {
@@ -27,4 +30,10 @@ application {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
+}
+
+tasks.register<JavaExecFork>("start") {
+    classpath = sourceSets.main.get().runtimeClasspath
+    main = application.mainClass.get()
+    waitForOutput = "Started App"
 }
