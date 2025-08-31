@@ -19,6 +19,8 @@ dependencies {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
+    // Since we (effectively) don't own the system under test, this should always rerun the tests
+    outputs.upToDateWhen { false }
 }
 
 val test by testing.suites.existing(JvmTestSuite::class)
