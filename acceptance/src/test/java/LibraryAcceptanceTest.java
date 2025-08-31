@@ -11,8 +11,8 @@ public class LibraryAcceptanceTest {
     @Test
     void newBookCanBeCheckedOut()
             throws ExecutionException, InterruptedException, IOException, URISyntaxException {
-        var isbn = books.newBookArrives();
-        var result = user.attemptsToCheckout(isbn);
+        var newBook = books.newBookArrives();
+        var result = user.attemptsToCheckout(newBook);
         result.checkoutIsSuccessful();
     }
 }
