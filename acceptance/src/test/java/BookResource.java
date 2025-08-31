@@ -30,17 +30,7 @@ public class BookResource {
      */
     public Book newBookArrives() throws ExecutionException, InterruptedException {
         var book = new Book();
-        var arrivalMessage =
-                """
-                    {
-                        "isbn": "%s"
-                    }
-                """
-                        .formatted(book.isbn());
-        Future<RecordMetadata> future =
-                kafkaProducer.send(
-                        new ProducerRecord<>(NEW_BOOK_TOPIC_NAME, book.isbn(), arrivalMessage));
-        future.get();
+        sendKafkaMessageForArrivalOf(book);
         return book;
     }
 
@@ -84,5 +74,23 @@ public class BookResource {
         var topic = new NewTopic(NEW_BOOK_TOPIC_NAME, 3, (short) 1);
         var createTopicsResult = adminClient.createTopics(Collections.singleton(topic));
         createTopicsResult.config(NEW_BOOK_TOPIC_NAME).get(1, TimeUnit.SECONDS);
+    }
+
+    private void sendKafkaMessageForArrivalOf(Book book)
+            throws InterruptedException, ExecutionException {
+        var arrivalMessage = createArrivalMessageFor(book);
+        Future<RecordMetadata> future =
+                kafkaProducer.send(
+                        new ProducerRecord<>(NEW_BOOK_TOPIC_NAME, book.isbn(), arrivalMessage));
+        future.get();
+    }
+
+    private static String createArrivalMessageFor(Book book) {
+        return """
+                    {
+                        "isbn": "%s"
+                    }
+                """
+                .formatted(book.isbn());
     }
 }
