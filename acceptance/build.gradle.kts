@@ -21,9 +21,15 @@ tasks.named<Test>("test") {
     useJUnitPlatform()
 }
 
+val test by testing.suites.existing(JvmTestSuite::class)
+
 tasks.register<Test>("testSpringBoot") {
     group = "verification"
     description = "Runs acceptance tests against the Spring Boot application."
+
+    testClassesDirs = files(test.map { it.sources.output.classesDirs })
+    classpath = files(test.map { it.sources.runtimeClasspath })
+
     dependsOn(":spring-boot:start").notCompatibleWithConfigurationCache("Uses a thread")
     dependsOn("test")
     tasks["test"].mustRunAfter(":spring-boot:start")
