@@ -64,4 +64,8 @@ public class BookResource {
         }
         return new KafkaProducer<>(props);
     }
+
+    public Book unknownBook() {
+        return new Book("WE_DONT_KNOW_THIS_ONE");
+    }
 }

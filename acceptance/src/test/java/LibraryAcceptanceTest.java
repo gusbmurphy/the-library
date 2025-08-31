@@ -15,4 +15,12 @@ public class LibraryAcceptanceTest {
         var result = user.attemptsToCheckout(newBook);
         result.checkoutIsSuccessful();
     }
+
+    @Test
+    void unknownBookCannotBeCheckedOut()
+            throws InterruptedException, IOException, URISyntaxException {
+        var unkownBook = books.unknownBook();
+        var result = user.attemptsToCheckout(unkownBook);
+        result.bookNotFound();
+    }
 }
