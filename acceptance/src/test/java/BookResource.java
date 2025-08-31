@@ -35,7 +35,7 @@ public class BookResource {
     }
 
     /** Returns a book that does not exist in the library system. */
-    public static Book unknownBook() {
+    public Book unknownBook() {
         return UNKNOWN_BOOK;
     }
 
