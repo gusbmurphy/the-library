@@ -3,6 +3,7 @@ import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -42,22 +43,16 @@ public class BookResource {
         return book;
     }
 
-    private static KafkaProducer<String, String> createKafkaProducer() {
-        Properties props = new Properties();
-        props.put(ProducerConfig.CLIENT_ID_CONFIG, "acceptance-harness");
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://localhost:9092");
-        props.put(ProducerConfig.ACKS_CONFIG, "all");
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+    public Book unknownBook() {
+        return new Book("WE_DONT_KNOW_THIS_ONE");
+    }
+
+    private KafkaProducer<String, String> createKafkaProducer() {
+        Properties props = createKafkaProducerProperties();
 
         try (var adminClient = AdminClient.create(props)) {
-            ListTopicsResult topics = adminClient.listTopics();
-            var listings = topics.listings().get(1, TimeUnit.SECONDS);
-            if (listings.stream()
-                    .noneMatch(listing -> listing.name().equals(NEW_BOOK_TOPIC_NAME))) {
-                var topic = new NewTopic(NEW_BOOK_TOPIC_NAME, 3, (short) 1);
-                var createTopicsResult = adminClient.createTopics(Collections.singleton(topic));
-                createTopicsResult.config(NEW_BOOK_TOPIC_NAME).get(1, TimeUnit.SECONDS);
+            if (newBookTopicDoesNotExist(adminClient)) {
+                createNewBookTopic(adminClient);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -65,7 +60,27 @@ public class BookResource {
         return new KafkaProducer<>(props);
     }
 
-    public Book unknownBook() {
-        return new Book("WE_DONT_KNOW_THIS_ONE");
+    private static Properties createKafkaProducerProperties() {
+        Properties props = new Properties();
+        props.put(ProducerConfig.CLIENT_ID_CONFIG, "acceptance-harness");
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://localhost:9092");
+        props.put(ProducerConfig.ACKS_CONFIG, "all");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return props;
+    }
+
+    private boolean newBookTopicDoesNotExist(AdminClient adminClient)
+            throws ExecutionException, InterruptedException, TimeoutException {
+        ListTopicsResult topics = adminClient.listTopics();
+        var listings = topics.listings().get(1, TimeUnit.SECONDS);
+        return listings.stream().noneMatch(listing -> listing.name().equals(NEW_BOOK_TOPIC_NAME));
+    }
+
+    private static void createNewBookTopic(AdminClient adminClient)
+            throws InterruptedException, ExecutionException, TimeoutException {
+        var topic = new NewTopic(NEW_BOOK_TOPIC_NAME, 3, (short) 1);
+        var createTopicsResult = adminClient.createTopics(Collections.singleton(topic));
+        createTopicsResult.config(NEW_BOOK_TOPIC_NAME).get(1, TimeUnit.SECONDS);
     }
 }
