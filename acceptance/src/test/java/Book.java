@@ -1,15 +1,22 @@
-import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 public record Book(String isbn) {
+
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    private static final int RANDOM_ISBN_LENGTH = 18;
 
     public Book() {
         this(randomString());
     }
 
+    // Thank you Suresh Atta! https://stackoverflow.com/a/20536597/6741328
     private static String randomString() {
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        return new String(array, StandardCharsets.UTF_8);
+        StringBuilder s = new StringBuilder();
+        Random rnd = new Random();
+        while (s.length() < RANDOM_ISBN_LENGTH) {
+            int index = (int) (rnd.nextFloat() * CHARACTERS.length());
+            s.append(CHARACTERS.charAt(index));
+        }
+        return s.toString();
     }
 }
