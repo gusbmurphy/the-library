@@ -14,6 +14,7 @@ public class UserResource {
         var request =
                 HttpRequest.newBuilder()
                         .uri(new URI("http://localhost:8080/checkout"))
+                        .header("Content-Type", "application/json")
                         .POST(HttpRequest.BodyPublishers.ofString(requestBodyJson))
                         .build();
 
