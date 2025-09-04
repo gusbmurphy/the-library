@@ -1,6 +1,3 @@
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
 
 public class LibraryAcceptanceTest {
@@ -9,16 +6,14 @@ public class LibraryAcceptanceTest {
     private final UserResource user = new UserResource();
 
     @Test
-    void newBookCanBeCheckedOut()
-            throws ExecutionException, InterruptedException, IOException, URISyntaxException {
+    void newBookCanBeCheckedOut() throws Exception {
         var newBook = books.newBookArrives();
         var result = user.attemptsToCheckout(newBook);
         result.checkoutIsSuccessful();
     }
 
     @Test
-    void unknownBookCannotBeCheckedOut()
-            throws InterruptedException, IOException, URISyntaxException {
+    void unknownBookCannotBeCheckedOut() throws Exception {
         var unkownBook = books.unknownBook();
         var result = user.attemptsToCheckout(unkownBook);
         result.bookNotFound();
