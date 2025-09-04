@@ -3,6 +3,7 @@ package org.example.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import org.example.domain.Book;
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookService {
 
-    private List<Book> knownBooks = new ArrayList<>();
+    private final List<Book> knownBooks = new ArrayList<>();
+    private final HashMap<String, String> booksCheckedOutByUsers = new HashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @KafkaListener(id = "spring-application", topics = "book-arrivals")
@@ -26,5 +28,14 @@ public class BookService {
                 .filter(book -> Objects.equals(book.getIsbn(), isbn))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public boolean checkoutBook(String isbn, String userId) {
+        if (booksCheckedOutByUsers.containsKey(isbn)) {
+            return false;
+        }
+
+        booksCheckedOutByUsers.put(isbn, userId);
+        return true;
     }
 }
