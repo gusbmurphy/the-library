@@ -1,7 +1,8 @@
-package org.example;
+package org.example.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.domain.Book;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -22,19 +23,7 @@ public class BookService {
     }
 
     public Book getBookByIsbn(String isbn) {
-        return knownBooks.stream().filter(book -> Objects.equals(book.isbn, isbn)).findFirst().orElse(null);
-    }
-
-    public static class Book {
-        private String isbn;
-
-        public String getIsbn() {
-            return isbn;
-        }
-
-        public void setIsbn(String isbn) {
-            this.isbn = isbn;
-        }
+        return knownBooks.stream().filter(book -> Objects.equals(book.getIsbn(), isbn)).findFirst().orElse(null);
     }
 
 }
