@@ -7,20 +7,26 @@ import java.net.http.HttpResponse;
 
 public class UserResource {
 
-    public CheckoutResult attemptsToCheckout(Book book)
-            throws IOException, URISyntaxException, InterruptedException {
-        var requestBodyJson = String.format("{ \"isbn\": \"%s\" }", book.isbn());
+    public static User newUser() {
+        return new User();
+    }
 
-        var request =
-                HttpRequest.newBuilder()
-                        .uri(new URI("http://localhost:8080/checkout"))
-                        .header("Content-Type", "application/json")
-                        .POST(HttpRequest.BodyPublishers.ofString(requestBodyJson))
-                        .build();
+    public static class User {
+        public CheckoutResult attemptsToCheckout(Book book)
+                throws IOException, URISyntaxException, InterruptedException {
+            var requestBodyJson = String.format("{ \"isbn\": \"%s\" }", book.isbn());
 
-        HttpResponse<String> response =
-                HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+            var request =
+                    HttpRequest.newBuilder()
+                            .uri(new URI("http://localhost:8080/checkout"))
+                            .header("Content-Type", "application/json")
+                            .POST(HttpRequest.BodyPublishers.ofString(requestBodyJson))
+                            .build();
 
-        return new CheckoutResult(response.statusCode());
+            HttpResponse<String> response =
+                    HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+
+            return new CheckoutResult(response.statusCode());
+        }
     }
 }
