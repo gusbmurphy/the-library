@@ -2,13 +2,12 @@ package org.example.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.domain.Book;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.example.domain.Book;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
 
 @Service
 public class BookService {
@@ -23,7 +22,9 @@ public class BookService {
     }
 
     public Book getBookByIsbn(String isbn) {
-        return knownBooks.stream().filter(book -> Objects.equals(book.getIsbn(), isbn)).findFirst().orElse(null);
+        return knownBooks.stream()
+                .filter(book -> Objects.equals(book.getIsbn(), isbn))
+                .findFirst()
+                .orElse(null);
     }
-
 }

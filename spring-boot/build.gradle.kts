@@ -2,6 +2,7 @@ import com.github.psxpaul.task.JavaExecFork
 
 plugins {
     application
+    id("com.diffplug.spotless") version "7.2.1"
     id("com.github.psxpaul.execfork") version "0.2.2"
 }
 
@@ -37,4 +38,10 @@ tasks.register<JavaExecFork>("start") {
     classpath = sourceSets.main.get().runtimeClasspath
     main = application.mainClass.get()
     waitForOutput = "Started App"
+}
+
+spotless {
+    java {
+        googleJavaFormat().aosp()
+    }
 }

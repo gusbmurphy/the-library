@@ -25,10 +25,7 @@ public class CheckoutController {
         return new ResponseEntity<>(new CheckoutResponse(), HttpStatus.OK);
     }
 
-    public record CheckoutResponse() {
-    }
+    public record CheckoutResponse() {}
 
-    public record CheckoutRequest(String isbn) {
-    }
-
+    public record CheckoutRequest(String isbn) {}
 }
