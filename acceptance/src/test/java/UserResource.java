@@ -4,6 +4,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.UUID;
 
 public class UserResource {
 
@@ -12,9 +13,15 @@ public class UserResource {
     }
 
     public static class User {
+        private final String id;
+
+        public User() {
+            id = UUID.randomUUID().toString();
+        }
+
         public CheckoutResult attemptsToCheckout(Book book)
                 throws IOException, URISyntaxException, InterruptedException {
-            var requestBodyJson = String.format("{ \"isbn\": \"%s\" }", book.isbn());
+            var requestBodyJson = createRequestBodyFor(book);
 
             var request =
                     HttpRequest.newBuilder()
@@ -24,9 +31,15 @@ public class UserResource {
                             .build();
 
             HttpResponse<String> response =
-                    HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+                    HttpClient.newBuilder()
+                            .build()
+                            .send(request, HttpResponse.BodyHandlers.ofString());
 
-            return new CheckoutResult(response.statusCode());
+            return new CheckoutResult(response.statusCode(), response.body());
+        }
+
+        private String createRequestBodyFor(Book book) {
+            return String.format("{ \"isbn\": \"%s\", \"userId\": \"%s\" }", book.isbn(), id);
         }
     }
 }

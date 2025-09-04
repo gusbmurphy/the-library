@@ -1,23 +1,35 @@
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CheckoutResult {
 
     private final int responseStatusCode;
+    private final String message;
 
-    public CheckoutResult(int responseStatusCode) {
+    public CheckoutResult(int responseStatusCode, String message) {
         this.responseStatusCode = responseStatusCode;
+        this.message = message;
     }
 
     public void checkoutIsSuccessful() {
-        Assertions.assertEquals(
+        assertEquals(
                 200,
                 responseStatusCode,
                 "Expected 200 status indicating book was successfully checked out.");
     }
 
     public void bookNotFound() {
-        Assertions.assertEquals(
-                404, responseStatusCode, "Expected 404 status indicating book is not known.");
+        assertEquals(404, responseStatusCode, "Expected 404 status indicating book is not known.");
         // TODO: Maybe there should be more to this...
+    }
+
+    public void failedBecauseBookIsAlreadyCheckedOut() {
+        assertEquals(
+                409,
+                responseStatusCode,
+                "Expected 409 status indicating checkout couldn't proceed.");
+        assertEquals(
+                "Book is currently checked out.",
+                message,
+                "Expected message indicating book is checked out.");
     }
 }

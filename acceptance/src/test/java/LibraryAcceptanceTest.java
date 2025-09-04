@@ -19,4 +19,18 @@ public class LibraryAcceptanceTest {
         var result = user.attemptsToCheckout(unknownBook);
         result.bookNotFound();
     }
+
+    @Test
+    void bookCantBeCheckedOutByTwoUsers() throws Exception {
+        var book = books.newBookArrives();
+
+        var firstUser = UserResource.newUser();
+        var secondUser = UserResource.newUser();
+
+        var firstResult = firstUser.attemptsToCheckout(book);
+        firstResult.checkoutIsSuccessful();
+
+        var secondResult = secondUser.attemptsToCheckout(book);
+        secondResult.failedBecauseBookIsAlreadyCheckedOut();
+    }
 }
