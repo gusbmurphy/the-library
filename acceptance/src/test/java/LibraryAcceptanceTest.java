@@ -14,8 +14,8 @@ public class LibraryAcceptanceTest {
 
     @Test
     void unknownBookCannotBeCheckedOut() throws Exception {
-        var unkownBook = books.unknownBook();
-        var result = user.attemptsToCheckout(unkownBook);
+        var unknownBook = books.unknownBook();
+        var result = user.attemptsToCheckout(unknownBook);
         result.bookNotFound();
     }
 }
