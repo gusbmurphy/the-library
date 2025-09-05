@@ -9,7 +9,7 @@ public record Book(String isbn) {
         this(randomString());
     }
 
-    // Thank you Suresh Atta! https://stackoverflow.com/a/20536597/6741328
+    // Thank you, Suresh Atta! https://stackoverflow.com/a/20536597/6741328
     private static String randomString() {
         StringBuilder s = new StringBuilder();
         Random rnd = new Random();
