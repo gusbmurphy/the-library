@@ -19,7 +19,7 @@ public class CheckoutResult {
 
     public void bookNotFound() {
         assertEquals(404, responseStatusCode, "Expected 404 status indicating book is not known.");
-        // TODO: Maybe there should be more to this...
+        assertEquals("Unknown book.", message, "Expected message indicating book is not known.");
     }
 
     public void failedBecauseBookIsAlreadyCheckedOut() {

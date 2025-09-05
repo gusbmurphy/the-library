@@ -20,7 +20,7 @@ public class CheckoutController {
     public ResponseEntity<String> checkout(@RequestBody CheckoutRequest request) {
         var book = bookService.getBookByIsbn(request.isbn);
         if (book == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Unknown book.", HttpStatus.NOT_FOUND);
         }
 
         var checkoutSuccessful = bookService.checkoutBook(book.getIsbn(), request.userId);
