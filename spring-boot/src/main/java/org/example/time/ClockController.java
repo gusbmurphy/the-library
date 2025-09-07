@@ -1,10 +1,9 @@
 package org.example.time;
 
+import java.time.ZonedDateTime;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.ZonedDateTime;
 
 @RestController
 public class ClockController {
@@ -19,5 +18,4 @@ public class ClockController {
     void setClock(@RequestParam("time") ZonedDateTime newTime) {
         clockService.setTime(newTime);
     }
-
 }

@@ -1,9 +1,8 @@
 package org.example.time;
 
-import org.springframework.stereotype.Service;
-
 import java.time.Clock;
 import java.time.ZonedDateTime;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ClockService {
@@ -17,5 +16,4 @@ public class ClockService {
     public ZonedDateTime currentTime() {
         return ZonedDateTime.now(clock);
     }
-
 }
