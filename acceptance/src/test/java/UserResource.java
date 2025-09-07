@@ -19,6 +19,16 @@ public class UserResource {
             id = UUID.randomUUID().toString();
         }
 
+        public String id() {
+            return id;
+        }
+
+        public void successfullyChecksOut(Book book)
+                throws IOException, URISyntaxException, InterruptedException {
+            var result = attemptsToCheckout(book);
+            result.checkoutIsSuccessful();
+        }
+
         public CheckoutResult attemptsToCheckout(Book book)
                 throws IOException, URISyntaxException, InterruptedException {
             var requestBodyJson = createRequestBodyFor(book);

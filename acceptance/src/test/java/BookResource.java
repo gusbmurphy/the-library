@@ -93,4 +93,33 @@ public class BookResource {
                 """
                 .formatted(book.isbn());
     }
+
+    public BookBuilder newBookWith() {
+        return new BookBuilder(this::sendKafkaMessageForArrivalOf);
+    }
+
+    @FunctionalInterface
+    interface BookCreationFunction {
+        void onBookCreation(Book book) throws Exception;
+    }
+
+    public static class BookBuilder {
+        private final BookCreationFunction creationSideEffect;
+        private int checkoutTimeInDays = 30;
+
+        BookBuilder(BookCreationFunction creationSideEffect) {
+            this.creationSideEffect = creationSideEffect;
+        }
+
+        public BookBuilder checkoutTimeInDays(int checkoutTimeInDays) {
+            this.checkoutTimeInDays = checkoutTimeInDays;
+            return this;
+        }
+
+        public Book create() throws Exception {
+            var book = new Book(checkoutTimeInDays);
+            creationSideEffect.onBookCreation(book);
+            return book;
+        }
+    }
 }
