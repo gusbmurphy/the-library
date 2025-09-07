@@ -17,6 +17,8 @@ public class OverdueNotifications {
     private final KafkaConsumer<String, String> kafkaConsumer;
     private static final String OVERDUE_TOPIC_NAME = "overdue-notifications";
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
     public OverdueNotifications() {
         var props = createConsumerProperties();
@@ -35,7 +37,18 @@ public class OverdueNotifications {
             }
         }
 
-        Assertions.fail("Did not find expected overdue notification.");
+        Assertions.fail(notificationNotFoundMessageFor(book, user, lateThreshold));
+    }
+
+    private String notificationNotFoundMessageFor(
+            Book book, UserResource.User user, ZonedDateTime lateThreshold) {
+        return "Did not find expected overdue notification. Was expecting one for ISBN \""
+                + book.isbn()
+                + "\", user ID \""
+                + user.id()
+                + "\" and late date \""
+                + lateThreshold.format(DATE_TIME_FORMATTER)
+                + "\".";
     }
 
     private static Properties createConsumerProperties() {
@@ -69,8 +82,7 @@ public class OverdueNotifications {
         public boolean isFor(Book book, UserResource.User user, ZonedDateTime lateThreshold) {
             return bookIsbn.equals(book.isbn())
                     && userId.equals(user.id())
-                    && lateAsOf.equals(
-                            lateThreshold.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+                    && lateAsOf.equals(lateThreshold.format(DATE_TIME_FORMATTER));
         }
     }
 }
