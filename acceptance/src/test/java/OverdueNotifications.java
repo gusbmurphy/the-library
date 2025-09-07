@@ -28,7 +28,8 @@ public class OverdueNotifications {
 
     public void oneExistsFor(Book book, UserResource.User user, ZonedDateTime lateThreshold)
             throws JsonProcessingException {
-        ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofMillis(100));
+        // TODO: Let's not poll for this long...
+        ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(5));
 
         for (var record : records) {
             var message = MAPPER.readValue(record.value(), OverdueNotificationMessage.class);
