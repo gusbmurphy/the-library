@@ -1,3 +1,5 @@
+import org.junit.jupiter.api.Assertions;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,6 +25,7 @@ public class TimeTravel {
                         .PUT(HttpRequest.BodyPublishers.noBody())
                         .build();
 
-        HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+        var response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+        Assertions.assertEquals(200, response.statusCode(), "Was not able to set clock on application for time travel.");
     }
 }
