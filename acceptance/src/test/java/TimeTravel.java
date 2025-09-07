@@ -17,7 +17,7 @@ public class TimeTravel {
     public static void to(ZonedDateTime checkoutTime)
             throws URISyntaxException, IOException, InterruptedException {
         var uriString =
-                "http://localhost:8080/set-clock/" + checkoutTime.format(DATE_TIME_FORMATTER);
+                "http://localhost:8080/set-clock?time=" + checkoutTime.format(DATE_TIME_FORMATTER);
         var request =
                 HttpRequest.newBuilder()
                         .uri(new URI(uriString))
