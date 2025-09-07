@@ -88,10 +88,11 @@ public class BookResource {
     private static String createArrivalMessageFor(Book book) {
         return """
                     {
-                        "isbn": "%s"
+                        "isbn": "%s",
+                        "checkoutTimeInDays": "%s"
                     }
                 """
-                .formatted(book.isbn());
+                .formatted(book.isbn(), book.checkoutTimeInDays());
     }
 
     public BookBuilder newBookWith() {
