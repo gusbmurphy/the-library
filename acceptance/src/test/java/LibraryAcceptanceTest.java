@@ -47,6 +47,8 @@ public class LibraryAcceptanceTest {
         user.successfullyChecksOut(book);
 
         var lateThreshold = checkoutTime.plusDays(90);
+        overdueNotifications.noneExistFor(book, user, lateThreshold);
+
         TimeTravel.to(lateThreshold);
         overdueNotifications.oneExistsFor(book, user, lateThreshold);
     }

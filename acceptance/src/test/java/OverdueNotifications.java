@@ -29,6 +29,7 @@ public class OverdueNotifications {
     public void oneExistsFor(Book book, UserResource.User user, ZonedDateTime lateThreshold)
             throws JsonProcessingException {
         // TODO: Let's not poll for this long...
+        kafkaConsumer.seekToBeginning(kafkaConsumer.assignment());
         ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(5));
 
         for (var record : records) {
@@ -41,9 +42,35 @@ public class OverdueNotifications {
         Assertions.fail(notificationNotFoundMessageFor(book, user, lateThreshold));
     }
 
+    public void noneExistFor(Book book, UserResource.User user, ZonedDateTime lateThreshold)
+            throws JsonProcessingException {
+        // TODO: Let's not poll for this long...
+        kafkaConsumer.seekToBeginning(kafkaConsumer.assignment());
+        ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(5));
+
+        for (var record : records) {
+            var message = MAPPER.readValue(record.value(), OverdueNotificationMessage.class);
+            if (message.isFor(book, user, lateThreshold)) {
+                Assertions.fail(
+                        notificationFoundWhenNotExpectedMessageFor(book, user, lateThreshold));
+            }
+        }
+    }
+
     private String notificationNotFoundMessageFor(
             Book book, UserResource.User user, ZonedDateTime lateThreshold) {
         return "Did not find expected overdue notification. Was expecting one for ISBN \""
+                + book.isbn()
+                + "\", user ID \""
+                + user.id()
+                + "\" and late date \""
+                + lateThreshold.format(DATE_TIME_FORMATTER)
+                + "\".";
+    }
+
+    private String notificationFoundWhenNotExpectedMessageFor(
+            Book book, UserResource.User user, ZonedDateTime lateThreshold) {
+        return "Found an overdue notification when one was not expected for ISBN \""
                 + book.isbn()
                 + "\", user ID \""
                 + user.id()
