@@ -28,9 +28,7 @@ public class OverdueNotifications {
 
     public void oneExistsFor(Book book, UserResource.User user, ZonedDateTime lateThreshold)
             throws JsonProcessingException {
-        // TODO: Let's not poll for this long...
-        kafkaConsumer.seekToBeginning(kafkaConsumer.assignment());
-        ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(5));
+        ConsumerRecords<String, String> records = pollForAllRecords();
 
         for (var record : records) {
             var message = MAPPER.readValue(record.value(), OverdueNotificationMessage.class);
@@ -44,9 +42,7 @@ public class OverdueNotifications {
 
     public void noneExistFor(Book book, UserResource.User user, ZonedDateTime lateThreshold)
             throws JsonProcessingException {
-        // TODO: Let's not poll for this long...
-        kafkaConsumer.seekToBeginning(kafkaConsumer.assignment());
-        ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(5));
+        ConsumerRecords<String, String> records = pollForAllRecords();
 
         for (var record : records) {
             var message = MAPPER.readValue(record.value(), OverdueNotificationMessage.class);
@@ -55,6 +51,12 @@ public class OverdueNotifications {
                         notificationFoundWhenNotExpectedMessageFor(book, user, lateThreshold));
             }
         }
+    }
+
+    private ConsumerRecords<String, String> pollForAllRecords() {
+        kafkaConsumer.seekToBeginning(kafkaConsumer.assignment());
+        // TODO: Let's not poll for this long maybe? Also seems to not be making tests any slower though...
+        return kafkaConsumer.poll(Duration.ofSeconds(5));
     }
 
     private String notificationNotFoundMessageFor(
