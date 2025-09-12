@@ -13,6 +13,7 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:3.5.5")
     implementation("org.springframework.kafka:spring-kafka:3.3.9")
+    implementation("org.springframework.data:spring-data-jpa:4.0.0-M5")
 
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
