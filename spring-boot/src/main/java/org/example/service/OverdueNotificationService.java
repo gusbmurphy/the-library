@@ -60,7 +60,7 @@ public class OverdueNotificationService {
     private static boolean bookIsOverdue(CheckoutRecord record, ZonedDateTime currentTime) {
         return record.getCheckoutTime()
                         .plus(Duration.ofDays(record.getBook().getCheckoutTimeInDays()))
-                        .isAfter(currentTime)
+                        .isBefore(currentTime)
                 || record.getCheckoutTime()
                         .plus(Duration.ofDays(record.getBook().getCheckoutTimeInDays()))
                         .isEqual(currentTime);
