@@ -1,3 +1,5 @@
+import com.avast.gradle.dockercompose.ComposeExtension
+import com.avast.gradle.dockercompose.tasks.ComposeBuild
 import org.gradle.kotlin.dsl.dockerCompose
 
 plugins {
@@ -26,22 +28,37 @@ tasks.named<Test>("test") {
 
 val test by testing.suites.existing(JvmTestSuite::class)
 
-tasks.register<Test>("testSpringBoot") {
+var testSpringBoot = tasks.register<Test>("testSpringBoot") {
     group = "verification"
     description = "Runs acceptance tests against the Spring Boot application."
 
     testClassesDirs = files(test.map { it.sources.output.classesDirs })
     classpath = files(test.map { it.sources.runtimeClasspath })
 
-    dependsOn(":spring-boot:start").notCompatibleWithConfigurationCache("Uses a thread")
-    dependsOn("test")
-    tasks["test"].mustRunAfter(":spring-boot:start")
+    var springBootComposeUp = tasks.getByPath("springBootComposeUp")
+    var springBootComposeDown = tasks.getByPath("springBootComposeDown")
+
+    var springBootStart = tasks.getByPath(":spring-boot:start")
+    springBootStart.notCompatibleWithConfigurationCache("Uses a thread")
+
+    var test = tasks.getByPath("test")
+
+    dependsOn(springBootStart)
+    dependsOn(springBootComposeUp)
+    dependsOn(test)
+    dependsOn(springBootComposeDown)
+
+    springBootStart.mustRunAfter(springBootComposeUp)
+    test.mustRunAfter(springBootStart)
+    springBootComposeDown.mustRunAfter(test)
 }
 
-dockerCompose.isRequiredBy(tasks.named("test"))
-
-dockerCompose {
+configure<ComposeExtension> {
     setProjectName("acceptance")
+
+    createNested("springBoot").apply {
+        useComposeFiles = listOf("docker-compose.yml", "../spring-boot/docker-compose.yml")
+    }
 }
 
 spotless {

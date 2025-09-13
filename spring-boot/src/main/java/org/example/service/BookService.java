@@ -37,7 +37,7 @@ public class BookService {
     }
 
     public boolean checkoutBook(String isbn, String userId) {
-        if (checkoutRecords.stream().anyMatch(cr -> Objects.equals(cr.book().getIsbn(), isbn))) {
+        if (checkoutRecords.stream().anyMatch(cr -> Objects.equals(cr.getBook().getIsbn(), isbn))) {
             return false;
         }
 

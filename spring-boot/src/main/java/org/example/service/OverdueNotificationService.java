@@ -45,11 +45,11 @@ public class OverdueNotificationService {
         for (var record : checkoutRecords) {
             if (bookIsOverdue(record, currentTime)) {
                 var notification = new OverdueNotification();
-                notification.setBookIsbn(record.book().getIsbn());
-                notification.setUserId(record.userId());
+                notification.setBookIsbn(record.getBook().getIsbn());
+                notification.setUserId(record.getUserId());
                 notification.setLateAsOf(
-                        record.checkoutTime()
-                                .plus(Duration.ofDays(record.book().getCheckoutTimeInDays()))
+                        record.getCheckoutTime()
+                                .plus(Duration.ofDays(record.getBook().getCheckoutTimeInDays()))
                                 .format(DATE_TIME_FORMATTER));
                 var message = OVERDUE_MESSAGE_WRITER.writeValueAsString(notification);
                 kafkaTemplate.send(TOPIC_NAME, message);
@@ -58,11 +58,11 @@ public class OverdueNotificationService {
     }
 
     private static boolean bookIsOverdue(CheckoutRecord record, ZonedDateTime currentTime) {
-        return record.checkoutTime()
-                        .plus(Duration.ofDays(record.book().getCheckoutTimeInDays()))
+        return record.getCheckoutTime()
+                        .plus(Duration.ofDays(record.getBook().getCheckoutTimeInDays()))
                         .isAfter(currentTime)
-                || record.checkoutTime()
-                        .plus(Duration.ofDays(record.book().getCheckoutTimeInDays()))
+                || record.getCheckoutTime()
+                        .plus(Duration.ofDays(record.getBook().getCheckoutTimeInDays()))
                         .isEqual(currentTime);
     }
 }
