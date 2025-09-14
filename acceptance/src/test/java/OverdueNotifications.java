@@ -113,7 +113,11 @@ public class OverdueNotifications {
         public boolean isFor(Book book, UserResource.User user, ZonedDateTime lateThreshold) {
             return bookIsbn.equals(book.isbn())
                     && userId.equals(user.id())
-                    && lateAsOf.equals(lateThreshold.format(DATE_TIME_FORMATTER));
+                    && lateAsOfAsZonedDateTime().isEqual(lateThreshold);
+        }
+
+        private ZonedDateTime lateAsOfAsZonedDateTime() {
+            return ZonedDateTime.from(DATE_TIME_FORMATTER.parse(lateAsOf));
         }
     }
 }
