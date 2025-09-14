@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import lombok.Getter;
 import org.example.domain.Book;
 import org.example.domain.CheckoutRecord;
 import org.example.time.ClockService;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class BookService {
 
     private final List<Book> knownBooks = new ArrayList<>();
-    private final List<CheckoutRecord> checkoutRecords = new ArrayList<>();
+    @Getter private final List<CheckoutRecord> checkoutRecords = new ArrayList<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ClockService clockService;
 
@@ -48,9 +49,5 @@ public class BookService {
                         .get();
         checkoutRecords.add(new CheckoutRecord(userId, book, clockService.currentTime()));
         return true;
-    }
-
-    public List<CheckoutRecord> getCheckoutRecords() {
-        return checkoutRecords;
     }
 }
