@@ -21,6 +21,7 @@ public class OverdueNotifications {
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+    private static final Duration KAFKA_POLLING_DURATION = Duration.ofMillis(200);
 
     public OverdueNotifications() {
         var props = createConsumerProperties();
@@ -57,9 +58,7 @@ public class OverdueNotifications {
 
     private ConsumerRecords<String, String> pollForAllRecords() {
         kafkaConsumer.seekToBeginning(kafkaConsumer.assignment());
-        // TODO: Let's not poll for this long maybe? Also seems to not be making tests any slower
-        // though...
-        return kafkaConsumer.poll(Duration.ofSeconds(5));
+        return kafkaConsumer.poll(KAFKA_POLLING_DURATION);
     }
 
     private String notificationNotFoundMessageFor(
