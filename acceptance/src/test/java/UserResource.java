@@ -23,8 +23,7 @@ public class UserResource {
             return id;
         }
 
-        public void successfullyChecksOut(Book book)
-                throws IOException, URISyntaxException, InterruptedException {
+        public void successfullyChecksOut(Book book) throws Exception {
             var result = attemptsToCheckout(book);
             result.checkoutIsSuccessful();
         }
@@ -45,7 +44,8 @@ public class UserResource {
                             .build()
                             .send(request, HttpResponse.BodyHandlers.ofString());
 
-            return new CheckoutResult(response.statusCode(), response.body());
+            return new CheckoutResult(
+                    response.statusCode(), response.body(), () -> this.attemptsToCheckout(book));
         }
 
         private String createRequestBodyFor(Book book) {
