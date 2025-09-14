@@ -1,11 +1,10 @@
 package org.example.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.ZonedDateTime;
 import java.util.UUID;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
@@ -13,8 +12,7 @@ import java.util.UUID;
 public class CheckoutRecord {
     private String userId;
 
-    @ManyToOne
-    private Book book;
+    @ManyToOne private Book book;
     private ZonedDateTime checkoutTime;
 
     @Id

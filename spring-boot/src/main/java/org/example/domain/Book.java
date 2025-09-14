@@ -12,5 +12,4 @@ public class Book {
 
     @Id private String isbn;
     private int checkoutTimeInDays;
-
 }
