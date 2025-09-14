@@ -55,7 +55,8 @@ public class OverdueNotifications {
 
     private ConsumerRecords<String, String> pollForAllRecords() {
         kafkaConsumer.seekToBeginning(kafkaConsumer.assignment());
-        // TODO: Let's not poll for this long maybe? Also seems to not be making tests any slower though...
+        // TODO: Let's not poll for this long maybe? Also seems to not be making tests any slower
+        // though...
         return kafkaConsumer.poll(Duration.ofSeconds(5));
     }
 

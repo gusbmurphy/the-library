@@ -8,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import org.example.domain.CheckoutRecord;
 import org.example.domain.OverdueNotification;
+import org.example.repository.CheckoutRecordRepository;
 import org.example.time.ClockService;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,6 +20,7 @@ public class OverdueNotificationService {
     private final ClockService clockService;
     private final BookService bookService;
     private final KafkaTemplate<String, String> kafkaTemplate;
+    private final CheckoutRecordRepository checkoutRecordRepository;
     private static final String TOPIC_NAME = "overdue-notifications";
     private static final ObjectWriter OVERDUE_MESSAGE_WRITER = setupObjectWriter();
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
@@ -27,10 +29,12 @@ public class OverdueNotificationService {
     public OverdueNotificationService(
             ClockService clockService,
             BookService bookService,
-            KafkaTemplate<String, String> kafkaTemplate) {
+            KafkaTemplate<String, String> kafkaTemplate,
+            CheckoutRecordRepository checkoutRecordRepository) {
         this.clockService = clockService;
         this.bookService = bookService;
         this.kafkaTemplate = kafkaTemplate;
+        this.checkoutRecordRepository = checkoutRecordRepository;
     }
 
     private static ObjectWriter setupObjectWriter() {
@@ -41,7 +45,7 @@ public class OverdueNotificationService {
     public void checkForOverdueBooks() throws JsonProcessingException {
         var currentTime = clockService.currentTime();
 
-        var checkoutRecords = bookService.getCheckoutRecords();
+        var checkoutRecords = checkoutRecordRepository.findAll();
         for (var record : checkoutRecords) {
             if (bookIsOverdue(record, currentTime)) {
                 var notification = new OverdueNotification();

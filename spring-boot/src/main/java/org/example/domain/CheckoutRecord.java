@@ -12,7 +12,10 @@ import lombok.NoArgsConstructor;
 public class CheckoutRecord {
     private String userId;
 
-    @ManyToOne private Book book;
+    @OneToOne
+    @JoinColumn(name = "book_isbn")
+    private Book book;
+
     private ZonedDateTime checkoutTime;
 
     @Id
@@ -23,6 +26,5 @@ public class CheckoutRecord {
         this.userId = userId;
         this.book = book;
         this.checkoutTime = checkoutTime;
-        id = UUID.randomUUID();
     }
 }
