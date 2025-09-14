@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class OverdueNotificationService {
 
     private final ClockService clockService;
-    private final BookService bookService;
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final CheckoutRecordRepository checkoutRecordRepository;
     private static final String TOPIC_NAME = "overdue-notifications";
@@ -28,11 +27,9 @@ public class OverdueNotificationService {
 
     public OverdueNotificationService(
             ClockService clockService,
-            BookService bookService,
             KafkaTemplate<String, String> kafkaTemplate,
             CheckoutRecordRepository checkoutRecordRepository) {
         this.clockService = clockService;
-        this.bookService = bookService;
         this.kafkaTemplate = kafkaTemplate;
         this.checkoutRecordRepository = checkoutRecordRepository;
     }
