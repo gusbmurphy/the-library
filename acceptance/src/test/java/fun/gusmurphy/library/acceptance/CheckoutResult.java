@@ -1,3 +1,5 @@
+package fun.gusmurphy.library.acceptance;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;

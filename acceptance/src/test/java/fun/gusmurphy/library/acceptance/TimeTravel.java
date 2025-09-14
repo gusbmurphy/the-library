@@ -1,3 +1,5 @@
+package fun.gusmurphy.library.acceptance;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;

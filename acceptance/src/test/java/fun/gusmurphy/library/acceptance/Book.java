@@ -1,3 +1,5 @@
+package fun.gusmurphy.library.acceptance;
+
 import java.util.Random;
 
 public record Book(String isbn, int checkoutTimeInDays) {

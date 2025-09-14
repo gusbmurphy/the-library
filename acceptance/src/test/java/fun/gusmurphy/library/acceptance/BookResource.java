@@ -1,3 +1,5 @@
+package fun.gusmurphy.library.acceptance;
+
 import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
