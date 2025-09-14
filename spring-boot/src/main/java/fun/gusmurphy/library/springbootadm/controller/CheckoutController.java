@@ -1,6 +1,6 @@
-package org.example.controller;
+package fun.gusmurphy.library.springbootadm.controller;
 
-import org.example.service.BookService;
+import fun.gusmurphy.library.springbootadm.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

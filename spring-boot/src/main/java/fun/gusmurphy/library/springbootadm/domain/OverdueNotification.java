@@ -1,4 +1,4 @@
-package org.example.domain;
+package fun.gusmurphy.library.springbootadm.domain;
 
 public class OverdueNotification {
 

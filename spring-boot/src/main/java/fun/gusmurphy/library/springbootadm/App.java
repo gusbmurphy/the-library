@@ -1,4 +1,4 @@
-package org.example;
+package fun.gusmurphy.library.springbootadm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package org.example.config;
+package fun.gusmurphy.library.springbootadm.config;
 
 import java.util.HashMap;
 import java.util.Map;

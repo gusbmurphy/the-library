@@ -1,12 +1,12 @@
-package org.example.service;
+package fun.gusmurphy.library.springbootadm.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.domain.Book;
-import org.example.domain.CheckoutRecord;
-import org.example.repository.BookRepository;
-import org.example.repository.CheckoutRecordRepository;
-import org.example.time.ClockService;
+import fun.gusmurphy.library.springbootadm.domain.Book;
+import fun.gusmurphy.library.springbootadm.domain.CheckoutRecord;
+import fun.gusmurphy.library.springbootadm.repository.BookRepository;
+import fun.gusmurphy.library.springbootadm.repository.CheckoutRecordRepository;
+import fun.gusmurphy.library.springbootadm.time.ClockService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 

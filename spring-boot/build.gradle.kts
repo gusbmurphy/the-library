@@ -30,7 +30,7 @@ java {
 }
 
 application {
-    mainClass = "org.example.App"
+    mainClass = "fun.gusmurphy.library.springbootadm.App"
 }
 
 tasks.named<Test>("test") {

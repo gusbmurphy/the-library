@@ -1,4 +1,4 @@
-package org.example.time;
+package fun.gusmurphy.library.springbootadm.time;
 
 import java.time.ZonedDateTime;
 import org.springframework.web.bind.annotation.PutMapping;

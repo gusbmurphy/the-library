@@ -1,4 +1,4 @@
-package org.example.service;
+package fun.gusmurphy.library.springbootadm.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import org.example.domain.CheckoutRecord;
-import org.example.domain.OverdueNotification;
-import org.example.repository.CheckoutRecordRepository;
-import org.example.time.ClockService;
+import fun.gusmurphy.library.springbootadm.domain.CheckoutRecord;
+import fun.gusmurphy.library.springbootadm.domain.OverdueNotification;
+import fun.gusmurphy.library.springbootadm.repository.CheckoutRecordRepository;
+import fun.gusmurphy.library.springbootadm.time.ClockService;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
