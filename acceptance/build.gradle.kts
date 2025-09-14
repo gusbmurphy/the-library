@@ -1,6 +1,4 @@
 import com.avast.gradle.dockercompose.ComposeExtension
-import com.avast.gradle.dockercompose.tasks.ComposeBuild
-import org.gradle.kotlin.dsl.dockerCompose
 
 plugins {
     java
@@ -28,36 +26,36 @@ tasks.named<Test>("test") {
 
 val test by testing.suites.existing(JvmTestSuite::class)
 
-var testSpringBoot = tasks.register<Test>("testSpringBoot") {
+var testSpringBoot = tasks.register<Test>("testSpringBootAdm") {
     group = "verification"
     description = "Runs acceptance tests against the Spring Boot application."
 
     testClassesDirs = files(test.map { it.sources.output.classesDirs })
     classpath = files(test.map { it.sources.runtimeClasspath })
 
-    var springBootComposeUp = tasks.getByPath("springBootComposeUp")
-    var springBootComposeDown = tasks.getByPath("springBootComposeDown")
+    var composeUp = tasks.getByPath("springBootAdmComposeUp")
+    var composeDown = tasks.getByPath("springBootAdmComposeDown")
 
-    var springBootStart = tasks.getByPath(":spring-boot:start")
-    springBootStart.notCompatibleWithConfigurationCache("Uses a thread")
+    var startApplicaiton = tasks.getByPath(":spring-boot-adm:start")
+    startApplicaiton.notCompatibleWithConfigurationCache("Uses a thread")
 
     var test = tasks.getByPath("test")
 
-    dependsOn(springBootStart)
-    dependsOn(springBootComposeUp)
+    dependsOn(startApplicaiton)
+    dependsOn(composeUp)
     dependsOn(test)
-    dependsOn(springBootComposeDown)
+    dependsOn(composeDown)
 
-    springBootStart.mustRunAfter(springBootComposeUp)
-    test.mustRunAfter(springBootStart)
-    springBootComposeDown.mustRunAfter(test)
+    startApplicaiton.mustRunAfter(composeUp)
+    test.mustRunAfter(startApplicaiton)
+    composeDown.mustRunAfter(test)
 }
 
 configure<ComposeExtension> {
     setProjectName("acceptance")
 
-    createNested("springBoot").apply {
-        useComposeFiles = listOf("docker-compose.yml", "../spring-boot/docker-compose.yml")
+    createNested("springBootAdm").apply {
+        useComposeFiles = listOf("docker-compose.yml", "../spring-boot-adm/docker-compose.yml")
     }
 }
 
