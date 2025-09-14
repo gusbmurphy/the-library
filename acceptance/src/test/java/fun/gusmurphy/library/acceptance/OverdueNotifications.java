@@ -22,6 +22,7 @@ public class OverdueNotifications {
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ISO_OFFSET_DATE_TIME;
     private static final Duration KAFKA_POLLING_DURATION = Duration.ofMillis(200);
+    private static final int MAX_EXISTENCE_RETRIES = 5;
 
     public OverdueNotifications() {
         var props = createConsumerProperties();
@@ -31,16 +32,7 @@ public class OverdueNotifications {
 
     public void oneExistsFor(Book book, UserResource.User user, ZonedDateTime lateThreshold)
             throws JsonProcessingException {
-        ConsumerRecords<String, String> records = pollForAllRecords();
-
-        for (var record : records) {
-            var message = MAPPER.readValue(record.value(), OverdueNotificationMessage.class);
-            if (message.isFor(book, user, lateThreshold)) {
-                return;
-            }
-        }
-
-        Assertions.fail(notificationNotFoundMessageFor(book, user, lateThreshold));
+        assertNotificationExistsForAndRetry(book, user, lateThreshold, 0);
     }
 
     public void noneExistFor(Book book, UserResource.User user, ZonedDateTime lateThreshold)
@@ -53,6 +45,25 @@ public class OverdueNotifications {
                 Assertions.fail(
                         notificationFoundWhenNotExpectedMessageFor(book, user, lateThreshold));
             }
+        }
+    }
+
+    private void assertNotificationExistsForAndRetry(
+            Book book, UserResource.User user, ZonedDateTime lateThreshold, int retryCount)
+            throws JsonProcessingException {
+        ConsumerRecords<String, String> records = pollForAllRecords();
+
+        for (var record : records) {
+            var message = MAPPER.readValue(record.value(), OverdueNotificationMessage.class);
+            if (message.isFor(book, user, lateThreshold)) {
+                return;
+            }
+        }
+
+        if (retryCount < MAX_EXISTENCE_RETRIES) {
+            assertNotificationExistsForAndRetry(book, user, lateThreshold, retryCount + 1);
+        } else {
+            Assertions.fail(notificationNotFoundMessageFor(book, user, lateThreshold));
         }
     }
 
