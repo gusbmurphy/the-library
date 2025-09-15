@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.acceptance;
+package fun.gusmurphy.library.acceptance.fixture;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +14,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.jupiter.api.Assertions;
 
-public class OverdueNotifications {
+public class OverdueNotificationFixture {
 
     private final KafkaConsumer<String, String> kafkaConsumer;
     private static final String OVERDUE_TOPIC_NAME = "overdue-notifications";
@@ -25,24 +25,24 @@ public class OverdueNotifications {
     private static final int MAX_EXISTENCE_RETRIES = 5;
     private static final int MAX_ABSENCE_RETRIES = 3;
 
-    public OverdueNotifications() {
+    public OverdueNotificationFixture() {
         var props = createConsumerProperties();
         kafkaConsumer = new KafkaConsumer<>(props);
         kafkaConsumer.subscribe(List.of(OVERDUE_TOPIC_NAME));
     }
 
-    public void oneExistsFor(Book book, UserResource.User user, ZonedDateTime lateThreshold)
+    public void oneExistsFor(Book book, UserFixture.User user, ZonedDateTime lateThreshold)
             throws JsonProcessingException {
         assertNotificationExistsForAndRetry(book, user, lateThreshold, 0);
     }
 
-    public void noneExistFor(Book book, UserResource.User user, ZonedDateTime lateThreshold)
+    public void noneExistFor(Book book, UserFixture.User user, ZonedDateTime lateThreshold)
             throws JsonProcessingException {
         assertNoneExistForAndRetry(book, user, lateThreshold, 0);
     }
 
     private void assertNotificationExistsForAndRetry(
-            Book book, UserResource.User user, ZonedDateTime lateThreshold, int retryCount)
+            Book book, UserFixture.User user, ZonedDateTime lateThreshold, int retryCount)
             throws JsonProcessingException {
         ConsumerRecords<String, String> records = pollForAllRecords();
 
@@ -61,7 +61,7 @@ public class OverdueNotifications {
     }
 
     private void assertNoneExistForAndRetry(
-            Book book, UserResource.User user, ZonedDateTime lateThreshold, int retryCount)
+            Book book, UserFixture.User user, ZonedDateTime lateThreshold, int retryCount)
             throws JsonProcessingException {
         ConsumerRecords<String, String> records = pollForAllRecords();
 
@@ -84,7 +84,7 @@ public class OverdueNotifications {
     }
 
     private String notificationNotFoundMessageFor(
-            Book book, UserResource.User user, ZonedDateTime lateThreshold) {
+            Book book, UserFixture.User user, ZonedDateTime lateThreshold) {
         return "Did not find expected overdue notification. Was expecting one for ISBN \""
                 + book.isbn()
                 + "\", user ID \""
@@ -95,7 +95,7 @@ public class OverdueNotifications {
     }
 
     private String notificationFoundWhenNotExpectedMessageFor(
-            Book book, UserResource.User user, ZonedDateTime lateThreshold) {
+            Book book, UserFixture.User user, ZonedDateTime lateThreshold) {
         return "Found an overdue notification when one was not expected for ISBN \""
                 + book.isbn()
                 + "\", user ID \""
@@ -133,7 +133,7 @@ public class OverdueNotifications {
             this.lateAsOf = lateAsOf;
         }
 
-        public boolean isFor(Book book, UserResource.User user, ZonedDateTime lateThreshold) {
+        public boolean isFor(Book book, UserFixture.User user, ZonedDateTime lateThreshold) {
             return bookIsbn.equals(book.isbn())
                     && userId.equals(user.id())
                     && lateAsOfAsZonedDateTime().isEqual(lateThreshold);

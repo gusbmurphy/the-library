@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.acceptance;
+package fun.gusmurphy.library.acceptance.fixture;
 
 import java.util.Collections;
 import java.util.Properties;
@@ -15,13 +15,13 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringSerializer;
 
-public class BookResource {
+public class BookFixture {
 
     private final KafkaProducer<String, String> kafkaProducer;
     private static final String NEW_BOOK_TOPIC_NAME = "book-arrivals";
     private static final Book UNKNOWN_BOOK = new Book("WE_DONT_KNOW_THIS_ONE");
 
-    public BookResource() {
+    public BookFixture() {
         kafkaProducer = createKafkaProducer();
     }
 

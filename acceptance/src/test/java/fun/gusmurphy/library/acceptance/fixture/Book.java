@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.acceptance;
+package fun.gusmurphy.library.acceptance.fixture;
 
 import java.util.Random;
 

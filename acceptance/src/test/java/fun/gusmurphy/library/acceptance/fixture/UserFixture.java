@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.acceptance;
+package fun.gusmurphy.library.acceptance.fixture;
 
 import java.io.IOException;
 import java.net.URI;
@@ -8,7 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.UUID;
 
-public class UserResource {
+public class UserFixture {
 
     public static User newUser() {
         return new User();
