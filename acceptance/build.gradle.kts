@@ -26,9 +26,9 @@ tasks.named<Test>("test") {
 
 val test by testing.suites.existing(JvmTestSuite::class)
 
-var testSpringBoot = tasks.register<Test>("testSpringBootAdm") {
+tasks.register<Test>("testSpringBootAdm") {
     group = "verification"
-    description = "Runs acceptance tests against the Spring Boot application."
+    description = "Runs acceptance tests against the anemic domain model Spring Boot application."
 
     testClassesDirs = files(test.map { it.sources.output.classesDirs })
     classpath = files(test.map { it.sources.runtimeClasspath })
@@ -36,18 +36,41 @@ var testSpringBoot = tasks.register<Test>("testSpringBootAdm") {
     var composeUp = tasks.getByPath("springBootAdmComposeUp")
     var composeDown = tasks.getByPath("springBootAdmComposeDown")
 
-    var startApplicaiton = tasks.getByPath(":spring-boot-adm:start")
-    startApplicaiton.notCompatibleWithConfigurationCache("Uses a thread")
+    var startApplication = tasks.getByPath(":spring-boot-adm:start")
+    startApplication.notCompatibleWithConfigurationCache("Uses a thread")
 
     var test = tasks.getByPath("test")
 
-    dependsOn(startApplicaiton)
+    dependsOn(startApplication)
     dependsOn(composeUp)
     dependsOn(test)
     dependsOn(composeDown)
 
-    startApplicaiton.mustRunAfter(composeUp)
-    test.mustRunAfter(startApplicaiton)
+    startApplication.mustRunAfter(composeUp)
+    test.mustRunAfter(startApplication)
+    composeDown.mustRunAfter(test)
+}
+
+tasks.register<Test>("testSpringBootHex") {
+    group = "verification"
+    description = "Runs acceptance tests against the Hexagonal Spring Boot application."
+
+    testClassesDirs = files(test.map { it.sources.output.classesDirs })
+    classpath = files(test.map { it.sources.runtimeClasspath })
+
+    var composeUp = tasks.getByPath("composeUp")
+    var composeDown = tasks.getByPath("composeDown")
+
+    var startApplication = tasks.getByPath(":spring-boot-hex:start")
+    startApplication.notCompatibleWithConfigurationCache("Uses a thread")
+
+    var test = tasks.getByPath("test")
+
+    dependsOn(startApplication)
+    dependsOn(test)
+
+    startApplication.mustRunAfter(composeUp)
+    test.mustRunAfter(startApplication)
     composeDown.mustRunAfter(test)
 }
 
