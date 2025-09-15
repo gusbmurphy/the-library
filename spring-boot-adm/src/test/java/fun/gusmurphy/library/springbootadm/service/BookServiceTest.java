@@ -2,6 +2,7 @@ package fun.gusmurphy.library.springbootadm.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fun.gusmurphy.library.springbootadm.domain.Book;
+import fun.gusmurphy.library.springbootadm.domain.CheckoutRecord;
 import fun.gusmurphy.library.springbootadm.repository.BookRepository;
 import fun.gusmurphy.library.springbootadm.repository.CheckoutRecordRepository;
 import fun.gusmurphy.library.springbootadm.time.ClockService;
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -55,5 +57,14 @@ class BookServiceTest {
         var result = service.getBookByIsbn("my-isbn");
 
         Assertions.assertEquals(returnedBook, result);
+    }
+
+    @Test
+    void checkoutBookReturnsFalseIfARecordOfCheckoutIsFound() {
+        when(checkoutRecordRepository.findByBookIsbn("my-isbn")).thenReturn(List.of(new CheckoutRecord()));
+
+        var result = service.checkoutBook("my-isbn", "user-id");
+
+        Assertions.assertFalse(result);
     }
 }
