@@ -67,7 +67,9 @@ tasks.register<Test>("testSpringBootHex") {
     var test = tasks.getByPath("test")
 
     dependsOn(startApplication)
+    dependsOn(composeUp)
     dependsOn(test)
+    dependsOn(composeDown)
 
     startApplication.mustRunAfter(composeUp)
     test.mustRunAfter(startApplication)
