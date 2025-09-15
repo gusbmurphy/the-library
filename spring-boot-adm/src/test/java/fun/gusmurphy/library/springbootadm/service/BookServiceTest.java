@@ -1,8 +1,5 @@
 package fun.gusmurphy.library.springbootadm.service;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fun.gusmurphy.library.springbootadm.domain.Book;
 import fun.gusmurphy.library.springbootadm.repository.BookRepository;
@@ -16,6 +13,10 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceTest {
@@ -44,5 +45,15 @@ class BookServiceTest {
         var capturedBook = bookCaptor.getValue();
         Assertions.assertEquals("some-isbn", capturedBook.getIsbn());
         Assertions.assertEquals(7, capturedBook.getCheckoutTimeInDays());
+    }
+
+    @Test
+    void getBookByIsbnGetsABookFromTheRepository() {
+        var returnedBook = new Book();
+        when(bookRepository.findBookByIsbn("my-isbn")).thenReturn(Optional.of(returnedBook));
+
+        var result = service.getBookByIsbn("my-isbn");
+
+        Assertions.assertEquals(returnedBook, result);
     }
 }
