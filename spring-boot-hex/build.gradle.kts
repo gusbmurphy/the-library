@@ -14,8 +14,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:3.5.5")
 
     testImplementation(libs.junit.jupiter)
-    testImplementation("org.mockito:mockito-core:5.19.0")
-    testImplementation("org.mockito:mockito-junit-jupiter:5.19.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     implementation(libs.guava)
