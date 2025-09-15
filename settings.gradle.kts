@@ -3,4 +3,4 @@ plugins {
 }
 
 rootProject.name = "the-library"
-include("spring-boot-adm", "acceptance")
+include("spring-boot-adm", "spring-boot-hex", "acceptance")
