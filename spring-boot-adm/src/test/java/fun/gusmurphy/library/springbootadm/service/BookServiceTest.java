@@ -1,11 +1,18 @@
 package fun.gusmurphy.library.springbootadm.service;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fun.gusmurphy.library.springbootadm.domain.Book;
 import fun.gusmurphy.library.springbootadm.domain.CheckoutRecord;
 import fun.gusmurphy.library.springbootadm.repository.BookRepository;
 import fun.gusmurphy.library.springbootadm.repository.CheckoutRecordRepository;
 import fun.gusmurphy.library.springbootadm.time.ClockService;
+import java.time.ZonedDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -13,14 +20,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.ZonedDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceTest {
@@ -64,7 +63,8 @@ class BookServiceTest {
 
     @Test
     void checkoutBookReturnsFalseIfARecordOfCheckoutIsFound() {
-        when(checkoutRecordRepository.findByBookIsbn("my-isbn")).thenReturn(List.of(new CheckoutRecord()));
+        when(checkoutRecordRepository.findByBookIsbn("my-isbn"))
+                .thenReturn(List.of(new CheckoutRecord()));
 
         var result = service.checkoutBook("my-isbn", "user-id");
 
@@ -73,7 +73,8 @@ class BookServiceTest {
 
     @Test
     void checkingOutAnAvailableBookCreatesARecordInTheRepository() {
-        when(checkoutRecordRepository.findByBookIsbn("my-isbn")).thenReturn(Collections.emptyList());
+        when(checkoutRecordRepository.findByBookIsbn("my-isbn"))
+                .thenReturn(Collections.emptyList());
 
         var bookFromRepo = new Book();
         when(bookRepository.getReferenceById("my-isbn")).thenReturn(bookFromRepo);
