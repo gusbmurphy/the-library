@@ -23,6 +23,7 @@ public class OverdueNotifications {
             DateTimeFormatter.ISO_OFFSET_DATE_TIME;
     private static final Duration KAFKA_POLLING_DURATION = Duration.ofMillis(200);
     private static final int MAX_EXISTENCE_RETRIES = 5;
+    private static final int MAX_ABSENCE_RETRIES = 3;
 
     public OverdueNotifications() {
         var props = createConsumerProperties();
@@ -37,15 +38,7 @@ public class OverdueNotifications {
 
     public void noneExistFor(Book book, UserResource.User user, ZonedDateTime lateThreshold)
             throws JsonProcessingException {
-        ConsumerRecords<String, String> records = pollForAllRecords();
-
-        for (var record : records) {
-            var message = MAPPER.readValue(record.value(), OverdueNotificationMessage.class);
-            if (message.isFor(book, user, lateThreshold)) {
-                Assertions.fail(
-                        notificationFoundWhenNotExpectedMessageFor(book, user, lateThreshold));
-            }
-        }
+        assertNoneExistForAndRetry(book, user, lateThreshold, 0);
     }
 
     private void assertNotificationExistsForAndRetry(
@@ -64,6 +57,24 @@ public class OverdueNotifications {
             assertNotificationExistsForAndRetry(book, user, lateThreshold, retryCount + 1);
         } else {
             Assertions.fail(notificationNotFoundMessageFor(book, user, lateThreshold));
+        }
+    }
+
+    private void assertNoneExistForAndRetry(
+            Book book, UserResource.User user, ZonedDateTime lateThreshold, int retryCount)
+            throws JsonProcessingException {
+        ConsumerRecords<String, String> records = pollForAllRecords();
+
+        for (var record : records) {
+            var message = MAPPER.readValue(record.value(), OverdueNotificationMessage.class);
+            if (message.isFor(book, user, lateThreshold)) {
+                Assertions.fail(
+                        notificationFoundWhenNotExpectedMessageFor(book, user, lateThreshold));
+            }
+        }
+
+        if (retryCount < MAX_ABSENCE_RETRIES) {
+            assertNoneExistForAndRetry(book, user, lateThreshold, retryCount + 1);
         }
     }
 
