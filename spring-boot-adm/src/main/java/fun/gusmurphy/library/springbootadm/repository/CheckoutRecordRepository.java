@@ -1,8 +1,8 @@
 package fun.gusmurphy.library.springbootadm.repository;
 
+import fun.gusmurphy.library.springbootadm.domain.CheckoutRecord;
 import java.util.List;
 import java.util.UUID;
-import fun.gusmurphy.library.springbootadm.domain.CheckoutRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
