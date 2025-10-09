@@ -13,7 +13,7 @@ public class BookServiceTest {
     void aReceivedBookIsPersistedToTheRepository() {
         BookRepository repository = new BookRepositoryDouble();
         ReceivesBooks service = new BookService(repository);
-        Book newBook = new Book("test-isbn");
+        Book newBook = new Book("test-isbn", 30);
 
         service.receiveBook(newBook);
 
