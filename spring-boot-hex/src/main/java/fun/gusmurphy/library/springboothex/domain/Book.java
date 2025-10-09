@@ -1,4 +1,4 @@
 package fun.gusmurphy.library.springboothex.domain;
 
-public record Book(String isbn, int checkoutTimeInDays) {
+public record Book(Isbn isbn, int checkoutTimeInDays) {
 }

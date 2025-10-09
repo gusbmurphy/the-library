@@ -1,6 +1,7 @@
 package fun.gusmurphy.library.springboothex.adapter.kafka;
 
 import fun.gusmurphy.library.springboothex.domain.Book;
+import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.doubles.BookReceiverSpy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ class KafkaBookAdapterTest {
 
         adapter.onBookArrivalMessage(messageString);
         Book receivedBook = bookReceiver.lastReceivedBook();
-        Assertions.assertEquals("some-isbn", receivedBook.isbn());
+        Assertions.assertEquals(Isbn.fromString("some-isbn"), receivedBook.isbn());
         Assertions.assertEquals(30, receivedBook.checkoutTimeInDays());
     }
 
