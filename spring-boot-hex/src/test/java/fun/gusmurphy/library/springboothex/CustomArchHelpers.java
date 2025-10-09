@@ -29,4 +29,26 @@ public class CustomArchHelpers {
                     }
                 }
             };
+
+    public static final ArchCondition<JavaClass> notDependOnDrivenPortsUnlessImplementingThem =
+            new ArchCondition<>("not depend on driven ports unless implementing them") {
+                @Override
+                public void check(JavaClass item, ConditionEvents events) {
+                    var classesThisClassImplements = item.getInterfaces();
+                    var drivenPortDependencies = item.getDirectDependenciesFromSelf().stream()
+                            .filter(d -> d.getTargetClass().getPackage().getName().contains("driven"))
+                            .toList();
+
+                    for (var dependency : drivenPortDependencies) {
+                        var isAnImplementedClass = classesThisClassImplements.stream()
+                                .anyMatch(c -> c.equals(dependency.getTargetClass()));
+
+                        if (!isAnImplementedClass) {
+                            String message = String.format(
+                                    "Class %s depends on driven port %s that it is not implementing", item.getName(), dependency.getTargetClass().getName());
+                            events.add(SimpleConditionEvent.violated(dependency, message));
+                        }
+                    }
+                }
+            };
 }

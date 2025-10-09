@@ -8,6 +8,7 @@ import com.tngtech.archunit.lang.ArchRule;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static fun.gusmurphy.library.springboothex.CustomArchHelpers.notDependOnAdaptersOutsideItsOwnPackage;
+import static fun.gusmurphy.library.springboothex.CustomArchHelpers.notDependOnDrivenPortsUnlessImplementingThem;
 
 @AnalyzeClasses(importOptions = ImportOption.DoNotIncludeTests.class)
 public class ArchitectureTest {
@@ -39,4 +40,9 @@ public class ArchitectureTest {
     public static final ArchRule adaptersCannotDependOnApplicationImplementations = noClasses()
             .that().resideInAPackage(ADAPTER_PACKAGE)
             .should().dependOnClassesThat().resideInAPackage(APPLICATION_PACKAGE);
+
+    @ArchTest
+    public static final ArchRule adaptersCannotDependOnDrivenPortsUnlessImplementingThem = classes()
+            .that().resideInAPackage(ADAPTER_PACKAGE)
+            .should(notDependOnDrivenPortsUnlessImplementingThem);
 }
