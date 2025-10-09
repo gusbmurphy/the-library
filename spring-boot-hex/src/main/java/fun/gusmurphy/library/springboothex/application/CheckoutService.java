@@ -1,5 +1,6 @@
 package fun.gusmurphy.library.springboothex.application;
 
+import fun.gusmurphy.library.springboothex.domain.CheckoutRecord;
 import fun.gusmurphy.library.springboothex.domain.CheckoutResult;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.domain.UserId;
@@ -9,11 +10,23 @@ import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
 
 public class CheckoutService implements ChecksOutBooks {
 
+    private final CheckoutRecordRepository recordRepository;
+    private final BookRepository bookRepository;
+
     public CheckoutService(CheckoutRecordRepository recordRepository, BookRepository bookRepository) {
+        this.recordRepository = recordRepository;
+        this.bookRepository = bookRepository;
     }
 
     @Override
     public CheckoutResult requestCheckout(Isbn isbn, UserId userId) {
+        if (recordRepository.findRecordForIsbn(isbn).isPresent()) {
+            return CheckoutResult.BOOK_CURRENTLY_CHECKED_OUT;
+        }
+
+        var record = new CheckoutRecord(isbn);
+        recordRepository.saveRecord(record);
+
         return CheckoutResult.SUCCESS;
     }
 }
