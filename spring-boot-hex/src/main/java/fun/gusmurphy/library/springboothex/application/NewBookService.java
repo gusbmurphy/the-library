@@ -2,11 +2,11 @@ package fun.gusmurphy.library.springboothex.application;
 
 import fun.gusmurphy.library.springboothex.domain.Book;
 
-public class BookService implements ReceivesBooks {
+public class NewBookService implements ReceivesBooks {
 
     private final BookRepository repository;
 
-    public BookService(BookRepository repository) {
+    public NewBookService(BookRepository repository) {
         this.repository = repository;
     }
 
