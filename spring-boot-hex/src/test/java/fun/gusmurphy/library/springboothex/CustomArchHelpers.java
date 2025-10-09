@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class CustomArchHelpers {
 
     public static final ArchCondition<JavaClass> notDependOnAdaptersOutsideItsOwnPackage =
-            new ArchCondition<>("depend on adapters outside its own package") {
+            new ArchCondition<>("not depend on adapters outside its own package") {
                 @Override
                 public void check(JavaClass item, ConditionEvents events) {
                     var ourSubPackageName = Arrays.stream(item.getPackageName().split("\\.")).toList().getLast();
