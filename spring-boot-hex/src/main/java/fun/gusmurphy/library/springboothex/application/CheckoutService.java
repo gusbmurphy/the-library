@@ -4,18 +4,15 @@ import fun.gusmurphy.library.springboothex.domain.CheckoutRecord;
 import fun.gusmurphy.library.springboothex.domain.CheckoutResult;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.domain.UserId;
-import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import fun.gusmurphy.library.springboothex.port.driven.CheckoutRecordRepository;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
 
 public class CheckoutService implements ChecksOutBooks {
 
     private final CheckoutRecordRepository recordRepository;
-    private final BookRepository bookRepository;
 
-    public CheckoutService(CheckoutRecordRepository recordRepository, BookRepository bookRepository) {
+    public CheckoutService(CheckoutRecordRepository recordRepository) {
         this.recordRepository = recordRepository;
-        this.bookRepository = bookRepository;
     }
 
     @Override
