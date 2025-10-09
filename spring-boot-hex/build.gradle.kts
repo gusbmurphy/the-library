@@ -15,6 +15,7 @@ dependencies {
     implementation("org.springframework.kafka:spring-kafka:3.3.9")
 
     testImplementation(libs.junit.jupiter)
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     implementation(libs.guava)
