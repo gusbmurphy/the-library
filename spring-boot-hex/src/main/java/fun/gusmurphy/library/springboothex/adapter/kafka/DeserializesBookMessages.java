@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.springboothex.adapter;
+package fun.gusmurphy.library.springboothex.adapter.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fun.gusmurphy.library.springboothex.domain.Book;

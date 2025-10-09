@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.springboothex.adapter;
+package fun.gusmurphy.library.springboothex.adapter.kafka;
 
 import fun.gusmurphy.library.springboothex.domain.Book;
 import fun.gusmurphy.library.springboothex.doubles.BookReceiverSpy;
