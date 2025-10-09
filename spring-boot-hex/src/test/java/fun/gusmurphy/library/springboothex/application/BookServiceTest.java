@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-public class NewBookServiceTest {
+public class BookServiceTest {
 
     @Test
     void aReceivedBookIsPersistedToTheRepository() {
         BookRepository repository = new BookRepositoryDouble();
-        ReceivesBooks service = new NewBookService(repository);
+        ReceivesBooks service = new BookService(repository);
         Book newBook = new BookBuilder()
                 .withIsbnString("test-isbn")
                 .withCheckoutTimeInDaysInt(30)
