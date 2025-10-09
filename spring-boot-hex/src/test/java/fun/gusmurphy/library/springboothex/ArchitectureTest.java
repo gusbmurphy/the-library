@@ -32,4 +32,9 @@ public class ArchitectureTest {
     public static final ArchRule adaptersCannotDependOnOtherAdapters = classes()
             .that().resideInAPackage(ADAPTER_PACKAGE)
             .should(notDependOnAdaptersOutsideItsOwnPackage);
+
+    @ArchTest
+    public static final ArchRule adaptersCannotDependOnApplicationImplementations = noClasses()
+            .that().resideInAPackage(ADAPTER_PACKAGE)
+            .should().dependOnClassesThat().resideInAPackage(APPLICATION_PACKAGE);
 }
