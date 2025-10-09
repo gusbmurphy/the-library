@@ -1,6 +1,6 @@
 package fun.gusmurphy.library.springboothex;
 
-import fun.gusmurphy.library.springboothex.application.BookRepository;
+import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import fun.gusmurphy.library.springboothex.application.BookService;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,6 @@
 package fun.gusmurphy.library.springboothex.doubles;
 
-import fun.gusmurphy.library.springboothex.application.ReceivesBooks;
+import fun.gusmurphy.library.springboothex.port.driving.ReceivesBooks;
 import fun.gusmurphy.library.springboothex.domain.Book;
 
 import java.util.ArrayList;

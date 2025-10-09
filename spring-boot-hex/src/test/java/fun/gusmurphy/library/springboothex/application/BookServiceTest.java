@@ -4,6 +4,8 @@ import fun.gusmurphy.library.springboothex.domain.Book;
 import fun.gusmurphy.library.springboothex.domain.BookBuilder;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
+import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
+import fun.gusmurphy.library.springboothex.port.driving.ReceivesBooks;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
