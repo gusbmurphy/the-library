@@ -1,0 +1,26 @@
+package fun.gusmurphy.library.springboothex.adapter.persistence;
+
+import fun.gusmurphy.library.springboothex.application.BookRepository;
+import fun.gusmurphy.library.springboothex.domain.Book;
+import fun.gusmurphy.library.springboothex.domain.Isbn;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public class ListRepository implements BookRepository {
+
+    private final List<Book> bookList = new ArrayList<>();
+
+    @Override
+    public void saveBook(Book book) {
+        bookList.add(book);
+    }
+
+    @Override
+    public Optional<Book> findByIsbn(Isbn isbn) {
+        return bookList.stream().filter(book -> book.isbn() == isbn).findFirst();
+    }
+}

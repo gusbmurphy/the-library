@@ -3,7 +3,9 @@ package fun.gusmurphy.library.springboothex.adapter.kafka;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fun.gusmurphy.library.springboothex.application.ReceivesBooks;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 
+@Component
 public class KafkaBookAdapter {
 
     private final ReceivesBooks bookReceiver;

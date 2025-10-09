@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fun.gusmurphy.library.springboothex.domain.Book;
 import fun.gusmurphy.library.springboothex.domain.BookBuilder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ObjectMapperBookMessageDeserializer implements DeserializesBookMessages {
 
     private final ObjectMapper mapper;
