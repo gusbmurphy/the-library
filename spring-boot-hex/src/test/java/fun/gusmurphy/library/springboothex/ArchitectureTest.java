@@ -15,18 +15,20 @@ public class ArchitectureTest {
     private static final String BASE_PACKAGE_NAME = "fun.gusmurphy.library.springboothex.";
     private static final String DOMAIN_PACKAGE = BASE_PACKAGE_NAME + "domain..";
     private static final String APPLICATION_PACKAGE = BASE_PACKAGE_NAME + "application..";
+    private static final String PORT_PACKAGE = BASE_PACKAGE_NAME + "port..";
     private static final String ADAPTER_PACKAGE = BASE_PACKAGE_NAME + "adapter..";
-    private static final String JAVA_PACKAGE_MATCHER = "..java..";
+    private static final String JAVA_PACKAGES = "..java..";
 
     @ArchTest
     public static final ArchRule domainClassesCantDependOnBasicallyAnything = noClasses()
             .that().resideInAPackage(DOMAIN_PACKAGE)
-            .should().dependOnClassesThat().resideOutsideOfPackages(DOMAIN_PACKAGE, JAVA_PACKAGE_MATCHER);
+            .should().dependOnClassesThat().resideOutsideOfPackages(DOMAIN_PACKAGE, JAVA_PACKAGES);
 
     @ArchTest
-    public static final ArchRule applicationClassesCannotDependOnAdapters = noClasses()
+    public static final ArchRule applicationClassesCannotDependOnBasicallyAnythingBesidesDomainAndPorts = noClasses()
             .that().resideInAPackage(APPLICATION_PACKAGE)
-            .should().dependOnClassesThat().resideInAPackage(ADAPTER_PACKAGE);
+            .should().dependOnClassesThat()
+            .resideOutsideOfPackages(APPLICATION_PACKAGE, PORT_PACKAGE, DOMAIN_PACKAGE, JAVA_PACKAGES);
 
     @ArchTest
     public static final ArchRule adaptersCannotDependOnOtherAdapters = classes()
