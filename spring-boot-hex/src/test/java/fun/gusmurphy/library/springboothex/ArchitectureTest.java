@@ -1,19 +1,13 @@
 package fun.gusmurphy.library.springboothex;
 
-import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
-import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ArchRule;
-import com.tngtech.archunit.lang.ConditionEvents;
-import com.tngtech.archunit.lang.SimpleConditionEvent;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+import static fun.gusmurphy.library.springboothex.CustomArchHelpers.notDependOnAdaptersOutsideItsOwnPackage;
 
 @AnalyzeClasses(importOptions = ImportOption.DoNotIncludeTests.class)
 public class ArchitectureTest {
@@ -33,26 +27,6 @@ public class ArchitectureTest {
     public static final ArchRule applicationClassesCannotDependOnAdapters = noClasses()
             .that().resideInAPackage(APPLICATION_PACKAGE)
             .should().dependOnClassesThat().resideInAPackage(ADAPTER_PACKAGE);
-
-    private static final ArchCondition<JavaClass> notDependOnAdaptersOutsideItsOwnPackage =
-            new ArchCondition<>("depend on adapters outside its own package") {
-                @Override
-                public void check(JavaClass item, ConditionEvents events) {
-                    var ourSubPackageName = Arrays.stream(item.getPackageName().split("\\.")).toList().getLast();
-                    var dependencies = item.getDirectDependenciesFromSelf();
-                    var adapterDependencies = dependencies.stream()
-                            .filter(d -> d.getTargetClass().getName().contains("adapter"))
-                            .collect(Collectors.toSet());
-
-                    for (var dependency : adapterDependencies) {
-                        if (!dependency.getTargetClass().getPackageName().contains(ourSubPackageName)) {
-                            String message = String.format(
-                                    "Class %s depends on other adapter class %s not within its own subpackage", item.getName(), dependency.getTargetClass().getName());
-                            events.add(SimpleConditionEvent.violated(dependency, message));
-                        }
-                    }
-                }
-            };
 
     @ArchTest
     public static final ArchRule adaptersCannotDependOnOtherAdapters = classes()
