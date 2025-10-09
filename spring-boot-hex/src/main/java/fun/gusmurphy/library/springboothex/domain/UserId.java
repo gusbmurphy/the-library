@@ -14,4 +14,8 @@ public class UserId {
         return new UserId(UUID.randomUUID());
     }
 
+    public static UserId fromString(String string) {
+        return new UserId(UUID.fromString(string));
+    }
+
 }

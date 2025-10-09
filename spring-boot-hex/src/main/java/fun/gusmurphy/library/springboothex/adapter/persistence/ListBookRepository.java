@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-public class ListRepository implements BookRepository {
+public class ListBookRepository implements BookRepository {
 
     private final List<Book> bookList = new ArrayList<>();
 

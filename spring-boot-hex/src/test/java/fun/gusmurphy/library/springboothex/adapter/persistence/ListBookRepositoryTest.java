@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ListRepositoryTest {
+class ListBookRepositoryTest {
 
     @Test
     void booksAreRetrievableByIsbn() {
-        var repo = new ListRepository();
+        var repo = new ListBookRepository();
         var testIsbn = "test-isbn";
         var book = new BookBuilder().withIsbnString(testIsbn).withCheckoutTimeInDaysInt(2).build();
 
