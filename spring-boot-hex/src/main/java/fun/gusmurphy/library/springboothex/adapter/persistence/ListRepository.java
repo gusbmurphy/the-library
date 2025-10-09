@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -21,6 +22,6 @@ public class ListRepository implements BookRepository {
 
     @Override
     public Optional<Book> findByIsbn(Isbn isbn) {
-        return bookList.stream().filter(book -> book.isbn() == isbn).findFirst();
+        return bookList.stream().filter(book -> Objects.equals(book.isbn(), isbn)).findFirst();
     }
 }
