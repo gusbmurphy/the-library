@@ -1,6 +1,5 @@
-package fun.gusmurphy.library.springboothex.application;
+package fun.gusmurphy.library.springboothex.domain;
 
-import fun.gusmurphy.library.springboothex.domain.*;
 import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.CheckoutRepositoryDouble;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
