@@ -1,11 +1,13 @@
 package fun.gusmurphy.library.springboothex;
 
+import com.tngtech.archunit.core.domain.Dependency;
 import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.lang.ArchCondition;
 import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.SimpleConditionEvent;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomArchHelpers {
@@ -35,9 +37,7 @@ public class CustomArchHelpers {
                 @Override
                 public void check(JavaClass item, ConditionEvents events) {
                     var classesThisClassImplements = item.getInterfaces();
-                    var drivenPortDependencies = item.getDirectDependenciesFromSelf().stream()
-                            .filter(d -> d.getTargetClass().getPackage().getName().contains("driven"))
-                            .toList();
+                    var drivenPortDependencies = getDependenciesFromPackage(item, "driven");
 
                     for (var dependency : drivenPortDependencies) {
                         var isAnImplementedClass = classesThisClassImplements.stream()
@@ -57,9 +57,7 @@ public class CustomArchHelpers {
                 @Override
                 public void check(JavaClass item, ConditionEvents events) {
                     var classesThisClassImplements = item.getInterfaces();
-                    var drivingPortDependencies = item.getDirectDependenciesFromSelf().stream()
-                            .filter(d -> d.getTargetClass().getPackage().getName().contains("driving"))
-                            .toList();
+                    var drivingPortDependencies = getDependenciesFromPackage(item, "driving");
 
                     for (var dependency : drivingPortDependencies) {
                         var isAnImplementedClass = classesThisClassImplements.stream()
@@ -79,9 +77,7 @@ public class CustomArchHelpers {
                 @Override
                 public void check(JavaClass item, ConditionEvents events) {
                     var classesThisClassImplements = item.getInterfaces();
-                    var drivenPortDependencies = item.getDirectDependenciesFromSelf().stream()
-                            .filter(d -> d.getTargetClass().getPackage().getName().contains("driven"))
-                            .toList();
+                    var drivenPortDependencies = getDependenciesFromPackage(item, "driven");
 
                     for (var dependency : drivenPortDependencies) {
                         var isAnImplementedClass = classesThisClassImplements.stream()
@@ -95,4 +91,10 @@ public class CustomArchHelpers {
                     }
                 }
             };
+
+    private static List<Dependency> getDependenciesFromPackage(JavaClass javaClass, String packageName) {
+        return javaClass.getDirectDependenciesFromSelf().stream()
+                .filter(d -> d.getTargetClass().getPackage().getName().contains(packageName))
+                .toList();
+    }
 }
