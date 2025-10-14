@@ -7,8 +7,7 @@ import com.tngtech.archunit.lang.ArchRule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
-import static fun.gusmurphy.library.springboothex.CustomArchHelpers.notDependOnAdaptersOutsideItsOwnPackage;
-import static fun.gusmurphy.library.springboothex.CustomArchHelpers.notDependOnDrivenPortsUnlessImplementingThem;
+import static fun.gusmurphy.library.springboothex.CustomArchHelpers.*;
 
 @AnalyzeClasses(importOptions = ImportOption.DoNotIncludeTests.class)
 public class ArchitectureTest {
@@ -23,7 +22,17 @@ public class ArchitectureTest {
     @ArchTest
     public static final ArchRule domainClassesCantDependOnBasicallyAnything = noClasses()
             .that().resideInAPackage(DOMAIN_PACKAGE)
-            .should().dependOnClassesThat().resideOutsideOfPackages(DOMAIN_PACKAGE, JAVA_PACKAGES);
+            .should().dependOnClassesThat().resideOutsideOfPackages(DOMAIN_PACKAGE, JAVA_PACKAGES, PORT_PACKAGE);
+
+    @ArchTest
+    public static final ArchRule domainClassesCantDependOnDrivingPortsUnlessImplementingThem = classes()
+            .that().resideInAPackage(DOMAIN_PACKAGE)
+            .should(notDependOnDrivingPortsUnlessImplementingThem);
+
+    @ArchTest
+    public static final ArchRule domainClassesCantImplementDrivenPorts = classes()
+            .that().resideInAPackage(DOMAIN_PACKAGE)
+            .should(notImplementDrivenPorts);
 
     @ArchTest
     public static final ArchRule applicationClassesCannotDependOnBasicallyAnythingBesidesDomainAndPorts = noClasses()

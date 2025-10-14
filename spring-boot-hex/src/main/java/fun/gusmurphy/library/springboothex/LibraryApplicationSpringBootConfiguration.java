@@ -1,6 +1,6 @@
 package fun.gusmurphy.library.springboothex;
 
-import fun.gusmurphy.library.springboothex.application.CheckoutService;
+import fun.gusmurphy.library.springboothex.domain.CheckoutService;
 import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import fun.gusmurphy.library.springboothex.application.BookService;
 import fun.gusmurphy.library.springboothex.port.driven.CheckoutRecordRepository;

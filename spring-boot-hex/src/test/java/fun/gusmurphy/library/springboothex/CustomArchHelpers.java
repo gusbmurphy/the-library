@@ -51,4 +51,48 @@ public class CustomArchHelpers {
                     }
                 }
             };
+
+    public static final ArchCondition<JavaClass> notDependOnDrivingPortsUnlessImplementingThem =
+            new ArchCondition<>("not depend on driving ports unless implementing them") {
+                @Override
+                public void check(JavaClass item, ConditionEvents events) {
+                    var classesThisClassImplements = item.getInterfaces();
+                    var drivingPortDependencies = item.getDirectDependenciesFromSelf().stream()
+                            .filter(d -> d.getTargetClass().getPackage().getName().contains("driving"))
+                            .toList();
+
+                    for (var dependency : drivingPortDependencies) {
+                        var isAnImplementedClass = classesThisClassImplements.stream()
+                                .anyMatch(c -> c.equals(dependency.getTargetClass()));
+
+                        if (!isAnImplementedClass) {
+                            String message = String.format(
+                                    "Class %s depends on driving port %s that it is not implementing", item.getName(), dependency.getTargetClass().getName());
+                            events.add(SimpleConditionEvent.violated(dependency, message));
+                        }
+                    }
+                }
+            };
+
+    public static final ArchCondition<JavaClass> notImplementDrivenPorts =
+            new ArchCondition<>("not implement driven ports") {
+                @Override
+                public void check(JavaClass item, ConditionEvents events) {
+                    var classesThisClassImplements = item.getInterfaces();
+                    var drivenPortDependencies = item.getDirectDependenciesFromSelf().stream()
+                            .filter(d -> d.getTargetClass().getPackage().getName().contains("driven"))
+                            .toList();
+
+                    for (var dependency : drivenPortDependencies) {
+                        var isAnImplementedClass = classesThisClassImplements.stream()
+                                .anyMatch(c -> c.equals(dependency.getTargetClass()));
+
+                        if (isAnImplementedClass) {
+                            String message = String.format(
+                                    "Class %s implements driven port %s", item.getName(), dependency.getTargetClass().getName());
+                            events.add(SimpleConditionEvent.violated(dependency, message));
+                        }
+                    }
+                }
+            };
 }
