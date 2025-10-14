@@ -32,41 +32,17 @@ public class CustomArchHelpers {
                 }
             };
 
-    public static final ArchCondition<JavaClass> notDependOnDrivenPortsUnlessImplementingThem =
-            new ArchCondition<>("not depend on driven ports unless implementing them") {
-                @Override
-                public void check(JavaClass item, ConditionEvents events) {
-                    var drivenPortDependencies = getDependenciesFromPackage(item, "driven");
+    public static final ArchCondition<JavaClass> notDependOnDrivenPortsUnlessImplementingThem = conditionThatClassDoesNotDependOnPackageUnlessImplementing(
+            "driven",
+            "not depend on driven ports unless implementing them",
+            "Class %s depends on driven port %s that it is not implementing"
+    );
 
-                    for (var dependency : drivenPortDependencies) {
-                        var isAnImplementedClass = classImplementsInterface(item, dependency.getTargetClass());
-
-                        if (!isAnImplementedClass) {
-                            String message = String.format(
-                                    "Class %s depends on driven port %s that it is not implementing", item.getName(), dependency.getTargetClass().getName());
-                            events.add(SimpleConditionEvent.violated(dependency, message));
-                        }
-                    }
-                }
-            };
-
-    public static final ArchCondition<JavaClass> notDependOnDrivingPortsUnlessImplementingThem =
-            new ArchCondition<>("not depend on driving ports unless implementing them") {
-                @Override
-                public void check(JavaClass item, ConditionEvents events) {
-                    var drivingPortDependencies = getDependenciesFromPackage(item, "driving");
-
-                    for (var dependency : drivingPortDependencies) {
-                        var isAnImplementedClass = classImplementsInterface(item, dependency.getTargetClass());
-
-                        if (!isAnImplementedClass) {
-                            String message = String.format(
-                                    "Class %s depends on driving port %s that it is not implementing", item.getName(), dependency.getTargetClass().getName());
-                            events.add(SimpleConditionEvent.violated(dependency, message));
-                        }
-                    }
-                }
-            };
+    public static final ArchCondition<JavaClass> notDependOnDrivingPortsUnlessImplementingThem = conditionThatClassDoesNotDependOnPackageUnlessImplementing(
+            "driving",
+            "not depend on driving ports unless implementing them",
+            "Class %s depends on driving port %s that it is not implementing"
+    );
 
     public static final ArchCondition<JavaClass> notImplementDrivenPorts =
             new ArchCondition<>("not implement driven ports") {
@@ -85,6 +61,29 @@ public class CustomArchHelpers {
                     }
                 }
             };
+
+    private static ArchCondition<JavaClass> conditionThatClassDoesNotDependOnPackageUnlessImplementing(
+            String targetPackageName,
+            String description,
+            String violationMessageFormat
+    ) {
+        return new ArchCondition<>(description) {
+            @Override
+            public void check(JavaClass item, ConditionEvents events) {
+                var targetPackageDependencies = getDependenciesFromPackage(item, targetPackageName);
+
+                for (var dependency : targetPackageDependencies) {
+                    var isAnImplementedClass = classImplementsInterface(item, dependency.getTargetClass());
+
+                    if (!isAnImplementedClass) {
+                        String message = String.format(
+                                violationMessageFormat, item.getName(), dependency.getTargetClass().getName());
+                        events.add(SimpleConditionEvent.violated(dependency, message));
+                    }
+                }
+            }
+        };
+    }
 
     private static List<Dependency> getDependenciesFromPackage(JavaClass javaClass, String packageName) {
         return javaClass.getDirectDependenciesFromSelf().stream()
