@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.springboothex.adapter.http;
+package fun.gusmurphy.library.springboothex.adapter.checkouthttp;
 
 import fun.gusmurphy.library.springboothex.domain.UserId;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
