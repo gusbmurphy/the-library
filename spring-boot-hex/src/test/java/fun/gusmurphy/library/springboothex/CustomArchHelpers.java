@@ -36,12 +36,10 @@ public class CustomArchHelpers {
             new ArchCondition<>("not depend on driven ports unless implementing them") {
                 @Override
                 public void check(JavaClass item, ConditionEvents events) {
-                    var classesThisClassImplements = item.getInterfaces();
                     var drivenPortDependencies = getDependenciesFromPackage(item, "driven");
 
                     for (var dependency : drivenPortDependencies) {
-                        var isAnImplementedClass = classesThisClassImplements.stream()
-                                .anyMatch(c -> c.equals(dependency.getTargetClass()));
+                        var isAnImplementedClass = classImplementsInterface(item, dependency.getTargetClass());
 
                         if (!isAnImplementedClass) {
                             String message = String.format(
@@ -56,12 +54,10 @@ public class CustomArchHelpers {
             new ArchCondition<>("not depend on driving ports unless implementing them") {
                 @Override
                 public void check(JavaClass item, ConditionEvents events) {
-                    var classesThisClassImplements = item.getInterfaces();
                     var drivingPortDependencies = getDependenciesFromPackage(item, "driving");
 
                     for (var dependency : drivingPortDependencies) {
-                        var isAnImplementedClass = classesThisClassImplements.stream()
-                                .anyMatch(c -> c.equals(dependency.getTargetClass()));
+                        var isAnImplementedClass = classImplementsInterface(item, dependency.getTargetClass());
 
                         if (!isAnImplementedClass) {
                             String message = String.format(
@@ -76,12 +72,10 @@ public class CustomArchHelpers {
             new ArchCondition<>("not implement driven ports") {
                 @Override
                 public void check(JavaClass item, ConditionEvents events) {
-                    var classesThisClassImplements = item.getInterfaces();
                     var drivenPortDependencies = getDependenciesFromPackage(item, "driven");
 
                     for (var dependency : drivenPortDependencies) {
-                        var isAnImplementedClass = classesThisClassImplements.stream()
-                                .anyMatch(c -> c.equals(dependency.getTargetClass()));
+                        var isAnImplementedClass = classImplementsInterface(item, dependency.getTargetClass());
 
                         if (isAnImplementedClass) {
                             String message = String.format(
@@ -96,5 +90,10 @@ public class CustomArchHelpers {
         return javaClass.getDirectDependenciesFromSelf().stream()
                 .filter(d -> d.getTargetClass().getPackage().getName().contains(packageName))
                 .toList();
+    }
+
+    private static boolean classImplementsInterface(JavaClass javaClass, JavaClass javaInterface) {
+        return javaClass.getInterfaces().stream()
+                .anyMatch(c -> c.equals(javaInterface));
     }
 }
