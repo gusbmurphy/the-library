@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.springboothex.adapter.kafka;
+package fun.gusmurphy.library.springboothex.adapter.bookarrivalkafka;
 
 public class BookArrivalMessageJson {
 
