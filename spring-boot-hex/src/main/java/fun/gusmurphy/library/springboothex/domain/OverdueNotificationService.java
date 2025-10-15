@@ -7,14 +7,25 @@ import fun.gusmurphy.library.springboothex.port.driving.ChecksForOverdueBooks;
 
 public class OverdueNotificationService implements ChecksForOverdueBooks {
 
+    private final CheckoutRecordRepository recordRepository;
+    private final TellsTime clock;
+    private final SendsOverdueNotifications notificationSender;
+
     public OverdueNotificationService(
             CheckoutRecordRepository recordRepository,
             TellsTime clock,
             SendsOverdueNotifications notificationSender
     ) {
+        this.recordRepository = recordRepository;
+        this.clock = clock;
+        this.notificationSender = notificationSender;
     }
 
     @Override
     public void checkForOverdueBooks() {
+        var record = recordRepository.findRecordsDueBefore(clock.currentTime()).stream().findFirst();
+        if (record.isPresent()) {
+            notificationSender.send(new OverdueNotification());
+        }
     }
 }

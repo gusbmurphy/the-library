@@ -24,7 +24,7 @@ public class CheckoutService implements ChecksOutBooks {
             return CheckoutResult.UNKNOWN_BOOK;
         }
 
-        var record = new CheckoutRecord(isbn);
+        var record = new CheckoutRecord(isbn, null, null); // TODO: Implement this correctly!
         recordRepository.saveRecord(record);
 
         return CheckoutResult.SUCCESS;

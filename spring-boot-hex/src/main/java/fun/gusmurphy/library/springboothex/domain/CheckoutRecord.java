@@ -1,4 +1,6 @@
 package fun.gusmurphy.library.springboothex.domain;
 
-public record CheckoutRecord(Isbn isbn) {
+import java.time.ZonedDateTime;
+
+public record CheckoutRecord(Isbn isbn, UserId userId, ZonedDateTime dueBackDate) {
 }
