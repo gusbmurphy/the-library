@@ -5,10 +5,11 @@ import fun.gusmurphy.library.springboothex.doubles.OverdueNotificationSpy;
 import fun.gusmurphy.library.springboothex.doubles.TestClock;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksForOverdueBooks;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class OverdueNotificationServiceTest {
 
@@ -28,7 +29,7 @@ public class OverdueNotificationServiceTest {
     @Test
     void noNotificationsAreSentIfNothingIsOverdue() {
         service.checkForOverdueBooks();
-        Assertions.assertTrue(notificationSpy.noNotificationsSent());
+        assertTrue(notificationSpy.noNotificationsSent());
     }
 
     @Test
@@ -43,7 +44,10 @@ public class OverdueNotificationServiceTest {
 
         service.checkForOverdueBooks();
 
-        Assertions.assertNotNull(notificationSpy.latestNotification());
+        var notification = notificationSpy.latestNotification();
+        assertEquals(isbn, notification.isbn());
+        assertEquals(userId, notification.userId());
+        assertEquals(dueBackDate, notification.lateAsOf());
     }
 
     @Test
@@ -59,7 +63,7 @@ public class OverdueNotificationServiceTest {
 
         service.checkForOverdueBooks();
 
-        Assertions.assertEquals(2, notificationSpy.notificationCount());
+        assertEquals(2, notificationSpy.notificationCount());
     }
 
 }
