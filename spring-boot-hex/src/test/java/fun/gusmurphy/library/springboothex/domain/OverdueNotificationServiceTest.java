@@ -9,18 +9,17 @@ import org.junit.jupiter.api.Test;
 
 public class OverdueNotificationServiceTest {
 
+    private final CheckoutRepositoryDouble checkoutRepository = new CheckoutRepositoryDouble();
+    private final TestClock testClock = new TestClock();
+    private final OverdueNotificationSpy notificationSpy = new OverdueNotificationSpy();
+
+    private final ChecksForOverdueBooks service = new OverdueNotificationService(
+            checkoutRepository, testClock, notificationSpy
+    );
+
     @Test
     void noNotificationsAreSentIfNothingIsOverdue() {
-        var emptyCheckoutRepository = new CheckoutRepositoryDouble();
-        var testClock = new TestClock();
-        var notificationSpy = new OverdueNotificationSpy();
-
-        ChecksForOverdueBooks service = new OverdueNotificationService(
-                emptyCheckoutRepository, testClock, notificationSpy
-        );
-
         service.checkForOverdueBooks();
-
         Assertions.assertTrue(notificationSpy.noNotificationsSent());
     }
 
