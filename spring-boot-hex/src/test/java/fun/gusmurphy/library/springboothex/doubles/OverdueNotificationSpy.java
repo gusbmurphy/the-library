@@ -22,4 +22,8 @@ public class OverdueNotificationSpy implements SendsOverdueNotifications {
     public void send(OverdueNotification notification) {
         notificationList.add(notification);
     }
+
+    public int notificationCount() {
+        return notificationList.size();
+    }
 }

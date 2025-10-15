@@ -23,8 +23,9 @@ public class OverdueNotificationService implements ChecksForOverdueBooks {
 
     @Override
     public void checkForOverdueBooks() {
-        var record = recordRepository.findRecordsDueBefore(clock.currentTime()).stream().findFirst();
-        if (record.isPresent()) {
+        var overdueRecords = recordRepository.findRecordsDueBefore(clock.currentTime());
+
+        for (var record : overdueRecords) {
             notificationSender.send(new OverdueNotification());
         }
     }
