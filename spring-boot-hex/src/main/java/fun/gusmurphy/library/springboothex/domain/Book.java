@@ -27,6 +27,10 @@ public class Book {
     }
 
     public Optional<ZonedDateTime> dueBackBy() {
+        if (checkedOutAt == null) {
+            return Optional.empty();
+        }
+
         return Optional.of(checkedOutAt.plusDays(checkoutTimeInDays));
     }
 }

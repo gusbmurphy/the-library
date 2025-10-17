@@ -18,4 +18,9 @@ public class BookTest {
         book.checkout(userId, testTime);
         assertEquals(testTime.plusDays(checkOutTimeInDays), book.dueBackBy().get());
     }
+
+    @Test
+    void aNonCheckedOutBookHasNoDueBackByDate() {
+        assertTrue(book.dueBackBy().isEmpty());
+    }
 }
