@@ -1,9 +1,9 @@
 package fun.gusmurphy.library.springboothex.application;
 
+import fun.gusmurphy.library.springboothex.adapter.persistence.ListBookRepository;
 import fun.gusmurphy.library.springboothex.domain.Book;
 import fun.gusmurphy.library.springboothex.domain.BookBuilder;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
-import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
 import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import fun.gusmurphy.library.springboothex.port.driving.ReceivesBooks;
 import java.util.Optional;
@@ -14,7 +14,7 @@ public class BookServiceTest {
 
     @Test
     void aReceivedBookIsPersistedToTheRepository() {
-        BookRepository repository = new BookRepositoryDouble();
+        BookRepository repository = new ListBookRepository();
         ReceivesBooks service = new BookService(repository);
         Book newBook =
                 new BookBuilder().withIsbnString("test-isbn").withCheckoutTimeInDaysInt(30).build();

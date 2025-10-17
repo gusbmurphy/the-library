@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ListCheckoutRecordRepository implements CheckoutRecordRepository {
 
-    private final List<CheckoutRecord> recordList = new ArrayList<>();
+    protected final List<CheckoutRecord> recordList = new ArrayList<>();
 
     @Override
     public Optional<CheckoutRecord> findRecordForIsbn(Isbn isbn) {
