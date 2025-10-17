@@ -19,8 +19,12 @@ public class LibraryApplicationSpringBootConfiguration {
     }
 
     @Bean
-    public CheckoutService checkoutService(CheckoutRecordRepository recordRepository, BookRepository bookRepository) {
-        return new CheckoutService(recordRepository, bookRepository);
+    public CheckoutService checkoutService(
+            CheckoutRecordRepository recordRepository,
+            BookRepository bookRepository,
+            TellsTime clock
+    ) {
+        return new CheckoutService(recordRepository, bookRepository, clock);
     }
 
     @Bean

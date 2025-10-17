@@ -2,24 +2,31 @@ package fun.gusmurphy.library.springboothex.domain;
 
 import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.CheckoutRepositoryDouble;
+import fun.gusmurphy.library.springboothex.doubles.TestClock;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.time.ZonedDateTime;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckoutServiceTest {
 
     private static final CheckoutRepositoryDouble recordRepository = new CheckoutRepositoryDouble();
     private static final BookRepositoryDouble bookRepository = new BookRepositoryDouble();
-    private static final ChecksOutBooks service = new CheckoutService(recordRepository, bookRepository);
+    private static final TestClock clock = new TestClock();
+    private static final ZonedDateTime testTime = ZonedDateTime.now();
+    private static final ChecksOutBooks service = new CheckoutService(recordRepository, bookRepository, clock);
 
     private static final Isbn isbn = Isbn.fromString("my-isbn");
     private static final Book book = new Book(isbn, 30);
 
     @BeforeAll
-    static void saveBook() {
+    static void setup() {
         bookRepository.saveBook(book);
+        clock.setCurrentTime(testTime);
     }
 
     @AfterEach
@@ -31,7 +38,19 @@ public class CheckoutServiceTest {
     void aUserCanSuccessfullyCheckoutABook() {
         var userId = UserId.random();
         var result = service.requestCheckout(isbn, userId);
-        Assertions.assertEquals(CheckoutResult.SUCCESS, result);
+        assertEquals(CheckoutResult.SUCCESS, result);
+    }
+
+    @Test
+    void theSavedCheckoutRecordHasTheCorrectAttributes() {
+        var userId = UserId.random();
+        service.requestCheckout(isbn, userId);
+
+        var record = recordRepository.findRecordForIsbn(isbn).get();
+        var expectedDueDate = testTime.plusDays(book.checkoutTimeInDays());
+        assertEquals(expectedDueDate, record.dueBackDate());
+        assertEquals(userId, record.userId());
+        assertEquals(isbn, record.isbn());
     }
 
     @Test
@@ -39,7 +58,7 @@ public class CheckoutServiceTest {
         var userId = UserId.random();
         var someUnknownIsbn = Isbn.fromString("?");
         var result = service.requestCheckout(someUnknownIsbn, userId);
-        Assertions.assertEquals(CheckoutResult.UNKNOWN_BOOK, result);
+        assertEquals(CheckoutResult.UNKNOWN_BOOK, result);
     }
 
     @Test
@@ -50,7 +69,7 @@ public class CheckoutServiceTest {
         service.requestCheckout(isbn, firstUserId);
         var secondResult = service.requestCheckout(isbn, secondUserId);
 
-        Assertions.assertEquals(CheckoutResult.BOOK_CURRENTLY_CHECKED_OUT, secondResult);
+        assertEquals(CheckoutResult.BOOK_CURRENTLY_CHECKED_OUT, secondResult);
     }
 
 }
