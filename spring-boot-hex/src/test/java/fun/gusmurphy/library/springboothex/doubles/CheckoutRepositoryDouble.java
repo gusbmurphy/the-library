@@ -7,5 +7,4 @@ public class CheckoutRepositoryDouble extends ListCheckoutRecordRepository {
     public void clear() {
         recordList.clear();
     }
-
 }
