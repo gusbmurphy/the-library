@@ -28,9 +28,9 @@ public class CheckoutRepositoryDouble implements CheckoutRecordRepository {
     }
 
     @Override
-    public List<CheckoutRecord> findRecordsDueBefore(ZonedDateTime time) {
+    public List<CheckoutRecord> findRecordsDueAtOrBefore(ZonedDateTime time) {
         return recordList.stream()
-                .filter(record -> record.dueBackDate().isBefore(time))
+                .filter(record -> record.dueBackDate().isBefore(time) || record.dueBackDate().isEqual(time))
                 .toList();
     }
 }

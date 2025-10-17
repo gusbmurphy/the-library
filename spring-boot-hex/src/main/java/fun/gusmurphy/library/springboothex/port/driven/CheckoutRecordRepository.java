@@ -11,6 +11,6 @@ public interface CheckoutRecordRepository {
 
     Optional<CheckoutRecord> findRecordForIsbn(Isbn isbn);
     void saveRecord(CheckoutRecord record);
-    List<CheckoutRecord> findRecordsDueBefore(ZonedDateTime time);
+    List<CheckoutRecord> findRecordsDueAtOrBefore(ZonedDateTime time);
 
 }
