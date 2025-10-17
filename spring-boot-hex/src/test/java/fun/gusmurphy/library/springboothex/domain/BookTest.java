@@ -1,24 +1,21 @@
 package fun.gusmurphy.library.springboothex.domain;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.ZonedDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class BookTest {
 
+    private final Isbn isbn = Isbn.fromString("123");
+    private final int checkOutTimeInDays = 30;
+    private final Book book = new Book(isbn, checkOutTimeInDays);
+    private final ZonedDateTime testTime = ZonedDateTime.now();
+
     @Test
     void checkingOutABook() {
-        var isbn = Isbn.fromString("123");
-        var checkOutTimeInDays = 30;
-        var book = new Book(isbn, checkOutTimeInDays);
-
-        var checkoutTime = ZonedDateTime.now();
         var userId = UserId.random();
-
-        book.checkout(userId, checkoutTime);
-        assertEquals(checkoutTime.plusDays(checkOutTimeInDays), book.dueBackBy().get());
+        book.checkout(userId, testTime);
+        assertEquals(testTime.plusDays(checkOutTimeInDays), book.dueBackBy().get());
     }
-
 }
