@@ -11,8 +11,15 @@ import java.time.ZonedDateTime;
 @RestController
 public class TimeTravelHttpAdapter {
 
+    private final FixedClock clock;
+
+    public TimeTravelHttpAdapter(FixedClock clock) {
+        this.clock = clock;
+    }
+
     @PutMapping("/set-clock")
     void setClock(@RequestParam("time") ZonedDateTime newTime) {
+        clock.setCurrentTime(newTime);
     }
 
 }

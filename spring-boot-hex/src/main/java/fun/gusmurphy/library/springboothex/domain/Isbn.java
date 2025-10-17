@@ -15,6 +15,11 @@ public class Isbn {
     }
 
     @Override
+    public String toString() {
+        return isbnString;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Isbn isbn = (Isbn) o;

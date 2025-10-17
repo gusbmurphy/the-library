@@ -10,6 +10,11 @@ public class UserId {
         this.uuid = uuid;
     }
 
+    @Override
+    public String toString() {
+        return uuid.toString();
+    }
+
     public static UserId random() {
         return new UserId(UUID.randomUUID());
     }
