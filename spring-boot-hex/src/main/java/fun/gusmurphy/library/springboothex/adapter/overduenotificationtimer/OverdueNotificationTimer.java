@@ -17,5 +17,4 @@ public class OverdueNotificationTimer {
     public void triggerCheckForOverdueBooks() {
         overdueChecker.checkForOverdueBooks();
     }
-
 }

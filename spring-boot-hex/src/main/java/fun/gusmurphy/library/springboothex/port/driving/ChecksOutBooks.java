@@ -7,5 +7,4 @@ import fun.gusmurphy.library.springboothex.domain.UserId;
 public interface ChecksOutBooks {
 
     CheckoutResult requestCheckout(Isbn isbn, UserId userId);
-
 }

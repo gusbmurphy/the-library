@@ -1,11 +1,10 @@
 package fun.gusmurphy.library.springboothex.adapter.timehttp;
 
 import fun.gusmurphy.library.springboothex.port.driven.TellsTime;
-import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import org.springframework.stereotype.Component;
 
 @Component
 public class FixedClock implements TellsTime {

@@ -22,5 +22,4 @@ public class UserId {
     public static UserId fromString(String string) {
         return new UserId(UUID.fromString(string));
     }
-
 }

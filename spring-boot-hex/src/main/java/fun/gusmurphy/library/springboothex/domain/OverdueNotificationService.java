@@ -14,8 +14,7 @@ public class OverdueNotificationService implements ChecksForOverdueBooks {
     public OverdueNotificationService(
             CheckoutRecordRepository recordRepository,
             TellsTime clock,
-            SendsOverdueNotifications notificationSender
-    ) {
+            SendsOverdueNotifications notificationSender) {
         this.recordRepository = recordRepository;
         this.clock = clock;
         this.notificationSender = notificationSender;
@@ -26,7 +25,8 @@ public class OverdueNotificationService implements ChecksForOverdueBooks {
         var overdueRecords = recordRepository.findRecordsDueAtOrBefore(clock.currentTime());
 
         for (var record : overdueRecords) {
-            notificationSender.send(new OverdueNotification(record.isbn(), record.userId(), record.dueBackDate()));
+            notificationSender.send(
+                    new OverdueNotification(record.isbn(), record.userId(), record.dueBackDate()));
         }
     }
 }

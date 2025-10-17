@@ -5,8 +5,7 @@ public class BookBuilder {
     private String isbnString;
     private int checkoutTimeInDaysInt;
 
-    public BookBuilder() {
-    }
+    public BookBuilder() {}
 
     public Book build() {
         var isbn = Isbn.fromString(isbnString);
@@ -22,5 +21,4 @@ public class BookBuilder {
         this.checkoutTimeInDaysInt = checkoutTimeInDays;
         return this;
     }
-
 }

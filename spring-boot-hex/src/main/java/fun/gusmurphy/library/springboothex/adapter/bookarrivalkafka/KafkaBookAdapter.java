@@ -26,5 +26,4 @@ public class KafkaBookAdapter {
             throw new RuntimeException(e);
         }
     }
-
 }

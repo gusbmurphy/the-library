@@ -1,16 +1,15 @@
 package fun.gusmurphy.library.springboothex.domain;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.CheckoutRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.TestClock;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
+import java.time.ZonedDateTime;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.time.ZonedDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckoutServiceTest {
 
@@ -18,7 +17,8 @@ public class CheckoutServiceTest {
     private static final BookRepositoryDouble bookRepository = new BookRepositoryDouble();
     private static final TestClock clock = new TestClock();
     private static final ZonedDateTime testTime = ZonedDateTime.now();
-    private static final ChecksOutBooks service = new CheckoutService(recordRepository, bookRepository, clock);
+    private static final ChecksOutBooks service =
+            new CheckoutService(recordRepository, bookRepository, clock);
 
     private static final Isbn isbn = Isbn.fromString("my-isbn");
     private static final Book book = new Book(isbn, 30);
@@ -71,5 +71,4 @@ public class CheckoutServiceTest {
 
         assertEquals(CheckoutResult.BOOK_CURRENTLY_CHECKED_OUT, secondResult);
     }
-
 }

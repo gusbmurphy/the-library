@@ -1,20 +1,18 @@
 package fun.gusmurphy.library.springboothex.domain;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import fun.gusmurphy.library.springboothex.doubles.CheckoutRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.OverdueNotificationSpy;
 import fun.gusmurphy.library.springboothex.doubles.TestClock;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksForOverdueBooks;
+import java.time.ZonedDateTime;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import java.time.ZonedDateTime;
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class OverdueNotificationServiceTest {
 
@@ -23,9 +21,8 @@ public class OverdueNotificationServiceTest {
     private final OverdueNotificationSpy notificationSpy = new OverdueNotificationSpy();
     private static final ZonedDateTime TEST_TIME = ZonedDateTime.now();
 
-    private final ChecksForOverdueBooks service = new OverdueNotificationService(
-            checkoutRepository, testClock, notificationSpy
-    );
+    private final ChecksForOverdueBooks service =
+            new OverdueNotificationService(checkoutRepository, testClock, notificationSpy);
 
     @AfterEach
     void clearCheckoutRepository() {
@@ -56,10 +53,7 @@ public class OverdueNotificationServiceTest {
     }
 
     private static Stream<Arguments> dueBackDatesThatShouldBeOverdueByTestTime() {
-        return Stream.of(
-                Arguments.of(TEST_TIME),
-                Arguments.of(TEST_TIME.minusDays(1))
-        );
+        return Stream.of(Arguments.of(TEST_TIME), Arguments.of(TEST_TIME.minusDays(1)));
     }
 
     @Test
@@ -76,5 +70,4 @@ public class OverdueNotificationServiceTest {
 
         assertEquals(2, notificationSpy.notificationCount());
     }
-
 }

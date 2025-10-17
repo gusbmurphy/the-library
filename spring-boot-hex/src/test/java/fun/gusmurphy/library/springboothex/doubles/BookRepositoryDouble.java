@@ -1,9 +1,8 @@
 package fun.gusmurphy.library.springboothex.doubles;
 
-import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import fun.gusmurphy.library.springboothex.domain.Book;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
-
+import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -22,5 +21,4 @@ public class BookRepositoryDouble implements BookRepository {
     public Optional<Book> findByIsbn(Isbn isbn) {
         return bookList.stream().filter(book -> Objects.equals(book.isbn(), isbn)).findFirst();
     }
-
 }

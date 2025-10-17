@@ -21,11 +21,11 @@ public class KafkaOverdueNotificationAdapter implements SendsOverdueNotification
 
     @Override
     public void send(OverdueNotification notification) {
-        var json = new OverdueNotificationJson(
-                notification.isbn().toString(),
-                notification.userId().toString(),
-                notification.lateAsOf().toString()
-        );
+        var json =
+                new OverdueNotificationJson(
+                        notification.isbn().toString(),
+                        notification.userId().toString(),
+                        notification.lateAsOf().toString());
 
         try {
             var jsonString = objectMapper.writeValueAsString(json);

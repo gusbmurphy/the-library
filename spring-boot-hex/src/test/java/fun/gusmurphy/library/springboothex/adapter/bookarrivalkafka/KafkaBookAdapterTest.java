@@ -13,7 +13,8 @@ class KafkaBookAdapterTest {
         DeserializesBookMessages deserializer = new ObjectMapperBookMessageDeserializer();
         BookReceiverSpy bookReceiver = new BookReceiverSpy();
         var adapter = new KafkaBookAdapter(bookReceiver, deserializer);
-        var messageString = """
+        var messageString =
+                """
             {
                 "isbn": "some-isbn",
                 "checkoutTimeInDays": 30
@@ -25,5 +26,4 @@ class KafkaBookAdapterTest {
         Assertions.assertEquals(Isbn.fromString("some-isbn"), receivedBook.isbn());
         Assertions.assertEquals(30, receivedBook.checkoutTimeInDays());
     }
-
 }

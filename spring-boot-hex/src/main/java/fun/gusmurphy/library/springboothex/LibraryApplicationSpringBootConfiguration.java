@@ -1,9 +1,9 @@
 package fun.gusmurphy.library.springboothex;
 
+import fun.gusmurphy.library.springboothex.application.BookService;
 import fun.gusmurphy.library.springboothex.domain.CheckoutService;
 import fun.gusmurphy.library.springboothex.domain.OverdueNotificationService;
 import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
-import fun.gusmurphy.library.springboothex.application.BookService;
 import fun.gusmurphy.library.springboothex.port.driven.CheckoutRecordRepository;
 import fun.gusmurphy.library.springboothex.port.driven.SendsOverdueNotifications;
 import fun.gusmurphy.library.springboothex.port.driven.TellsTime;
@@ -22,8 +22,7 @@ public class LibraryApplicationSpringBootConfiguration {
     public CheckoutService checkoutService(
             CheckoutRecordRepository recordRepository,
             BookRepository bookRepository,
-            TellsTime clock
-    ) {
+            TellsTime clock) {
         return new CheckoutService(recordRepository, bookRepository, clock);
     }
 
@@ -31,9 +30,7 @@ public class LibraryApplicationSpringBootConfiguration {
     public OverdueNotificationService overdueNotificationService(
             CheckoutRecordRepository checkoutRecordRepository,
             TellsTime clock,
-            SendsOverdueNotifications notificationSender
-    ) {
+            SendsOverdueNotifications notificationSender) {
         return new OverdueNotificationService(checkoutRecordRepository, clock, notificationSender);
     }
-
 }

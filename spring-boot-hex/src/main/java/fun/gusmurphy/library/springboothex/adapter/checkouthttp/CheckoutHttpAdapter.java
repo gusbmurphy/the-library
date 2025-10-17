@@ -1,8 +1,8 @@
 package fun.gusmurphy.library.springboothex.adapter.checkouthttp;
 
+import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.domain.UserId;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
-import fun.gusmurphy.library.springboothex.domain.Isbn;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,10 +24,11 @@ public class CheckoutHttpAdapter {
         var requestingUserId = UserId.fromString(request.userId);
 
         var result = bookCheckerOuter.requestCheckout(requestedIsbn, requestingUserId);
-        
+
         return switch (result) {
             case SUCCESS -> new ResponseEntity<>(HttpStatus.OK);
-            case BOOK_CURRENTLY_CHECKED_OUT -> new ResponseEntity<>("Book is currently checked out.", HttpStatus.valueOf(409));
+            case BOOK_CURRENTLY_CHECKED_OUT ->
+                    new ResponseEntity<>("Book is currently checked out.", HttpStatus.valueOf(409));
             case UNKNOWN_BOOK -> new ResponseEntity<>("Unknown book.", HttpStatus.NOT_FOUND);
         };
     }

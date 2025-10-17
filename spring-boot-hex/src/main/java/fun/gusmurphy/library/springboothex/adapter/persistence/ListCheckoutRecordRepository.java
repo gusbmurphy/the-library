@@ -3,12 +3,11 @@ package fun.gusmurphy.library.springboothex.adapter.persistence;
 import fun.gusmurphy.library.springboothex.domain.CheckoutRecord;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.port.driven.CheckoutRecordRepository;
-import org.springframework.stereotype.Repository;
-
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class ListCheckoutRecordRepository implements CheckoutRecordRepository {
@@ -28,7 +27,10 @@ public class ListCheckoutRecordRepository implements CheckoutRecordRepository {
     @Override
     public List<CheckoutRecord> findRecordsDueAtOrBefore(ZonedDateTime time) {
         return recordList.stream()
-                .filter(record -> record.dueBackDate().isBefore(time) || record.dueBackDate().isEqual(time))
+                .filter(
+                        record ->
+                                record.dueBackDate().isBefore(time)
+                                        || record.dueBackDate().isEqual(time))
                 .toList();
     }
 }

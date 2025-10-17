@@ -1,8 +1,8 @@
 package fun.gusmurphy.library.springboothex.domain;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 class IsbnTest {
 
@@ -13,5 +13,4 @@ class IsbnTest {
         var b = Isbn.fromString(string);
         assertEquals(a, b);
     }
-
 }

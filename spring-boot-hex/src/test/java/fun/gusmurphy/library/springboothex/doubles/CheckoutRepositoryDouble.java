@@ -3,7 +3,6 @@ package fun.gusmurphy.library.springboothex.doubles;
 import fun.gusmurphy.library.springboothex.domain.CheckoutRecord;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.port.driven.CheckoutRecordRepository;
-
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,10 @@ public class CheckoutRepositoryDouble implements CheckoutRecordRepository {
     @Override
     public List<CheckoutRecord> findRecordsDueAtOrBefore(ZonedDateTime time) {
         return recordList.stream()
-                .filter(record -> record.dueBackDate().isBefore(time) || record.dueBackDate().isEqual(time))
+                .filter(
+                        record ->
+                                record.dueBackDate().isBefore(time)
+                                        || record.dueBackDate().isEqual(time))
                 .toList();
     }
 }

@@ -1,10 +1,10 @@
 package fun.gusmurphy.library.springboothex.adapter.persistence;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import fun.gusmurphy.library.springboothex.domain.BookBuilder;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ListBookRepositoryTest {
 
@@ -19,5 +19,4 @@ class ListBookRepositoryTest {
 
         assertTrue(retrievedBook.isPresent());
     }
-
 }

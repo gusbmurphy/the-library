@@ -1,10 +1,9 @@
 package fun.gusmurphy.library.springboothex.adapter.timehttp;
 
+import java.time.ZonedDateTime;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.ZonedDateTime;
 
 // In a "real" application, we would probably limit the environments that this
 // adapter is present in, we would not want this in production.
@@ -21,5 +20,4 @@ public class TimeTravelHttpAdapter {
     void setClock(@RequestParam("time") ZonedDateTime newTime) {
         clock.setCurrentTime(newTime);
     }
-
 }
