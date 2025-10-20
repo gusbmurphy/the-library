@@ -3,6 +3,7 @@ package fun.gusmurphy.library.springboothex.adapter.persistence;
 import fun.gusmurphy.library.springboothex.domain.Book;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
+import java.time.ZonedDateTime;
 import java.util.*;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +23,18 @@ public class SetBookRepository implements BookRepository {
     }
 
     @Override
-    public Collection<Book> findAll() {
-        return bookSet.stream().toList();
+    public Collection<Book> findAllDueAtOrBefore(ZonedDateTime time) {
+        return bookSet.stream()
+                .filter(
+                        book -> {
+                            var optionalDueBackDate = book.dueBackBy();
+                            if (optionalDueBackDate.isEmpty()) {
+                                return false;
+                            }
+
+                            var dueBackDate = optionalDueBackDate.get();
+                            return dueBackDate.isEqual(time) || dueBackDate.isBefore(time);
+                        })
+                .toList();
     }
 }

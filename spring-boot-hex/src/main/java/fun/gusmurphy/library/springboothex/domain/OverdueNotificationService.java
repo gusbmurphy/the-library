@@ -22,10 +22,11 @@ public class OverdueNotificationService implements ChecksForOverdueBooks {
 
     @Override
     public void checkForOverdueBooks() {
-        var books = bookRepository.findAll();
+        var currentTime = clock.currentTime();
+        var books = bookRepository.findAllDueAtOrBefore(currentTime);
 
         for (var book : books) {
-            book.sendOverdueNotification(notificationSender, clock.currentTime());
+            book.sendOverdueNotification(notificationSender, currentTime);
         }
     }
 }
