@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ListBookRepository implements BookRepository {
 
-    private final List<Book> bookList = new ArrayList<>();
+    protected final List<Book> bookList = new ArrayList<>();
 
     @Override
     public void saveBook(Book book) {
