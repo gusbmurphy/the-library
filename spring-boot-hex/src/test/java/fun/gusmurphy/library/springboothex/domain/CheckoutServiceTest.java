@@ -15,8 +15,7 @@ public class CheckoutServiceTest {
     private final TestClock clock = new TestClock();
     private final ZonedDateTime testTime = ZonedDateTime.now();
     private final int checkoutTimeInDays = 30;
-    private final ChecksOutBooks service =
-            new CheckoutService(bookRepository, clock);
+    private final ChecksOutBooks service = new CheckoutService(bookRepository, clock);
 
     private final Isbn isbn = Isbn.fromString("my-isbn");
 

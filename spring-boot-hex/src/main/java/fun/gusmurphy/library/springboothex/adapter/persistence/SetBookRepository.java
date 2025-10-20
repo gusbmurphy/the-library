@@ -3,9 +3,7 @@ package fun.gusmurphy.library.springboothex.adapter.persistence;
 import fun.gusmurphy.library.springboothex.domain.Book;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
-
 import java.util.*;
-
 import org.springframework.stereotype.Repository;
 
 @Repository

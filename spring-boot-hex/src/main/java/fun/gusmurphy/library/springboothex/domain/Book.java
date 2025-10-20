@@ -1,7 +1,6 @@
 package fun.gusmurphy.library.springboothex.domain;
 
 import fun.gusmurphy.library.springboothex.port.driven.SendsOverdueNotifications;
-
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
@@ -46,7 +45,8 @@ public class Book {
         return checkedOutBy;
     }
 
-    public void sendOverdueNotification(SendsOverdueNotifications notificationSender, ZonedDateTime asOf) {
+    public void sendOverdueNotification(
+            SendsOverdueNotifications notificationSender, ZonedDateTime asOf) {
         if (checkedOutAt == null) {
             return;
         }

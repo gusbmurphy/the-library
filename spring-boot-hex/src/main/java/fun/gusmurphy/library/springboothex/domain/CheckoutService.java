@@ -9,9 +9,7 @@ public class CheckoutService implements ChecksOutBooks {
     private final BookRepository bookRepository;
     private final TellsTime clock;
 
-    public CheckoutService(
-            BookRepository bookRepository,
-            TellsTime clock) {
+    public CheckoutService(BookRepository bookRepository, TellsTime clock) {
         this.bookRepository = bookRepository;
         this.clock = clock;
     }
