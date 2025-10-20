@@ -37,6 +37,14 @@ public class Book {
         return Optional.of(checkedOutAt.plusDays(checkoutTimeInDays));
     }
 
+    public boolean isLateAsOf(ZonedDateTime time) {
+        if (checkedOutAt == null) {
+            return false;
+        }
+
+        return dueBackBy().get().isEqual(time) || dueBackBy().get().isBefore(time);
+    }
+
     public boolean isCheckedOut() {
         return checkedOutAt != null;
     }

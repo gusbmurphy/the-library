@@ -24,17 +24,6 @@ public class SetBookRepository implements BookRepository {
 
     @Override
     public Collection<Book> findAllDueAtOrBefore(ZonedDateTime time) {
-        return bookSet.stream()
-                .filter(
-                        book -> {
-                            var optionalDueBackDate = book.dueBackBy();
-                            if (optionalDueBackDate.isEmpty()) {
-                                return false;
-                            }
-
-                            var dueBackDate = optionalDueBackDate.get();
-                            return dueBackDate.isEqual(time) || dueBackDate.isBefore(time);
-                        })
-                .toList();
+        return bookSet.stream().filter(book -> book.isLateAsOf(time)).toList();
     }
 }
