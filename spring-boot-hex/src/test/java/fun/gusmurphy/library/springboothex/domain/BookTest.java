@@ -17,6 +17,7 @@ public class BookTest {
         var userId = UserId.random();
         book.checkout(userId, testTime);
         assertEquals(testTime.plusDays(checkOutTimeInDays), book.dueBackBy().get());
+        assertTrue(book.isCheckedOut());
     }
 
     @Test

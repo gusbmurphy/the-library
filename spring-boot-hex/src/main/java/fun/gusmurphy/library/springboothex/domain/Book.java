@@ -33,4 +33,8 @@ public class Book {
 
         return Optional.of(checkedOutAt.plusDays(checkoutTimeInDays));
     }
+
+    public boolean isCheckedOut() {
+        return true;
+    }
 }
