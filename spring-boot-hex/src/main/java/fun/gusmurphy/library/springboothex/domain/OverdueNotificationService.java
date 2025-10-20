@@ -25,7 +25,7 @@ public class OverdueNotificationService implements ChecksForOverdueBooks {
         var books = bookRepository.findAll();
 
         for (var book : books) {
-            book.sendOverdueNotification(notificationSender);
+            book.sendOverdueNotification(notificationSender, clock.currentTime());
         }
     }
 }

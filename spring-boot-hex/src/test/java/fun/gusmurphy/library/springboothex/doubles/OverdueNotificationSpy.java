@@ -9,8 +9,12 @@ public class OverdueNotificationSpy implements SendsOverdueNotifications {
 
     private final List<OverdueNotification> notificationList = new ArrayList<>();
 
+    public void reset() {
+        notificationList.clear();
+    }
+
     public boolean noNotificationsSent() {
-        return true;
+        return notificationList.isEmpty();
     }
 
     public OverdueNotification latestNotification() {

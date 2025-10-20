@@ -34,10 +34,16 @@ public class OverdueNotificationServiceTest {
         var book = new Book(ISBN, BOOK_CHECKOUT_TIME_IN_DAYS);
         bookRepository.saveBook(book);
         testClock.setCurrentTime(TEST_TIME);
+        notificationSpy.reset();
     }
 
     @Test
     void noNotificationsAreSentIfNothingIsOverdue() {
+        // Checking out a book at test time (meaning it won't be overdue for a while)...
+        var book = bookRepository.findByIsbn(ISBN).get();
+        book.checkout(UserId.random(), TEST_TIME);
+        bookRepository.saveBook(book);
+
         service.checkForOverdueBooks();
         assertTrue(notificationSpy.noNotificationsSent());
     }
@@ -64,7 +70,7 @@ public class OverdueNotificationServiceTest {
     private static Stream<Arguments> checkoutTimesThatShouldBeOverdueByTestTime() {
         return Stream.of(
                 Arguments.of(TEST_TIME.minusDays(BOOK_CHECKOUT_TIME_IN_DAYS)),
-                Arguments.of(TEST_TIME.minusDays(BOOK_CHECKOUT_TIME_IN_DAYS - 1)));
+                Arguments.of(TEST_TIME.minusDays(BOOK_CHECKOUT_TIME_IN_DAYS + 1)));
     }
 
     @Test

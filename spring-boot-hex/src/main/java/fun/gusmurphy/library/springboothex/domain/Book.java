@@ -46,12 +46,15 @@ public class Book {
         return checkedOutBy;
     }
 
-    public void sendOverdueNotification(SendsOverdueNotifications notificationSender) {
+    public void sendOverdueNotification(SendsOverdueNotifications notificationSender, ZonedDateTime asOf) {
         if (checkedOutAt == null) {
             return;
         }
 
-        var notification = new OverdueNotification(this.isbn, this.checkedOutBy, checkedOutAt.plusDays(checkoutTimeInDays));
-        notificationSender.send(notification);
+        var dueDate = checkedOutAt.plusDays(checkoutTimeInDays);
+        if (asOf.isEqual(dueDate) || asOf.isAfter(dueDate)) {
+            var notification = new OverdueNotification(this.isbn, this.checkedOutBy, dueDate);
+            notificationSender.send(notification);
+        }
     }
 }
