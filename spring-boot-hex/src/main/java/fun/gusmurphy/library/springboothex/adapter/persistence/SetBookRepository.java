@@ -11,15 +11,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SetBookRepository implements BookRepository {
 
-    protected final Set<Book> bookList = new HashSet<>();
+    protected final Set<Book> bookSet = new HashSet<>();
 
     @Override
     public void saveBook(Book book) {
-        bookList.add(book);
+        bookSet.add(book);
     }
 
     @Override
     public Optional<Book> findByIsbn(Isbn isbn) {
-        return bookList.stream().filter(book -> Objects.equals(book.isbn(), isbn)).findFirst();
+        return bookSet.stream().filter(book -> Objects.equals(book.isbn(), isbn)).findFirst();
+    }
+
+    @Override
+    public Collection<Book> findAll() {
+        return bookSet.stream().toList();
     }
 }
