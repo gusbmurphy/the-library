@@ -2,37 +2,31 @@ package fun.gusmurphy.library.springboothex.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import fun.gusmurphy.library.springboothex.adapter.persistence.ListBookRepository;
+import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.CheckoutRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.TestClock;
-import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
 import java.time.ZonedDateTime;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CheckoutServiceTest {
 
-    private static final CheckoutRepositoryDouble recordRepository = new CheckoutRepositoryDouble();
-    private static final BookRepository bookRepository = new ListBookRepository();
-    private static final TestClock clock = new TestClock();
-    private static final ZonedDateTime testTime = ZonedDateTime.now();
-    private static final ChecksOutBooks service =
-            new CheckoutService(recordRepository, bookRepository, clock);
+    private final BookRepositoryDouble bookRepository = new BookRepositoryDouble();
+    private final TestClock clock = new TestClock();
+    private final ZonedDateTime testTime = ZonedDateTime.now();
+    private final int checkoutTimeInDays = 30;
+    private final ChecksOutBooks service =
+            new CheckoutService(bookRepository, clock);
 
-    private static final Isbn isbn = Isbn.fromString("my-isbn");
-    private static final Book book = new Book(isbn, 30);
+    private final Isbn isbn = Isbn.fromString("my-isbn");
 
-    @BeforeAll
-    static void setup() {
+    @BeforeEach
+    void setup() {
+        bookRepository.clear();
+        var book = new Book(isbn, checkoutTimeInDays);
         bookRepository.saveBook(book);
         clock.setCurrentTime(testTime);
-    }
-
-    @AfterEach
-    void cleanUpRecords() {
-        recordRepository.clear();
     }
 
     @Test
@@ -47,11 +41,10 @@ public class CheckoutServiceTest {
         var userId = UserId.random();
         service.requestCheckout(isbn, userId);
 
-        var record = recordRepository.findRecordForIsbn(isbn).get();
-        var expectedDueDate = testTime.plusDays(book.checkoutTimeInDays());
-        assertEquals(expectedDueDate, record.dueBackDate());
-        assertEquals(userId, record.userId());
-        assertEquals(isbn, record.isbn());
+        var bookAfterCheckout = bookRepository.findByIsbn(isbn).get();
+        var expectedDueDate = testTime.plusDays(checkoutTimeInDays);
+        assertEquals(expectedDueDate, bookAfterCheckout.dueBackBy().get());
+        assertEquals(userId, bookAfterCheckout.checkedOutBy());
     }
 
     @Test

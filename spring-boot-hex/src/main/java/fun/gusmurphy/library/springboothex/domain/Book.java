@@ -8,6 +8,7 @@ public class Book {
     private final Isbn isbn;
     private final int checkoutTimeInDays;
     private ZonedDateTime checkedOutAt;
+    private UserId checkedOutBy;
 
     public Book(Isbn isbn, int checkoutTimeInDays) {
         this.isbn = isbn;
@@ -24,6 +25,7 @@ public class Book {
 
     public void checkout(UserId userId, ZonedDateTime checkoutTime) {
         this.checkedOutAt = checkoutTime;
+        this.checkedOutBy = userId;
     }
 
     public Optional<ZonedDateTime> dueBackBy() {
@@ -36,5 +38,9 @@ public class Book {
 
     public boolean isCheckedOut() {
         return checkedOutAt != null;
+    }
+
+    public UserId checkedOutBy() {
+        return checkedOutBy;
     }
 }
