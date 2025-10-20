@@ -2,13 +2,15 @@ package fun.gusmurphy.library.springboothex.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import fun.gusmurphy.library.springboothex.doubles.CheckoutRepositoryDouble;
+import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.OverdueNotificationSpy;
 import fun.gusmurphy.library.springboothex.doubles.TestClock;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksForOverdueBooks;
+
 import java.time.ZonedDateTime;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.AfterEach;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,17 +18,22 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class OverdueNotificationServiceTest {
 
-    private final CheckoutRepositoryDouble checkoutRepository = new CheckoutRepositoryDouble();
     private final TestClock testClock = new TestClock();
+    private final BookRepositoryDouble bookRepository = new BookRepositoryDouble();
     private final OverdueNotificationSpy notificationSpy = new OverdueNotificationSpy();
+    private static final Isbn ISBN = Isbn.fromString("my-isbn");
+    private static final int BOOK_CHECKOUT_TIME_IN_DAYS = 7;
     private static final ZonedDateTime TEST_TIME = ZonedDateTime.now();
 
     private final ChecksForOverdueBooks service =
-            new OverdueNotificationService(checkoutRepository, testClock, notificationSpy);
+            new OverdueNotificationService(bookRepository, testClock, notificationSpy);
 
-    @AfterEach
-    void clearCheckoutRepository() {
-        checkoutRepository.clear();
+    @BeforeEach
+    void setup() {
+        bookRepository.clear();
+        var book = new Book(ISBN, BOOK_CHECKOUT_TIME_IN_DAYS);
+        bookRepository.saveBook(book);
+        testClock.setCurrentTime(TEST_TIME);
     }
 
     @Test
@@ -36,35 +43,44 @@ public class OverdueNotificationServiceTest {
     }
 
     @ParameterizedTest
-    @MethodSource("dueBackDatesThatShouldBeOverdueByTestTime")
-    void aNotificationIsSentForASingleOverdueBook(ZonedDateTime dueBackDate) {
-        testClock.setCurrentTime(TEST_TIME);
-        var isbn = Isbn.fromString("isbn");
+    @MethodSource("checkoutTimesThatShouldBeOverdueByTestTime")
+    void aNotificationIsSentForASingleOverdueBook(ZonedDateTime checkoutTime) {
+        var book = bookRepository.findByIsbn(ISBN).get();
         var userId = UserId.random();
-        var record = new CheckoutRecord(isbn, userId, dueBackDate);
-        checkoutRepository.saveRecord(record);
+        book.checkout(userId, checkoutTime);
+        bookRepository.saveBook(book);
 
         service.checkForOverdueBooks();
 
         var notification = notificationSpy.latestNotification();
-        assertEquals(isbn, notification.isbn());
+
+        assertEquals(ISBN, notification.isbn());
         assertEquals(userId, notification.userId());
-        assertEquals(dueBackDate, notification.lateAsOf());
+
+        var expectedLateTime = checkoutTime.plusDays(BOOK_CHECKOUT_TIME_IN_DAYS);
+        assertEquals(expectedLateTime, notification.lateAsOf());
     }
 
-    private static Stream<Arguments> dueBackDatesThatShouldBeOverdueByTestTime() {
-        return Stream.of(Arguments.of(TEST_TIME), Arguments.of(TEST_TIME.minusDays(1)));
+    private static Stream<Arguments> checkoutTimesThatShouldBeOverdueByTestTime() {
+        return Stream.of(
+                Arguments.of(TEST_TIME.minusDays(BOOK_CHECKOUT_TIME_IN_DAYS)),
+                Arguments.of(TEST_TIME.minusDays(BOOK_CHECKOUT_TIME_IN_DAYS - 1)));
     }
 
     @Test
     void notificationsAreSentForMultipleOverdueBooks() {
-        testClock.setCurrentTime(TEST_TIME);
+        var bookA = new Book(Isbn.fromString("isbn-a"), BOOK_CHECKOUT_TIME_IN_DAYS);
+        var bookB = new Book(Isbn.fromString("isbn-b"), BOOK_CHECKOUT_TIME_IN_DAYS);
 
-        var dueBackDate = TEST_TIME.minusDays(1);
-        var recordA = new CheckoutRecord(Isbn.fromString("123"), UserId.random(), dueBackDate);
-        var recordB = new CheckoutRecord(Isbn.fromString("456"), UserId.random(), dueBackDate);
-        checkoutRepository.saveRecord(recordA);
-        checkoutRepository.saveRecord(recordB);
+        var userIdA = UserId.random();
+        var userIdB = UserId.random();
+
+        var checkoutTime = TEST_TIME.minusDays(BOOK_CHECKOUT_TIME_IN_DAYS);
+        bookA.checkout(userIdA, checkoutTime);
+        bookB.checkout(userIdB, checkoutTime);
+
+        bookRepository.saveBook(bookA);
+        bookRepository.saveBook(bookB);
 
         service.checkForOverdueBooks();
 

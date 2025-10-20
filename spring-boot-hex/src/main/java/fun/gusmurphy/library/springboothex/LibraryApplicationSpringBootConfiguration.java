@@ -27,9 +27,9 @@ public class LibraryApplicationSpringBootConfiguration {
 
     @Bean
     public OverdueNotificationService overdueNotificationService(
-            CheckoutRecordRepository checkoutRecordRepository,
+            BookRepository bookRepository,
             TellsTime clock,
             SendsOverdueNotifications notificationSender) {
-        return new OverdueNotificationService(checkoutRecordRepository, clock, notificationSender);
+        return new OverdueNotificationService(bookRepository, clock, notificationSender);
     }
 }
