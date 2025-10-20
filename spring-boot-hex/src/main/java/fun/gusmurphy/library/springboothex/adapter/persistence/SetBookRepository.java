@@ -3,16 +3,15 @@ package fun.gusmurphy.library.springboothex.adapter.persistence;
 import fun.gusmurphy.library.springboothex.domain.Book;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+
+import java.util.*;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ListBookRepository implements BookRepository {
+public class SetBookRepository implements BookRepository {
 
-    protected final List<Book> bookList = new ArrayList<>();
+    protected final Set<Book> bookList = new HashSet<>();
 
     @Override
     public void saveBook(Book book) {

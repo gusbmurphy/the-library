@@ -6,11 +6,11 @@ import fun.gusmurphy.library.springboothex.domain.BookBuilder;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
 import org.junit.jupiter.api.Test;
 
-class ListBookRepositoryTest {
+class SetBookRepositoryTest {
 
     @Test
     void booksAreRetrievableByIsbn() {
-        var repo = new ListBookRepository();
+        var repo = new SetBookRepository();
         var testIsbn = "test-isbn";
         var book = new BookBuilder().withIsbnString(testIsbn).withCheckoutTimeInDaysInt(2).build();
 

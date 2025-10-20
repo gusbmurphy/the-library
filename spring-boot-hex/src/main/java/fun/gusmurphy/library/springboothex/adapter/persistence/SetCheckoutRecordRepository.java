@@ -4,15 +4,14 @@ import fun.gusmurphy.library.springboothex.domain.CheckoutRecord;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.port.driven.CheckoutRecordRepository;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ListCheckoutRecordRepository implements CheckoutRecordRepository {
+public class SetCheckoutRecordRepository implements CheckoutRecordRepository {
 
-    protected final List<CheckoutRecord> recordList = new ArrayList<>();
+    protected final Set<CheckoutRecord> recordList = new HashSet<>();
 
     @Override
     public Optional<CheckoutRecord> findRecordForIsbn(Isbn isbn) {
