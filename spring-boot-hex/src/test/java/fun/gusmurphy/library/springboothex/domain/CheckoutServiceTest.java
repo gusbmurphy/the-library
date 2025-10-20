@@ -3,7 +3,6 @@ package fun.gusmurphy.library.springboothex.domain;
 import static org.junit.jupiter.api.Assertions.*;
 
 import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
-import fun.gusmurphy.library.springboothex.doubles.CheckoutRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.TestClock;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
 import java.time.ZonedDateTime;
