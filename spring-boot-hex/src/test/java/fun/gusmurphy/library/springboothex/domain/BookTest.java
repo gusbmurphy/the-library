@@ -23,5 +23,6 @@ public class BookTest {
     @Test
     void aNonCheckedOutBookHasNoDueBackByDate() {
         assertTrue(book.dueBackBy().isEmpty());
+        assertFalse(book.isCheckedOut());
     }
 }

@@ -35,6 +35,6 @@ public class Book {
     }
 
     public boolean isCheckedOut() {
-        return true;
+        return checkedOutAt != null;
     }
 }
