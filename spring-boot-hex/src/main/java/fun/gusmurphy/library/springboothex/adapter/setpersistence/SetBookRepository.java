@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.springboothex.adapter.persistence;
+package fun.gusmurphy.library.springboothex.adapter.setpersistence;
 
 import fun.gusmurphy.library.springboothex.domain.Book;
 import fun.gusmurphy.library.springboothex.domain.Isbn;

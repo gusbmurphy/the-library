@@ -1,6 +1,6 @@
 package fun.gusmurphy.library.springboothex.application;
 
-import fun.gusmurphy.library.springboothex.adapter.persistence.SetBookRepository;
+import fun.gusmurphy.library.springboothex.adapter.setpersistence.SetBookRepository;
 import fun.gusmurphy.library.springboothex.domain.Book;
 import fun.gusmurphy.library.springboothex.domain.BookBuilder;
 import fun.gusmurphy.library.springboothex.domain.Isbn;

@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.springboothex.adapter.persistence;
+package fun.gusmurphy.library.springboothex.adapter.setpersistence;
 
 import static org.junit.jupiter.api.Assertions.*;
 
