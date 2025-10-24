@@ -6,10 +6,10 @@ import fun.gusmurphy.library.springboothex.domain.OverdueNotificationService;
 import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import fun.gusmurphy.library.springboothex.port.driven.SendsOverdueNotifications;
 import fun.gusmurphy.library.springboothex.port.driven.TellsTime;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@SpringBootConfiguration
+@Configuration
 public class LibraryApplicationSpringBootConfiguration {
 
     @Bean
