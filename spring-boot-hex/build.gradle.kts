@@ -12,14 +12,14 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:3.5.5")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb:3.5.6")
     implementation("org.springframework.kafka:spring-kafka:3.3.9")
-    implementation(platform("org.mongodb:mongodb-driver-bom:5.6.1"))
-    implementation("org.mongodb:mongodb-driver-sync")
 
     testImplementation(libs.junit.jupiter)
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
     testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
-    testImplementation("org.testcontainers:testcontainers:1.18.3")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers:3.5.7")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.7")
     testImplementation("org.testcontainers:junit-jupiter:1.18.3")
     testImplementation("org.testcontainers:mongodb:1.18.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

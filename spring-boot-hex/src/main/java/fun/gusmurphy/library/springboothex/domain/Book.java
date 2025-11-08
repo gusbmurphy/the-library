@@ -11,6 +11,14 @@ public class Book {
     private ZonedDateTime checkedOutAt;
     private UserId checkedOutBy;
 
+    public Book(
+            Isbn isbn, int checkoutTimeInDays, ZonedDateTime checkedOutAt, UserId checkedOutBy) {
+        this.isbn = isbn;
+        this.checkoutTimeInDays = checkoutTimeInDays;
+        this.checkedOutAt = checkedOutAt;
+        this.checkedOutBy = checkedOutBy;
+    }
+
     public Book(Isbn isbn, int checkoutTimeInDays) {
         this.isbn = isbn;
         this.checkoutTimeInDays = checkoutTimeInDays;
@@ -22,6 +30,10 @@ public class Book {
 
     public int checkoutTimeInDays() {
         return checkoutTimeInDays;
+    }
+
+    public ZonedDateTime checkedOutAt() {
+        return checkedOutAt;
     }
 
     public void checkout(UserId userId, ZonedDateTime checkoutTime) {

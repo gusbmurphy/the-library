@@ -5,9 +5,7 @@ import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import java.time.ZonedDateTime;
 import java.util.*;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public class SetBookRepository implements BookRepository {
 
     protected final Set<Book> bookSet = new HashSet<>();
