@@ -5,7 +5,6 @@ import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import java.time.ZonedDateTime;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +30,6 @@ public class MongoBookRepository implements BookRepository {
 
     @Override
     public Collection<Book> findAllDueAtOrBefore(ZonedDateTime time) {
-        return List.of();
+        throw new UnsupportedOperationException();
     }
 }
