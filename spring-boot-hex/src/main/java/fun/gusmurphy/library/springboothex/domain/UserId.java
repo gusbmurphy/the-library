@@ -1,5 +1,6 @@
 package fun.gusmurphy.library.springboothex.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class UserId {
@@ -21,5 +22,17 @@ public class UserId {
 
     public static UserId fromString(String string) {
         return new UserId(UUID.fromString(string));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        UserId userId = (UserId) o;
+        return Objects.equals(uuid, userId.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(uuid);
     }
 }
