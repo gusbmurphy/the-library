@@ -12,7 +12,8 @@ public class FixedClock implements TellsTime {
     private ZonedDateTime currentTime;
 
     public FixedClock() {
-        this.currentTime = ZonedDateTime.of(LocalDateTime.of(1800, 5, 9, 9, 0), ZoneId.systemDefault());
+        this.currentTime =
+                ZonedDateTime.of(LocalDateTime.of(1800, 5, 9, 9, 0), ZoneId.systemDefault());
     }
 
     @Override

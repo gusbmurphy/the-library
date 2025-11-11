@@ -3,12 +3,10 @@ package fun.gusmurphy.library.springboothex.adapter.mongodb;
 import fun.gusmurphy.library.springboothex.domain.Book;
 import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
-
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
-
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -40,6 +38,8 @@ public class MongoBookRepository implements BookRepository {
         var query = new Query();
         var dateFromZdt = Date.from(time.toInstant());
         query.addCriteria(Criteria.where("dueBackAt").lte(dateFromZdt));
-        return template.find(query, BookDocument.class).stream().map(BookDocument::toDomain).toList();
+        return template.find(query, BookDocument.class).stream()
+                .map(BookDocument::toDomain)
+                .toList();
     }
 }

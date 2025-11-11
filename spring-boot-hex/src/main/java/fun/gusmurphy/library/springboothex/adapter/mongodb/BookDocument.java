@@ -19,7 +19,9 @@ record BookDocument(
                 book.isbn().toString(),
                 book.checkoutTimeInDays(),
                 book.checkedOutAt(),
-                book.checkedOutAt() != null ? book.checkedOutAt().plusDays(book.checkoutTimeInDays()) : null,
+                book.checkedOutAt() != null
+                        ? book.checkedOutAt().plusDays(book.checkoutTimeInDays())
+                        : null,
                 book.checkedOutBy() != null ? book.checkedOutBy().toString() : null);
     }
 
