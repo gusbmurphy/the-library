@@ -1,5 +1,7 @@
 package fun.gusmurphy.library.springboothex.adapter.mongodb;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;

@@ -6,14 +6,15 @@ import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Optional;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class MongoBookRepository implements BookRepository {
 
-    private final MongoBookRepositoryTemplate template;
+    private final MongoTemplate template;
 
-    public MongoBookRepository(MongoBookRepositoryTemplate template) {
+    public MongoBookRepository(MongoTemplate template) {
         this.template = template;
     }
 
@@ -25,7 +26,8 @@ public class MongoBookRepository implements BookRepository {
 
     @Override
     public Optional<Book> findByIsbn(Isbn isbn) {
-        return template.findById(isbn.toString()).map(BookDocument::toDomain);
+        return Optional.ofNullable(template.findById(isbn.toString(), BookDocument.class))
+                .map(BookDocument::toDomain);
     }
 
     @Override
