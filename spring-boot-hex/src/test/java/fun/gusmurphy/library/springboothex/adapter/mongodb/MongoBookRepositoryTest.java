@@ -60,6 +60,23 @@ public class MongoBookRepositoryTest {
         assertEquals(checkoutUserId, retrievedBook.checkedOutBy());
     }
 
+    @Test
+    void aBookOverdueAtTheGivenTimeIsReturnedFromTheQuery() {
+        var checkoutTime = ZonedDateTime.of(1991, 12, 14, 9, 0, 0, 0, ZoneOffset.UTC);
+        var checkoutTimeInDays = 14;
+        var isbn = Isbn.fromString("456");
+        var checkoutUserId = UserId.random();
+        var book = new Book(isbn, checkoutTimeInDays, checkoutTime, checkoutUserId);
+
+        repository.saveBook(book);
+
+        var currentTime = checkoutTime.plusDays(14);
+
+        var results = repository.findAllDueAtOrBefore(currentTime);
+        assertEquals(1, results.size());
+        assertEquals(isbn, results.stream().findFirst().get().isbn());
+    }
+
     private static ZonedDateTime utcTimeTruncatedToMillis(ZonedDateTime zdt) {
         return zdt.withZoneSameInstant(ZoneOffset.UTC).truncatedTo(ChronoUnit.MILLIS);
     }

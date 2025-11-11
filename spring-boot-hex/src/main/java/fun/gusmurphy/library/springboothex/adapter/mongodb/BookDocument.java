@@ -12,12 +12,14 @@ record BookDocument(
         @Id String isbn,
         int checkoutTimeInDays,
         ZonedDateTime checkedOutAt,
+        ZonedDateTime dueBackAt,
         String checkedOutByUserId) {
     static BookDocument from(Book book) {
         return new BookDocument(
                 book.isbn().toString(),
                 book.checkoutTimeInDays(),
                 book.checkedOutAt(),
+                book.checkedOutAt() != null ? book.checkedOutAt().plusDays(book.checkoutTimeInDays()) : null,
                 book.checkedOutBy() != null ? book.checkedOutBy().toString() : null);
     }
 
