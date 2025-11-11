@@ -58,8 +58,8 @@ tasks.register<Test>("testSpringBootHex") {
     testClassesDirs = files(test.map { it.sources.output.classesDirs })
     classpath = files(test.map { it.sources.runtimeClasspath })
 
-    var composeUp = tasks.getByPath("composeUp")
-    var composeDown = tasks.getByPath("composeDown")
+    var composeUp = tasks.getByPath("springBootHexComposeUp")
+    var composeDown = tasks.getByPath("springBootHexComposeDown")
 
     var startApplication = tasks.getByPath(":spring-boot-hex:start")
     startApplication.notCompatibleWithConfigurationCache("Uses a thread")
@@ -81,6 +81,9 @@ configure<ComposeExtension> {
 
     createNested("springBootAdm").apply {
         useComposeFiles = listOf("docker-compose.yml", "../spring-boot-adm/docker-compose.yml")
+    }
+    createNested("springBootHex").apply {
+        useComposeFiles = listOf("docker-compose.yml", "../spring-boot-hex/docker-compose.yml")
     }
 }
 
