@@ -22,6 +22,9 @@ tasks.named<Test>("test") {
     useJUnitPlatform()
     // Since we (effectively) don't own the system under test, this should always rerun the tests
     outputs.upToDateWhen { false }
+
+    testClassesDirs = files(test.map { it.sources.output.classesDirs })
+    classpath = files(test.map { it.sources.runtimeClasspath })
 }
 
 val test by testing.suites.existing(JvmTestSuite::class)
@@ -29,9 +32,6 @@ val test by testing.suites.existing(JvmTestSuite::class)
 tasks.register<Test>("testSpringBootAdm") {
     group = "verification"
     description = "Runs acceptance tests against the anemic domain model Spring Boot application."
-
-    testClassesDirs = files(test.map { it.sources.output.classesDirs })
-    classpath = files(test.map { it.sources.runtimeClasspath })
 
     var composeUp = tasks.getByPath("springBootAdmComposeUp")
     var composeDown = tasks.getByPath("springBootAdmComposeDown")
@@ -54,9 +54,6 @@ tasks.register<Test>("testSpringBootAdm") {
 tasks.register<Test>("testSpringBootHex") {
     group = "verification"
     description = "Runs acceptance tests against the Hexagonal Spring Boot application."
-
-    testClassesDirs = files(test.map { it.sources.output.classesDirs })
-    classpath = files(test.map { it.sources.runtimeClasspath })
 
     var composeUp = tasks.getByPath("springBootHexComposeUp")
     var composeDown = tasks.getByPath("springBootHexComposeDown")
