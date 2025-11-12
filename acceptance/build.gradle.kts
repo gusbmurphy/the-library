@@ -29,6 +29,7 @@ tasks.named<Test>("test") {
 
 val test by testing.suites.existing(JvmTestSuite::class)
 
+// TODO: It would be great if the other applications could just start from a Docker image...
 tasks.register<Test>("testSpringBootAdm") {
     group = "verification"
     description = "Runs acceptance tests against the anemic domain model Spring Boot application."
