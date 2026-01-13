@@ -3,7 +3,7 @@
 # Spring Boot Hex acceptance tests
 test-spring-boot-hex: clean-spring-boot-hex
 	@echo "Starting services for spring-boot-hex acceptance tests..."
-	docker-compose -f acceptance/docker-compose.yml -f spring-boot-hex/docker-compose.yml -p acceptance up -d --build
+	docker-compose --project-directory . -f acceptance/docker-compose.yml -f spring-boot-hex/docker-compose.yml -p acceptance up -d --build
 	@echo "Waiting for services to be ready..."
 	sleep 10
 	@echo "Running acceptance tests..."
@@ -13,7 +13,7 @@ test-spring-boot-hex: clean-spring-boot-hex
 
 clean-spring-boot-hex:
 	@echo "Cleaning up spring-boot-hex services..."
-	docker-compose -f acceptance/docker-compose.yml -f spring-boot-hex/docker-compose.yml -p acceptance down -v || true
+	docker-compose --project-directory . -f acceptance/docker-compose.yml -f spring-boot-hex/docker-compose.yml -p acceptance down -v || true
 
 # Spring Boot ADM acceptance tests (placeholder for future implementation)
 test-spring-boot-adm:
