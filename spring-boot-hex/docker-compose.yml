@@ -4,7 +4,7 @@ services:
       - "27017:27017"
     image: mongodb/mongodb-community-server:6.0-ubi8
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo db:27017/mydb --quiet
+      test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok", "--quiet"]
       interval: 3s
       timeout: 10s
       retries: 5
