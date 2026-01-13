@@ -1,6 +1,0 @@
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
-}
-
-rootProject.name = "the-library"
-include("spring-boot-adm", "spring-boot-hex", "acceptance")
