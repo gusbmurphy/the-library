@@ -1,9 +1,6 @@
-import com.avast.gradle.dockercompose.ComposeExtension
-
 plugins {
     java
     id("com.diffplug.spotless") version "7.2.1"
-    id("com.avast.gradle.docker-compose") version "0.17.12"
 }
 
 repositories {
@@ -28,63 +25,6 @@ tasks.named<Test>("test") {
 }
 
 val test by testing.suites.existing(JvmTestSuite::class)
-
-// TODO: It would be great if the other applications could just start from a Docker image...
-// TODO: It would also be great to not have these "registrations" duplicated...
-tasks.register<Test>("testSpringBootAdm") {
-    group = "verification"
-    description = "Runs acceptance tests against the anemic domain model Spring Boot application."
-
-    var composeUp = tasks.getByPath("springBootAdmComposeUp")
-    var composeDown = tasks.getByPath("springBootAdmComposeDown")
-
-    var startApplication = tasks.getByPath(":spring-boot-adm:start")
-    startApplication.notCompatibleWithConfigurationCache("Uses a thread")
-
-    var test = tasks.getByPath("test")
-
-    dependsOn(startApplication)
-    dependsOn(composeUp)
-    dependsOn(test)
-    dependsOn(composeDown)
-
-    startApplication.mustRunAfter(composeUp)
-    test.mustRunAfter(startApplication)
-    composeDown.mustRunAfter(test)
-}
-
-tasks.register<Test>("testSpringBootHex") {
-    group = "verification"
-    description = "Runs acceptance tests against the Hexagonal Spring Boot application."
-
-    var composeUp = tasks.getByPath("springBootHexComposeUp")
-    var composeDown = tasks.getByPath("springBootHexComposeDown")
-
-    var startApplication = tasks.getByPath(":spring-boot-hex:start")
-    startApplication.notCompatibleWithConfigurationCache("Uses a thread")
-
-    var test = tasks.getByPath("test")
-
-    dependsOn(startApplication)
-    dependsOn(composeUp)
-    dependsOn(test)
-    dependsOn(composeDown)
-
-    startApplication.mustRunAfter(composeUp)
-    test.mustRunAfter(startApplication)
-    composeDown.mustRunAfter(test)
-}
-
-configure<ComposeExtension> {
-    setProjectName("acceptance")
-
-    createNested("springBootAdm").apply {
-        useComposeFiles = listOf("docker-compose.yml", "../spring-boot-adm/docker-compose.yml")
-    }
-    createNested("springBootHex").apply {
-        useComposeFiles = listOf("docker-compose.yml", "../spring-boot-hex/docker-compose.yml")
-    }
-}
 
 spotless {
     java {
