@@ -32,15 +32,6 @@ registerAcceptanceTestTasks(
     listOf("acceptance/docker-compose.yml", "spring-boot-hex/docker-compose.yml")
 )
 
-tasks.register("testSpringBootAdm") {
-    description = "Run acceptance tests against the Anemic Domain Model Spring Boot application"
-    group = "verification"
-
-    doFirst {
-        throw GradleException("Spring Boot ADM acceptance tests not yet implemented. TODO: Add Dockerfile and update docker-compose.yml for spring-boot-adm")
-    }
-}
-
 spotless {
     java {
         googleJavaFormat().aosp()
