@@ -32,6 +32,12 @@ registerAcceptanceTestTasks(
     listOf("acceptance/docker-compose.yml", "spring-boot-hex/docker-compose.yml")
 )
 
+registerAcceptanceTestTasks(
+    "SpringBootAdm",
+    "Anemic Domain Model Spring Boot application",
+    listOf("acceptance/docker-compose.yml", "spring-boot-adm/docker-compose.yml")
+)
+
 spotless {
     java {
         googleJavaFormat().aosp()
