@@ -1,5 +1,6 @@
 package fun.gusmurphy.library.springbootadm.controller;
 
+import fun.gusmurphy.library.springbootadm.repository.UserRepository;
 import fun.gusmurphy.library.springbootadm.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class CheckoutController {
 
     private final BookService bookService;
+    private final UserRepository userRepository;
 
-    public CheckoutController(BookService bookService) {
+    public CheckoutController(BookService bookService, UserRepository userRepository) {
         this.bookService = bookService;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/checkout")
     public ResponseEntity<String> checkout(@RequestBody CheckoutRequest request) {
+        if (!userRepository.existsById(request.userId)) {
+            return new ResponseEntity<>("User is not registered.", HttpStatus.FORBIDDEN);
+        }
+
         var book = bookService.getBookByIsbn(request.isbn);
         if (book == null) {
             return new ResponseEntity<>("Unknown book.", HttpStatus.NOT_FOUND);
