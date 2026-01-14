@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 public class LibraryAcceptanceTest {
 
     private final BookFixture books = new BookFixture();
+    private final UserFixture users = new UserFixture();
     private final OverdueNotificationFixture overdueNotifications =
             new OverdueNotificationFixture();
 
@@ -19,7 +20,7 @@ public class LibraryAcceptanceTest {
         @Test
         void unregisteredUserCannotCheckoutBook() throws Exception {
             var book = books.newBookArrives();
-            var user = UserFixture.unregisteredUser();
+            var user = users.unregisteredUser();
             var result = user.attemptsToCheckout(book);
             result.userNotRegistered();
         }
@@ -27,7 +28,7 @@ public class LibraryAcceptanceTest {
         @Test
         void newBookCanBeCheckedOut() throws Exception {
             var newBook = books.newBookArrives();
-            var user = UserFixture.newUser();
+            var user = users.newUser();
             var result = user.attemptsToCheckout(newBook);
             result.checkoutIsSuccessful();
         }
@@ -35,7 +36,7 @@ public class LibraryAcceptanceTest {
         @Test
         void unknownBookCannotBeCheckedOut() throws Exception {
             var unknownBook = books.unknownBook();
-            var user = UserFixture.newUser();
+            var user = users.newUser();
             var result = user.attemptsToCheckout(unknownBook);
             result.bookNotFound();
         }
@@ -44,8 +45,8 @@ public class LibraryAcceptanceTest {
         void bookCantBeCheckedOutByTwoUsers() throws Exception {
             var book = books.newBookArrives();
 
-            var firstUser = UserFixture.newUser();
-            var secondUser = UserFixture.newUser();
+            var firstUser = users.newUser();
+            var secondUser = users.newUser();
 
             var firstResult = firstUser.attemptsToCheckout(book);
             firstResult.checkoutIsSuccessful();
@@ -60,7 +61,7 @@ public class LibraryAcceptanceTest {
             TimeTravel.to(checkoutTime);
 
             var book = books.newBookWith().checkoutTimeInDays(90).create();
-            var user = UserFixture.newUser();
+            var user = users.newUser();
             user.successfullyChecksOut(book);
 
             var lateThreshold = checkoutTime.plusDays(90);

@@ -10,13 +10,13 @@ import java.util.UUID;
 
 public class UserFixture {
 
-    public static User newUser() throws Exception {
+    public User newUser() throws Exception {
         var user = User.random();
         user.register();
         return user;
     }
 
-    public static User unregisteredUser() {
+    public User unregisteredUser() {
         return User.random();
     }
 
