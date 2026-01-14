@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -45,9 +46,11 @@ public class OverdueNotificationFixture {
             Book book, UserFixture.User user, ZonedDateTime lateThreshold, int retryCount)
             throws JsonProcessingException {
         ConsumerRecords<String, String> records = pollForAllRecords();
+        var actualMessages = new ArrayList<OverdueNotificationMessage>();
 
         for (var record : records) {
             var message = MAPPER.readValue(record.value(), OverdueNotificationMessage.class);
+            actualMessages.add(message);
             if (message.isFor(book, user, lateThreshold)) {
                 return;
             }
@@ -56,7 +59,8 @@ public class OverdueNotificationFixture {
         if (retryCount < MAX_EXISTENCE_RETRIES) {
             assertNotificationExistsForAndRetry(book, user, lateThreshold, retryCount + 1);
         } else {
-            Assertions.fail(notificationNotFoundMessageFor(book, user, lateThreshold));
+            Assertions.fail(
+                    notificationNotFoundMessageFor(book, user, lateThreshold, actualMessages));
         }
     }
 
@@ -84,14 +88,40 @@ public class OverdueNotificationFixture {
     }
 
     private String notificationNotFoundMessageFor(
-            Book book, UserFixture.User user, ZonedDateTime lateThreshold) {
-        return "Did not find expected overdue notification. Was expecting one for ISBN \""
-                + book.isbn()
-                + "\", user ID \""
-                + user.id()
-                + "\" and late date \""
-                + lateThreshold.format(DATE_TIME_FORMATTER)
-                + "\".";
+            Book book,
+            UserFixture.User user,
+            ZonedDateTime lateThreshold,
+            List<OverdueNotificationMessage> actualMessages) {
+        var message =
+                "Did not find expected overdue notification.\n"
+                        + "Expected: ISBN=\""
+                        + book.isbn()
+                        + "\", userId=\""
+                        + user.id()
+                        + "\", lateAsOf=\""
+                        + lateThreshold.format(DATE_TIME_FORMATTER)
+                        + "\"\n";
+
+        if (actualMessages.isEmpty()) {
+            message += "Actual: No messages found in Kafka topic.";
+        } else {
+            message += "Actual messages found (" + actualMessages.size() + "):\n";
+            for (int i = 0; i < actualMessages.size(); i++) {
+                var msg = actualMessages.get(i);
+                message +=
+                        "  "
+                                + (i + 1)
+                                + ". ISBN=\""
+                                + msg.bookIsbn
+                                + "\", userId=\""
+                                + msg.userId
+                                + "\", lateAsOf=\""
+                                + msg.lateAsOf
+                                + "\"\n";
+            }
+        }
+
+        return message;
     }
 
     private String notificationFoundWhenNotExpectedMessageFor(
@@ -117,9 +147,9 @@ public class OverdueNotificationFixture {
     }
 
     private static class OverdueNotificationMessage {
-        private String bookIsbn;
-        private String userId;
-        private String lateAsOf;
+        String bookIsbn;
+        String userId;
+        String lateAsOf;
 
         public void setBookIsbn(String bookIsbn) {
             this.bookIsbn = bookIsbn;
