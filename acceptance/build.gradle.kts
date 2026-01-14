@@ -49,6 +49,6 @@ registerAcceptanceTestTasks(
 
 spotless {
     java {
-        googleJavaFormat().aosp()
+        googleJavaFormat("1.25.2").aosp()
     }
 }

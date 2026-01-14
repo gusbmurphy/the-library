@@ -59,9 +59,7 @@ public class CheckoutResult {
 
     public void userNotRegistered() {
         assertEquals(
-                403,
-                responseStatusCode,
-                "Expected 403 status indicating user is not registered.");
+                403, responseStatusCode, "Expected 403 status indicating user is not registered.");
         assertEquals(
                 "User is not registered.",
                 message,
