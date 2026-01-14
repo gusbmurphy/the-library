@@ -22,6 +22,15 @@ tasks.named<Test>("test") {
 
     testClassesDirs = files(test.map { it.sources.output.classesDirs })
     classpath = files(test.map { it.sources.runtimeClasspath })
+
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = false
+        showExceptions = true
+        showCauses = true
+        showStackTraces = true
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+    }
 }
 
 val test by testing.suites.existing(JvmTestSuite::class)
