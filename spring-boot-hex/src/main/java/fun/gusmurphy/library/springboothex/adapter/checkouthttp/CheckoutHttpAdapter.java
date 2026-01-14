@@ -30,6 +30,8 @@ public class CheckoutHttpAdapter {
             case BOOK_CURRENTLY_CHECKED_OUT ->
                     new ResponseEntity<>("Book is currently checked out.", HttpStatus.valueOf(409));
             case UNKNOWN_BOOK -> new ResponseEntity<>("Unknown book.", HttpStatus.NOT_FOUND);
+            case USER_NOT_REGISTERED ->
+                    new ResponseEntity<>("User is not registered.", HttpStatus.FORBIDDEN);
         };
     }
 

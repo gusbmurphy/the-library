@@ -1,11 +1,13 @@
 package fun.gusmurphy.library.springboothex;
 
 import fun.gusmurphy.library.springboothex.application.BookService;
+import fun.gusmurphy.library.springboothex.application.UserService;
 import fun.gusmurphy.library.springboothex.domain.CheckoutService;
 import fun.gusmurphy.library.springboothex.domain.OverdueNotificationService;
 import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import fun.gusmurphy.library.springboothex.port.driven.SendsOverdueNotifications;
 import fun.gusmurphy.library.springboothex.port.driven.TellsTime;
+import fun.gusmurphy.library.springboothex.port.driven.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,8 +20,14 @@ public class LibraryApplicationSpringBootConfiguration {
     }
 
     @Bean
-    public CheckoutService checkoutService(BookRepository bookRepository, TellsTime clock) {
-        return new CheckoutService(bookRepository, clock);
+    public UserService userService(UserRepository userRepository) {
+        return new UserService(userRepository);
+    }
+
+    @Bean
+    public CheckoutService checkoutService(
+            BookRepository bookRepository, UserRepository userRepository, TellsTime clock) {
+        return new CheckoutService(bookRepository, userRepository, clock);
     }
 
     @Bean
