@@ -3,9 +3,7 @@
 # Spring Boot Hex acceptance tests
 test-spring-boot-hex: clean-spring-boot-hex
 	@echo "Starting services for spring-boot-hex acceptance tests..."
-	docker-compose --project-directory . -f acceptance/docker-compose.yml -f spring-boot-hex/docker-compose.yml -p acceptance up -d --build
-	@echo "Waiting for services to be ready..."
-	sleep 10
+	docker-compose --project-directory . -f acceptance/docker-compose.yml -f spring-boot-hex/docker-compose.yml -p acceptance up -d --build --wait
 	@echo "Running acceptance tests..."
 	cd acceptance && ./gradlew test --rerun-tasks || (cd .. && $(MAKE) clean-spring-boot-hex && exit 1)
 	@echo "Tests completed successfully!"
