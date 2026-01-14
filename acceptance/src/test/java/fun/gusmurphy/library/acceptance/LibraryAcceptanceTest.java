@@ -17,6 +17,14 @@ public class LibraryAcceptanceTest {
     @Nested
     class BasicFunctionality {
         @Test
+        void unregisteredUserCannotCheckoutBook() throws Exception {
+            var book = books.newBookArrives();
+            var user = UserFixture.unregisteredUser();
+            var result = user.attemptsToCheckout(book);
+            result.userNotRegistered();
+        }
+
+        @Test
         void newBookCanBeCheckedOut() throws Exception {
             var newBook = books.newBookArrives();
             var user = UserFixture.newUser();

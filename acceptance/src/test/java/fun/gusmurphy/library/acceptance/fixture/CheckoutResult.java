@@ -57,6 +57,17 @@ public class CheckoutResult {
                 "Expected message indicating book is checked out.");
     }
 
+    public void userNotRegistered() {
+        assertEquals(
+                403,
+                responseStatusCode,
+                "Expected 403 status indicating user is not registered.");
+        assertEquals(
+                "User is not registered.",
+                message,
+                "Expected message indicating user is not registered.");
+    }
+
     private void retryForSuccessfulCheckout() throws Exception {
         Thread.sleep(RETRY_TIMEOUT);
         var retriedResult = retryFunction.retry();

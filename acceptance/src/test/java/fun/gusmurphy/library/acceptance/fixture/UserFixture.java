@@ -11,14 +11,22 @@ import java.util.UUID;
 public class UserFixture {
 
     public static User newUser() {
-        return new User();
+        return User.random();
+    }
+
+    public static User unregisteredUser() {
+        return User.random();
     }
 
     public static class User {
         private final String id;
 
-        public User() {
-            id = UUID.randomUUID().toString();
+        private User(String id) {
+            this.id = id;
+        }
+
+        protected static User random() {
+            return new User(UUID.randomUUID().toString());
         }
 
         public String id() {
