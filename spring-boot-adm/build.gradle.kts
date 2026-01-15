@@ -47,6 +47,6 @@ tasks.register<JavaExecFork>("start") {
 
 spotless {
     java {
-        googleJavaFormat().aosp()
+        googleJavaFormat("1.33.0").aosp()
     }
 }
