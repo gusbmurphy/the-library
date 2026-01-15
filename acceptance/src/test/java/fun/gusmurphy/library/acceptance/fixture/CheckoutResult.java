@@ -57,6 +57,17 @@ public class CheckoutResult {
                 "Expected message indicating book is checked out.");
     }
 
+    public void failedBecauseOfTooManyCheckouts() {
+        assertEquals(
+                405,
+                responseStatusCode,
+                "Expected 405 status indicating checkout couldn't proceed.");
+        assertEquals(
+                "User has too many books currently checked out.",
+                message,
+                "Expected message indicating user has too many books checked out.");
+    }
+
     public void userNotRegistered() {
         assertEquals(
                 403, responseStatusCode, "Expected 403 status indicating user is not registered.");

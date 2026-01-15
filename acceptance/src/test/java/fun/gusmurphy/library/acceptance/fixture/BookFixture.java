@@ -1,11 +1,15 @@
 package fun.gusmurphy.library.acceptance.fixture;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -34,6 +38,22 @@ public class BookFixture {
         var book = new Book();
         sendKafkaMessageForArrivalOf(book);
         return book;
+    }
+
+    /**
+     * Create multiple new books in the library system by sending a message to the Kafka topic.
+     *
+     * @param count the number of books to create
+     * @return the new book
+     */
+    public List<Book> multipleNewBooks(int count) {
+        return Stream.generate(() -> {
+            try {
+                return newBookArrives();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).limit(count).toList();
     }
 
     /** Returns a book that does not exist in the library system. */
