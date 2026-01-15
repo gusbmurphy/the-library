@@ -10,12 +10,14 @@ fun createDockerComposeCommand(vararg args: String, composeFiles: List<String>):
             args.toList()
 }
 
-fun Project.registerAcceptanceTestTasks(appName: String, appDescription: String, composeFiles: List<String>) {
+fun Project.registerAcceptanceTestTasks(appName: String, appDescription: String, composeFile: String) {
+    val allComposeFiles = listOf(composeFile, "acceptance/docker-compose.yml")
+
     val cleanTask = tasks.register("clean$appName", Exec::class) {
         description = "Clean up $appName services"
         group = "docker"
         workingDir = file("..")
-        commandLine = createDockerComposeCommand("down", "-v", composeFiles = composeFiles)
+        commandLine = createDockerComposeCommand("down", "-v", composeFiles = allComposeFiles)
         isIgnoreExitValue = true
 
         standardOutput = ByteArrayOutputStream()
@@ -42,7 +44,7 @@ fun Project.registerAcceptanceTestTasks(appName: String, appDescription: String,
             }
         }
 
-        commandLine = createDockerComposeCommand("up", "-d", "--build", "--wait", composeFiles = composeFiles)
+        commandLine = createDockerComposeCommand("up", "-d", "--build", "--wait", composeFiles = allComposeFiles)
     }
 
     val stopTask = tasks.register("stop$appName", Exec::class) {
@@ -50,7 +52,7 @@ fun Project.registerAcceptanceTestTasks(appName: String, appDescription: String,
         group = "docker"
         workingDir = file("..")
 
-        commandLine = createDockerComposeCommand("down", "-v", composeFiles = composeFiles)
+        commandLine = createDockerComposeCommand("down", "-v", composeFiles = allComposeFiles)
         isIgnoreExitValue = true
 
         standardOutput = ByteArrayOutputStream()

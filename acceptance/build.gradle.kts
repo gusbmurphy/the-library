@@ -35,13 +35,13 @@ val test by testing.suites.existing(JvmTestSuite::class)
 registerAcceptanceTestTasks(
     "SpringBootHex",
     "Hexagonal Spring Boot application",
-    listOf("acceptance/docker-compose.yml", "spring-boot-hex/docker-compose.yml")
+    "spring-boot-hex/docker-compose.yml"
 )
 
 registerAcceptanceTestTasks(
     "SpringBootAdm",
     "Anemic Domain Model Spring Boot application",
-    listOf("acceptance/docker-compose.yml", "spring-boot-adm/docker-compose.yml")
+    "spring-boot-adm/docker-compose.yml"
 )
 
 spotless {
