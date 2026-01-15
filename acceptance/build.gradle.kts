@@ -50,6 +50,12 @@ registerAcceptanceTestTasks(
     "spring-boot-adm/docker-compose.yml"
 )
 
+registerAcceptanceTestTasks(
+    "Haskell",
+    "Haskell application",
+    "haskell/docker-compose.yml"
+)
+
 spotless {
     java {
         googleJavaFormat().aosp()
