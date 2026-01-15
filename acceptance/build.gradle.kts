@@ -15,6 +15,12 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 tasks.named<Test>("test") {
     useJUnitPlatform()
     // Since we (effectively) don't own the system under test, this should always rerun the tests
@@ -46,6 +52,6 @@ registerAcceptanceTestTasks(
 
 spotless {
     java {
-        googleJavaFormat("1.25.2").aosp()
+        googleJavaFormat().aosp()
     }
 }
