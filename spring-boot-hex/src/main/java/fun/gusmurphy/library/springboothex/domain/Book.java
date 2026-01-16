@@ -54,7 +54,7 @@ public class Book {
             return false;
         }
 
-        return dueBackBy().get().isEqual(time) || dueBackBy().get().isBefore(time);
+        return dueBackBy().orElseThrow().isEqual(time) || dueBackBy().orElseThrow().isBefore(time);
     }
 
     public boolean isCheckedOut() {
