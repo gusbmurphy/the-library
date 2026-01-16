@@ -7,6 +7,7 @@ import fun.gusmurphy.library.springboothex.doubles.TestClock;
 import fun.gusmurphy.library.springboothex.doubles.UserRepositoryDouble;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,8 +27,7 @@ public class CheckoutServiceTest {
     void setup() {
         bookRepository.clear();
         userRepository.clear();
-        var book = new Book(isbn, checkoutTimeInDays);
-        bookRepository.saveBook(book);
+        saveBookWithIsbn(isbn);
         clock.setCurrentTime(testTime);
     }
 
@@ -75,9 +75,34 @@ public class CheckoutServiceTest {
         assertEquals(CheckoutResult.BOOK_CURRENTLY_CHECKED_OUT, secondResult);
     }
 
+    @Test
+    void aRegularUserCannotCheckoutMoreThan5Books() {
+        var userId = registerNewUser();
+        for (int i = 0; i < 5; i++) {
+            var book = saveNewBook();
+            service.requestCheckout(book.isbn(), userId);
+        }
+
+        var sixthBook = saveNewBook();
+        var sixthResult = service.requestCheckout(sixthBook.isbn(), userId);
+
+        assertEquals(CheckoutResult.USER_AT_CHECKOUT_MAX, sixthResult);
+    }
+
     private UserId registerNewUser() {
         var id = UserId.random();
         userRepository.save(new User(id));
         return id;
+    }
+
+    private Book saveNewBook() {
+        var book = new Book(Isbn.fromString(UUID.randomUUID().toString()), checkoutTimeInDays);
+        bookRepository.saveBook(book);
+        return book;
+    }
+
+    private void saveBookWithIsbn(Isbn isbn) {
+        var book = new Book(isbn, checkoutTimeInDays);
+        bookRepository.saveBook(book);
     }
 }

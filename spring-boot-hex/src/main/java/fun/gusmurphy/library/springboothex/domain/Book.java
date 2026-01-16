@@ -65,6 +65,14 @@ public class Book {
         return checkedOutBy;
     }
 
+    public boolean isCheckedOutBy(UserId id) {
+        if (checkedOutBy == null) {
+            return false;
+        }
+
+        return checkedOutBy.equals(id);
+    }
+
     public void sendOverdueNotification(
             SendsOverdueNotifications notificationSender, ZonedDateTime asOf) {
         if (checkedOutAt == null) {

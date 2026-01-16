@@ -20,8 +20,14 @@ public class CheckoutService implements ChecksOutBooks {
 
     @Override
     public CheckoutResult requestCheckout(Isbn isbn, UserId userId) {
-        if (!userRepository.existsById(userId)) {
+        var user = userRepository.findById(userId);
+        if (user.isEmpty()) {
             return CheckoutResult.USER_NOT_REGISTERED;
+        }
+
+        var booksCheckedOutByUser = bookRepository.booksCheckedOutBy(userId);
+        if (booksCheckedOutByUser.size() > 4) {
+            return CheckoutResult.USER_AT_CHECKOUT_MAX;
         }
 
         var requestTime = clock.currentTime();

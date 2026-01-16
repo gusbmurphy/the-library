@@ -32,6 +32,10 @@ public class CheckoutHttpAdapter {
             case UNKNOWN_BOOK -> new ResponseEntity<>("Unknown book.", HttpStatus.NOT_FOUND);
             case USER_NOT_REGISTERED ->
                     new ResponseEntity<>("User is not registered.", HttpStatus.FORBIDDEN);
+            case USER_AT_CHECKOUT_MAX ->
+                    new ResponseEntity<>(
+                            "User has too many books currently checked out.",
+                            HttpStatus.METHOD_NOT_ALLOWED);
         };
     }
 

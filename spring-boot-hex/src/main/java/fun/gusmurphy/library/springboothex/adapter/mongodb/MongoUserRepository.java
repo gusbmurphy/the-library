@@ -3,6 +3,7 @@ package fun.gusmurphy.library.springboothex.adapter.mongodb;
 import fun.gusmurphy.library.springboothex.domain.User;
 import fun.gusmurphy.library.springboothex.domain.UserId;
 import fun.gusmurphy.library.springboothex.port.driven.UserRepository;
+import java.util.Optional;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,12 @@ public class MongoUserRepository implements UserRepository {
     public void save(User user) {
         var document = UserDocument.from(user);
         template.save(document);
+    }
+
+    @Override
+    public Optional<User> findById(UserId id) {
+        var document = Optional.ofNullable(template.findById(id.toString(), UserDocument.class));
+        return document.map(UserDocument::toDomain);
     }
 
     @Override
