@@ -23,7 +23,7 @@ public class CheckoutHttpAdapter {
         var requestedIsbn = Isbn.fromString(request.isbn);
         var requestingUserId = UserId.fromString(request.userId);
 
-        var result = bookCheckerOuter.requestCheckout(requestedIsbn, requestingUserId);
+        var result = bookCheckerOuter.checkoutBook(requestedIsbn, requestingUserId);
 
         return switch (result) {
             case SUCCESS -> new ResponseEntity<>(HttpStatus.OK);

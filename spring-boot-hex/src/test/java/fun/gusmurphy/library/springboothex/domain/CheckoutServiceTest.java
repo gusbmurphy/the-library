@@ -34,21 +34,21 @@ public class CheckoutServiceTest {
     @Test
     void aRegisteredUserCanSuccessfullyCheckoutABook() {
         var userId = registerNewUser();
-        var result = service.requestCheckout(isbn, userId);
+        var result = service.checkoutBook(isbn, userId);
         assertEquals(CheckoutResult.SUCCESS, result);
     }
 
     @Test
     void anUnregisteredUserCannotCheckoutABook() {
         var userId = UserId.random();
-        var result = service.requestCheckout(isbn, userId);
+        var result = service.checkoutBook(isbn, userId);
         assertEquals(CheckoutResult.USER_NOT_REGISTERED, result);
     }
 
     @Test
     void theSavedCheckoutRecordHasTheCorrectAttributes() {
         var userId = registerNewUser();
-        service.requestCheckout(isbn, userId);
+        service.checkoutBook(isbn, userId);
 
         var bookAfterCheckout = bookRepository.findByIsbn(isbn).get();
         var expectedDueDate = testTime.plusDays(checkoutTimeInDays);
@@ -60,7 +60,7 @@ public class CheckoutServiceTest {
     void anUnknownBookCannotBeCheckedOut() {
         var userId = registerNewUser();
         var someUnknownIsbn = Isbn.fromString("?");
-        var result = service.requestCheckout(someUnknownIsbn, userId);
+        var result = service.checkoutBook(someUnknownIsbn, userId);
         assertEquals(CheckoutResult.UNKNOWN_BOOK, result);
     }
 
@@ -69,8 +69,8 @@ public class CheckoutServiceTest {
         var firstUserId = registerNewUser();
         var secondUserId = registerNewUser();
 
-        service.requestCheckout(isbn, firstUserId);
-        var secondResult = service.requestCheckout(isbn, secondUserId);
+        service.checkoutBook(isbn, firstUserId);
+        var secondResult = service.checkoutBook(isbn, secondUserId);
 
         assertEquals(CheckoutResult.BOOK_CURRENTLY_CHECKED_OUT, secondResult);
     }
@@ -80,11 +80,11 @@ public class CheckoutServiceTest {
         var userId = registerNewUser();
         for (int i = 0; i < 5; i++) {
             var book = saveNewBook();
-            service.requestCheckout(book.isbn(), userId);
+            service.checkoutBook(book.isbn(), userId);
         }
 
         var sixthBook = saveNewBook();
-        var sixthResult = service.requestCheckout(sixthBook.isbn(), userId);
+        var sixthResult = service.checkoutBook(sixthBook.isbn(), userId);
 
         assertEquals(CheckoutResult.USER_AT_CHECKOUT_MAX, sixthResult);
     }

@@ -19,7 +19,7 @@ public class CheckoutService implements ChecksOutBooks {
     }
 
     @Override
-    public CheckoutResult requestCheckout(Isbn isbn, UserId userId) {
+    public CheckoutResult checkoutBook(Isbn isbn, UserId userId) {
         var user = userRepository.findById(userId);
         if (user.isEmpty()) {
             return CheckoutResult.USER_NOT_REGISTERED;
