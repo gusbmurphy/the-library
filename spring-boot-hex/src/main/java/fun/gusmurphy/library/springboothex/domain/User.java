@@ -1,5 +1,7 @@
 package fun.gusmurphy.library.springboothex.domain;
 
+import java.util.Collection;
+
 public class User {
 
     private final UserId id;
@@ -10,5 +12,9 @@ public class User {
 
     public UserId id() {
         return id;
+    }
+
+    public boolean canCheckoutAnotherBook(Collection<Isbn> currentlyCheckedOutIsbns) {
+        return currentlyCheckedOutIsbns.size() < 5;
     }
 }
