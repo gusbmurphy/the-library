@@ -4,7 +4,6 @@ import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import fun.gusmurphy.library.springboothex.port.driven.TellsTime;
 import fun.gusmurphy.library.springboothex.port.driven.UserRepository;
 import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
-
 import java.util.stream.Collectors;
 
 public class CheckoutService implements ChecksOutBooks {
@@ -28,7 +27,11 @@ public class CheckoutService implements ChecksOutBooks {
         }
 
         var booksCheckedOutByUser = bookRepository.booksCheckedOutBy(userId);
-        if (!user.get().canCheckoutAnotherBook(booksCheckedOutByUser.stream().map(Book::isbn).collect(Collectors.toSet()))) {
+        if (!user.get()
+                .canCheckoutAnotherBook(
+                        booksCheckedOutByUser.stream()
+                                .map(Book::isbn)
+                                .collect(Collectors.toSet()))) {
             return CheckoutResult.USER_AT_CHECKOUT_MAX;
         }
 
