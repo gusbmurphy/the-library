@@ -21,17 +21,12 @@ public class CheckoutService implements ChecksOutBooks {
 
     @Override
     public CheckoutResult checkoutBook(Isbn isbn, UserId userId) {
-        var user = userRepository.findById(userId);
-        if (user.isEmpty()) {
+        var optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
             return CheckoutResult.USER_NOT_REGISTERED;
         }
 
-        var booksCheckedOutByUser = bookRepository.booksCheckedOutBy(userId);
-        if (!user.get()
-                .canCheckoutAnotherBook(
-                        booksCheckedOutByUser.stream()
-                                .map(Book::isbn)
-                                .collect(Collectors.toSet()))) {
+        if (userCannotCheckoutAnotherBook(optionalUser.get())) {
             return CheckoutResult.USER_AT_CHECKOUT_MAX;
         }
 
@@ -51,5 +46,11 @@ public class CheckoutService implements ChecksOutBooks {
         bookRepository.saveBook(book);
 
         return CheckoutResult.SUCCESS;
+    }
+
+    private boolean userCannotCheckoutAnotherBook(User user) {
+        var booksCheckedOutByUser = bookRepository.booksCheckedOutBy(user.id());
+        return !user.canCheckoutAnotherBook(
+                booksCheckedOutByUser.stream().map(Book::isbn).collect(Collectors.toSet()));
     }
 }
