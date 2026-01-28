@@ -7,9 +7,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.ListTopicsResult;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -47,13 +45,16 @@ public class BookFixture {
      * @return the new book
      */
     public List<Book> multipleNewBooks(int count) {
-        return Stream.generate(() -> {
-            try {
-                return newBookArrives();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).limit(count).toList();
+        return Stream.generate(
+                        () -> {
+                            try {
+                                return newBookArrives();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        })
+                .limit(count)
+                .toList();
     }
 
     /** Returns a book that does not exist in the library system. */
