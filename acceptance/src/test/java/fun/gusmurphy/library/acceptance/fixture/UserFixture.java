@@ -11,24 +11,26 @@ import java.util.UUID;
 public class UserFixture {
 
     public User newRegularUser() throws Exception {
-        var user = User.random();
+        var user = User.regular();
         user.register();
         return user;
     }
 
     public User unregisteredUser() {
-        return User.random();
+        return User.regular();
     }
 
     public static class User {
         private final String id;
+        private final UserTypeCode typeCode;
 
-        private User(String id) {
+        private User(String id, UserTypeCode typeCode) {
             this.id = id;
+            this.typeCode = typeCode;
         }
 
-        protected static User random() {
-            return new User(UUID.randomUUID().toString());
+        protected static User regular() {
+            return new User(UUID.randomUUID().toString(), UserTypeCode.REGULAR);
         }
 
         public String id() {
@@ -36,7 +38,7 @@ public class UserFixture {
         }
 
         private void register() throws Exception {
-            var requestBodyJson = userRequestBodyJson();
+            var requestBodyJson = registrationRequestBodyJson();
 
             var request =
                     HttpRequest.newBuilder()
@@ -59,13 +61,14 @@ public class UserFixture {
             }
         }
 
-        private String userRequestBodyJson() {
+        private String registrationRequestBodyJson() {
             return """
                          {
-                             "id": "%s"
+                             "id": "%s",
+                             "type": "%s"
                          }
                    """
-                    .formatted(id);
+                    .formatted(id, typeCode.string());
         }
 
         public void successfullyChecksOut(Book book) throws Exception {
@@ -95,6 +98,20 @@ public class UserFixture {
 
         private String checkoutRequestBodyFor(Book book) {
             return String.format("{ \"isbn\": \"%s\", \"userId\": \"%s\" }", book.isbn(), id);
+        }
+    }
+
+    enum UserTypeCode {
+        REGULAR("1");
+
+        private final String string;
+
+        UserTypeCode(String string) {
+            this.string = string;
+        }
+
+        String string() {
+            return string;
         }
     }
 }
