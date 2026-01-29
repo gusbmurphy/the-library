@@ -10,7 +10,7 @@ public class UserAttributesTest extends LibraryAcceptanceTest {
     @Test
     void aRegularUserCannotCheckoutMoreThan5Books() throws Exception {
         var firstBooks = books.multipleNewBooks(5);
-        var user = users.newUser();
+        var user = users.newRegularUser();
 
         for (var book : firstBooks) {
             user.successfullyChecksOut(book);

@@ -20,7 +20,7 @@ class BasicFunctionalityTest extends LibraryAcceptanceTest {
     @Test
     void newBookCanBeCheckedOut() throws Exception {
         var newBook = books.newBookArrives();
-        var user = users.newUser();
+        var user = users.newRegularUser();
         var result = user.attemptsToCheckout(newBook);
         result.checkoutIsSuccessful();
     }
@@ -28,7 +28,7 @@ class BasicFunctionalityTest extends LibraryAcceptanceTest {
     @Test
     void unknownBookCannotBeCheckedOut() throws Exception {
         var unknownBook = books.unknownBook();
-        var user = users.newUser();
+        var user = users.newRegularUser();
         var result = user.attemptsToCheckout(unknownBook);
         result.bookNotFound();
     }
@@ -37,8 +37,8 @@ class BasicFunctionalityTest extends LibraryAcceptanceTest {
     void bookCantBeCheckedOutByTwoUsers() throws Exception {
         var book = books.newBookArrives();
 
-        var firstUser = users.newUser();
-        var secondUser = users.newUser();
+        var firstUser = users.newRegularUser();
+        var secondUser = users.newRegularUser();
 
         var firstResult = firstUser.attemptsToCheckout(book);
         firstResult.checkoutIsSuccessful();
@@ -53,7 +53,7 @@ class BasicFunctionalityTest extends LibraryAcceptanceTest {
         TimeTravel.to(checkoutTime);
 
         var book = books.newBookWith().checkoutTimeInDays(90).create();
-        var user = users.newUser();
+        var user = users.newRegularUser();
         user.successfullyChecksOut(book);
 
         var lateThreshold = checkoutTime.plusDays(90);

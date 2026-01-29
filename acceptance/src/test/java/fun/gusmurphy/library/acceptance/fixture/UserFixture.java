@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class UserFixture {
 
-    public User newUser() throws Exception {
+    public User newRegularUser() throws Exception {
         var user = User.random();
         user.register();
         return user;
