@@ -13,4 +13,6 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id private String id;
+
+    private String type;
 }

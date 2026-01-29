@@ -21,9 +21,10 @@ public class UserController {
     public ResponseEntity<Void> registerUser(@RequestBody RegisterUserRequest request) {
         var user = new User();
         user.setId(request.id);
+        user.setType(request.type);
         userRepository.save(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    public record RegisterUserRequest(String id) {}
+    public record RegisterUserRequest(String id, String type) {}
 }

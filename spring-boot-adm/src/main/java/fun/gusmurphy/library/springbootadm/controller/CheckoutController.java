@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CheckoutController {
 
-    private static final int MAX_CHECKOUTS = 5;
+    private static final int REGULAR_CHECKOUT_LIMIT = 5;
+    private static final int SUPER_CHECKOUT_LIMIT = 8;
 
     private final BookService bookService;
     private final UserRepository userRepository;
@@ -29,13 +30,17 @@ public class CheckoutController {
 
     @PostMapping("/checkout")
     public ResponseEntity<String> checkout(@RequestBody CheckoutRequest request) {
-        if (!userRepository.existsById(request.userId)) {
+        var user = userRepository.findById(request.userId);
+        if (user.isEmpty()) {
             return new ResponseEntity<>("User is not registered.", HttpStatus.FORBIDDEN);
         }
 
-        if (checkoutRecordRepository.countByUserId(request.userId) >= MAX_CHECKOUTS) {
+        var checkoutLimit =
+                "S".equals(user.get().getType()) ? SUPER_CHECKOUT_LIMIT : REGULAR_CHECKOUT_LIMIT;
+        if (checkoutRecordRepository.countByUserId(request.userId) >= checkoutLimit) {
             return new ResponseEntity<>(
-                    "User has too many books currently checked out.", HttpStatus.METHOD_NOT_ALLOWED);
+                    "User has too many books currently checked out.",
+                    HttpStatus.METHOD_NOT_ALLOWED);
         }
 
         var book = bookService.getBookByIsbn(request.isbn);
