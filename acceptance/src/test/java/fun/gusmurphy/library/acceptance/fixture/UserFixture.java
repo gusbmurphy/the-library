@@ -36,7 +36,7 @@ public class UserFixture {
         }
 
         private void register() throws Exception {
-            var requestBodyJson = String.format("{ \"id\": \"%s\" }", id);
+            var requestBodyJson = createRequestBodyJson();
 
             var request =
                     HttpRequest.newBuilder()
@@ -57,6 +57,15 @@ public class UserFixture {
                                 + ", Body: "
                                 + response.body());
             }
+        }
+
+        private String createRequestBodyJson() {
+            return """
+                         {
+                             "id": "%s"
+                         }
+                   """
+                    .formatted(id);
         }
 
         public void successfullyChecksOut(Book book) throws Exception {
