@@ -13,4 +13,7 @@ public interface CheckoutRecordRepository extends JpaRepository<CheckoutRecord, 
 
     @Query("select cr from CheckoutRecord cr where cr.book.isbn = :isbn")
     List<CheckoutRecord> findByBookIsbn(@Param("isbn") String isbn);
+
+    @Query("select count(cr) from CheckoutRecord cr where cr.userId = :userId")
+    long countByUserId(@Param("userId") String userId);
 }
