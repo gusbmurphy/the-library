@@ -1,5 +1,6 @@
 package fun.gusmurphy.library.acceptance;
 
+import fun.gusmurphy.library.acceptance.fixture.UserFixture;
 import org.junit.jupiter.api.Test;
 
 public class UserAttributesTest extends LibraryAcceptanceTest {
@@ -8,16 +9,24 @@ public class UserAttributesTest extends LibraryAcceptanceTest {
     }
 
     @Test
-    void aRegularUserCannotCheckoutMoreThan5Books() throws Exception {
-        var firstBooks = books.multipleNewBooks(5);
-        var user = users.newRegularUser();
+    void usersHaveCheckoutMaxesBasedOnTheirType() throws Exception {
+        expectUserCanOnlyCheckoutNBooks(users.newRegularUser(), 5);
+    }
+
+    @Test
+    void superUsersCanCheckoutUpTo8Books() throws Exception {
+        expectUserCanOnlyCheckoutNBooks(users.newSuperUser(), 8);
+    }
+
+    private void expectUserCanOnlyCheckoutNBooks(UserFixture.User user, int n) throws Exception {
+        var firstBooks = books.multipleNewBooks(n);
 
         for (var book : firstBooks) {
             user.successfullyChecksOut(book);
         }
 
-        var sixthBook = books.newBookArrives();
-        var result = user.attemptsToCheckout(sixthBook);
+        var bookPastLimit = books.newBookArrives();
+        var result = user.attemptsToCheckout(bookPastLimit);
         result.failedBecauseOfTooManyCheckouts();
     }
 }

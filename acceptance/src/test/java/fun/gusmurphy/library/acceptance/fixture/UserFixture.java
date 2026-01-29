@@ -16,6 +16,12 @@ public class UserFixture {
         return user;
     }
 
+    public User newSuperUser() throws Exception {
+        var user = User.superUser();
+        user.register();
+        return user;
+    }
+
     public User unregisteredUser() {
         return User.regular();
     }
@@ -31,6 +37,10 @@ public class UserFixture {
 
         protected static User regular() {
             return new User(UUID.randomUUID().toString(), UserTypeCode.REGULAR);
+        }
+
+        protected static User superUser() {
+            return new User(UUID.randomUUID().toString(), UserTypeCode.SUPER);
         }
 
         public String id() {
@@ -102,7 +112,8 @@ public class UserFixture {
     }
 
     enum UserTypeCode {
-        REGULAR("1");
+        REGULAR("1"),
+        SUPER("S");
 
         private final String string;
 
