@@ -36,7 +36,7 @@ public class UserFixture {
         }
 
         private void register() throws Exception {
-            var requestBodyJson = createRequestBodyJson();
+            var requestBodyJson = userRequestBodyJson();
 
             var request =
                     HttpRequest.newBuilder()
@@ -59,7 +59,7 @@ public class UserFixture {
             }
         }
 
-        private String createRequestBodyJson() {
+        private String userRequestBodyJson() {
             return """
                          {
                              "id": "%s"
@@ -75,7 +75,7 @@ public class UserFixture {
 
         public CheckoutResult attemptsToCheckout(Book book)
                 throws IOException, URISyntaxException, InterruptedException {
-            var requestBodyJson = createRequestBodyFor(book);
+            var requestBodyJson = checkoutRequestBodyFor(book);
 
             var request =
                     HttpRequest.newBuilder()
@@ -93,7 +93,7 @@ public class UserFixture {
                     response.statusCode(), response.body(), () -> this.attemptsToCheckout(book));
         }
 
-        private String createRequestBodyFor(Book book) {
+        private String checkoutRequestBodyFor(Book book) {
             return String.format("{ \"isbn\": \"%s\", \"userId\": \"%s\" }", book.isbn(), id);
         }
     }
