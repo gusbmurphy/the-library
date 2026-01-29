@@ -1,9 +1,6 @@
-import com.github.psxpaul.task.JavaExecFork
-
 plugins {
     application
     id("com.diffplug.spotless") version "7.2.1"
-    id("com.github.psxpaul.execfork") version "0.2.2"
     id("io.freefair.lombok") version "9.0.0-rc2"
 }
 
@@ -37,12 +34,6 @@ application {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
-}
-
-tasks.register<JavaExecFork>("start") {
-    classpath = sourceSets.main.get().runtimeClasspath
-    main = application.mainClass.get()
-    waitForOutput = "Started App"
 }
 
 spotless {
