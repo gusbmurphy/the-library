@@ -1,7 +1,7 @@
 package fun.gusmurphy.library.springboothex.adapter.mongodb;
 
-import fun.gusmurphy.library.springboothex.domain.User;
-import fun.gusmurphy.library.springboothex.domain.UserId;
+import fun.gusmurphy.library.springboothex.application.User;
+import fun.gusmurphy.library.springboothex.application.UserId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

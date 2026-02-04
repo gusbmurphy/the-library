@@ -1,8 +1,8 @@
 package fun.gusmurphy.library.springboothex.doubles;
 
-import fun.gusmurphy.library.springboothex.domain.User;
-import fun.gusmurphy.library.springboothex.domain.UserId;
-import fun.gusmurphy.library.springboothex.domain.port.driven.UserRepository;
+import fun.gusmurphy.library.springboothex.application.User;
+import fun.gusmurphy.library.springboothex.application.UserId;
+import fun.gusmurphy.library.springboothex.application.port.driven.UserRepository;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;

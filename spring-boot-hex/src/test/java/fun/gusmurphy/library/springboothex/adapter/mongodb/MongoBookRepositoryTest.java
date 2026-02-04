@@ -2,9 +2,9 @@ package fun.gusmurphy.library.springboothex.adapter.mongodb;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import fun.gusmurphy.library.springboothex.domain.Book;
-import fun.gusmurphy.library.springboothex.domain.Isbn;
-import fun.gusmurphy.library.springboothex.domain.UserId;
+import fun.gusmurphy.library.springboothex.application.Book;
+import fun.gusmurphy.library.springboothex.application.Isbn;
+import fun.gusmurphy.library.springboothex.application.UserId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;

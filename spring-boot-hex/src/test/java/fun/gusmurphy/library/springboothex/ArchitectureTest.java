@@ -13,30 +13,30 @@ import com.tngtech.archunit.lang.ArchRule;
 public class ArchitectureTest {
 
     private static final String BASE_PACKAGE_NAME = "fun.gusmurphy.library.springboothex.";
-    private static final String DOMAIN_PACKAGE = BASE_PACKAGE_NAME + "domain..";
+    private static final String APP_PACKAGE = BASE_PACKAGE_NAME + "application..";
     private static final String PORT_PACKAGE = BASE_PACKAGE_NAME + "port..";
     private static final String ADAPTER_PACKAGE = BASE_PACKAGE_NAME + "adapter..";
     private static final String JAVA_PACKAGES = "..java..";
 
     @ArchTest
-    public static final ArchRule domainClassesCantDependOnBasicallyAnything =
+    public static final ArchRule applicationClassesCantDependOnBasicallyAnything =
             noClasses()
                     .that()
-                    .resideInAPackage(DOMAIN_PACKAGE)
+                    .resideInAPackage(APP_PACKAGE)
                     .should()
                     .dependOnClassesThat()
-                    .resideOutsideOfPackages(DOMAIN_PACKAGE, JAVA_PACKAGES, PORT_PACKAGE);
+                    .resideOutsideOfPackages(APP_PACKAGE, JAVA_PACKAGES, PORT_PACKAGE);
 
     @ArchTest
-    public static final ArchRule domainClassesCantDependOnDrivingPortsUnlessImplementingThem =
+    public static final ArchRule applicationClassesCantDependOnDrivingPortsUnlessImplementingThem =
             classes()
                     .that()
-                    .resideInAPackage(DOMAIN_PACKAGE)
+                    .resideInAPackage(APP_PACKAGE)
                     .should(notDependOnDrivingPortsUnlessImplementingThem);
 
     @ArchTest
-    public static final ArchRule domainClassesCantImplementDrivenPorts =
-            classes().that().resideInAPackage(DOMAIN_PACKAGE).should(notImplementDrivenPorts);
+    public static final ArchRule applicationClassesCantImplementDrivenPorts =
+            classes().that().resideInAPackage(APP_PACKAGE).should(notImplementDrivenPorts);
 
     @ArchTest
     public static final ArchRule adaptersCannotDependOnOtherAdapters =

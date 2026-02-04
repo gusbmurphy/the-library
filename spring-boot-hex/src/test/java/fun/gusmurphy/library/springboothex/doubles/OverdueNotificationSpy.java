@@ -1,7 +1,7 @@
 package fun.gusmurphy.library.springboothex.doubles;
 
-import fun.gusmurphy.library.springboothex.domain.OverdueNotification;
-import fun.gusmurphy.library.springboothex.domain.port.driven.SendsOverdueNotifications;
+import fun.gusmurphy.library.springboothex.application.OverdueNotification;
+import fun.gusmurphy.library.springboothex.application.port.driven.SendsOverdueNotifications;
 import java.util.ArrayList;
 import java.util.List;
 

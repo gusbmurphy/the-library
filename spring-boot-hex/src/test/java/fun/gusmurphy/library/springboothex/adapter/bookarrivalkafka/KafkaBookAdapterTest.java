@@ -1,7 +1,7 @@
 package fun.gusmurphy.library.springboothex.adapter.bookarrivalkafka;
 
-import fun.gusmurphy.library.springboothex.domain.Book;
-import fun.gusmurphy.library.springboothex.domain.Isbn;
+import fun.gusmurphy.library.springboothex.application.Book;
+import fun.gusmurphy.library.springboothex.application.Isbn;
 import fun.gusmurphy.library.springboothex.doubles.BookReceiverSpy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

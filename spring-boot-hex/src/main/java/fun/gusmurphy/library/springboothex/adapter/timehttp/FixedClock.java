@@ -1,6 +1,6 @@
 package fun.gusmurphy.library.springboothex.adapter.timehttp;
 
-import fun.gusmurphy.library.springboothex.domain.port.driven.TellsTime;
+import fun.gusmurphy.library.springboothex.application.port.driven.TellsTime;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
