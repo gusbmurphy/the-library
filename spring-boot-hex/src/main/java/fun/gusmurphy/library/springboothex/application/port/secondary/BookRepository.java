@@ -1,8 +1,8 @@
 package fun.gusmurphy.library.springboothex.application.port.secondary;
 
-import fun.gusmurphy.library.springboothex.application.Book;
-import fun.gusmurphy.library.springboothex.application.Isbn;
-import fun.gusmurphy.library.springboothex.application.UserId;
+import fun.gusmurphy.library.springboothex.application.domain.book.Book;
+import fun.gusmurphy.library.springboothex.application.domain.book.Isbn;
+import fun.gusmurphy.library.springboothex.application.domain.user.UserId;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Optional;

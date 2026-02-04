@@ -2,8 +2,8 @@ package fun.gusmurphy.library.springboothex.adapter.setpersistence;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import fun.gusmurphy.library.springboothex.application.BookBuilder;
-import fun.gusmurphy.library.springboothex.application.Isbn;
+import fun.gusmurphy.library.springboothex.application.domain.book.BookBuilder;
+import fun.gusmurphy.library.springboothex.application.domain.book.Isbn;
 import org.junit.jupiter.api.Test;
 
 class SetBookRepositoryTest {

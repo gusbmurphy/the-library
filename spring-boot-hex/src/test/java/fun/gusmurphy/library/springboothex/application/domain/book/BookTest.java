@@ -1,7 +1,8 @@
-package fun.gusmurphy.library.springboothex.application;
+package fun.gusmurphy.library.springboothex.application.domain.book;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import fun.gusmurphy.library.springboothex.application.domain.user.UserId;
 import java.time.ZonedDateTime;
 import org.junit.jupiter.api.Test;
 

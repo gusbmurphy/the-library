@@ -1,5 +1,7 @@
-package fun.gusmurphy.library.springboothex.application;
+package fun.gusmurphy.library.springboothex.application.domain.book;
 
+import fun.gusmurphy.library.springboothex.application.domain.overdue.OverdueNotification;
+import fun.gusmurphy.library.springboothex.application.domain.user.UserId;
 import fun.gusmurphy.library.springboothex.application.port.secondary.SendsOverdueNotifications;
 import java.time.ZonedDateTime;
 import java.util.Optional;

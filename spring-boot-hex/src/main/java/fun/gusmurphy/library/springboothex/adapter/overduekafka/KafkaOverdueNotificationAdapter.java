@@ -2,7 +2,7 @@ package fun.gusmurphy.library.springboothex.adapter.overduekafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fun.gusmurphy.library.springboothex.application.OverdueNotification;
+import fun.gusmurphy.library.springboothex.application.domain.overdue.OverdueNotification;
 import fun.gusmurphy.library.springboothex.application.port.secondary.SendsOverdueNotifications;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;

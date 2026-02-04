@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.springboothex.application;
+package fun.gusmurphy.library.springboothex.application.domain.book;
 
 import java.util.Objects;
 

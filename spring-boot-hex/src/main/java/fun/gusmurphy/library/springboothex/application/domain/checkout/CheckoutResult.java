@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.springboothex.application;
+package fun.gusmurphy.library.springboothex.application.domain.checkout;
 
 public enum CheckoutResult {
     SUCCESS,

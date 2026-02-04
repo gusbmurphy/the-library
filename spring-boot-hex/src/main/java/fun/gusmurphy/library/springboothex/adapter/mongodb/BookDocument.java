@@ -1,8 +1,8 @@
 package fun.gusmurphy.library.springboothex.adapter.mongodb;
 
-import fun.gusmurphy.library.springboothex.application.Book;
-import fun.gusmurphy.library.springboothex.application.Isbn;
-import fun.gusmurphy.library.springboothex.application.UserId;
+import fun.gusmurphy.library.springboothex.application.domain.book.Book;
+import fun.gusmurphy.library.springboothex.application.domain.book.Isbn;
+import fun.gusmurphy.library.springboothex.application.domain.user.UserId;
 import java.time.ZonedDateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

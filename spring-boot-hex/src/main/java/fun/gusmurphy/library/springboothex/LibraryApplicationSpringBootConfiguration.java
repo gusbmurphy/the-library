@@ -1,9 +1,9 @@
 package fun.gusmurphy.library.springboothex;
 
-import fun.gusmurphy.library.springboothex.application.BookService;
-import fun.gusmurphy.library.springboothex.application.CheckoutService;
-import fun.gusmurphy.library.springboothex.application.OverdueNotificationService;
-import fun.gusmurphy.library.springboothex.application.UserService;
+import fun.gusmurphy.library.springboothex.application.domain.book.BookService;
+import fun.gusmurphy.library.springboothex.application.domain.checkout.CheckoutService;
+import fun.gusmurphy.library.springboothex.application.domain.overdue.OverdueNotificationService;
+import fun.gusmurphy.library.springboothex.application.domain.user.UserService;
 import fun.gusmurphy.library.springboothex.application.port.secondary.BookRepository;
 import fun.gusmurphy.library.springboothex.application.port.secondary.SendsOverdueNotifications;
 import fun.gusmurphy.library.springboothex.application.port.secondary.TellsTime;

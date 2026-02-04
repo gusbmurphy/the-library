@@ -2,8 +2,8 @@ package fun.gusmurphy.library.springboothex.adapter.bookarrivalkafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fun.gusmurphy.library.springboothex.application.Book;
-import fun.gusmurphy.library.springboothex.application.BookBuilder;
+import fun.gusmurphy.library.springboothex.application.domain.book.Book;
+import fun.gusmurphy.library.springboothex.application.domain.book.BookBuilder;
 import org.springframework.stereotype.Component;
 
 @Component

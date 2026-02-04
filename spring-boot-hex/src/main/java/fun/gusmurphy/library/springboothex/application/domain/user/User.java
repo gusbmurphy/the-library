@@ -1,5 +1,6 @@
-package fun.gusmurphy.library.springboothex.application;
+package fun.gusmurphy.library.springboothex.application.domain.user;
 
+import fun.gusmurphy.library.springboothex.application.domain.book.Isbn;
 import java.util.Collection;
 
 public class User {

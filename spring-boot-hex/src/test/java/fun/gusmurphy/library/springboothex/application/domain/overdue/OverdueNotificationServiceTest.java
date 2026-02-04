@@ -1,7 +1,10 @@
-package fun.gusmurphy.library.springboothex.application;
+package fun.gusmurphy.library.springboothex.application.domain.overdue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import fun.gusmurphy.library.springboothex.application.domain.book.Book;
+import fun.gusmurphy.library.springboothex.application.domain.book.Isbn;
+import fun.gusmurphy.library.springboothex.application.domain.user.UserId;
 import fun.gusmurphy.library.springboothex.application.port.primary.ChecksForOverdueBooks;
 import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.OverdueNotificationSpy;

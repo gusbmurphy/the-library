@@ -1,7 +1,7 @@
 package fun.gusmurphy.library.springboothex.adapter.checkouthttp;
 
-import fun.gusmurphy.library.springboothex.application.Isbn;
-import fun.gusmurphy.library.springboothex.application.UserId;
+import fun.gusmurphy.library.springboothex.application.domain.book.Isbn;
+import fun.gusmurphy.library.springboothex.application.domain.user.UserId;
 import fun.gusmurphy.library.springboothex.application.port.primary.ChecksOutBooks;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

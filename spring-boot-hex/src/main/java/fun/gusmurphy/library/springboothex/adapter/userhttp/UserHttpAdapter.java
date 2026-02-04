@@ -1,6 +1,6 @@
 package fun.gusmurphy.library.springboothex.adapter.userhttp;
 
-import fun.gusmurphy.library.springboothex.application.UserId;
+import fun.gusmurphy.library.springboothex.application.domain.user.UserId;
 import fun.gusmurphy.library.springboothex.application.port.primary.RegistersUsers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

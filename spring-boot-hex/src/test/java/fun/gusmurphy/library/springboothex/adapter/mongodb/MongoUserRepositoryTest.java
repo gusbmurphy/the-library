@@ -2,8 +2,8 @@ package fun.gusmurphy.library.springboothex.adapter.mongodb;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import fun.gusmurphy.library.springboothex.application.User;
-import fun.gusmurphy.library.springboothex.application.UserId;
+import fun.gusmurphy.library.springboothex.application.domain.user.User;
+import fun.gusmurphy.library.springboothex.application.domain.user.UserId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;

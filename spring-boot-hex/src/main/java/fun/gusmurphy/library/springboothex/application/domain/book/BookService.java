@@ -1,8 +1,8 @@
-package fun.gusmurphy.library.springboothex.application;
+package fun.gusmurphy.library.springboothex.application.domain.book;
 
-import fun.gusmurphy.library.springboothex.application.port.secondary.BookRepository;
 import fun.gusmurphy.library.springboothex.application.port.primary.ReceivesBooks;
 import fun.gusmurphy.library.springboothex.application.port.primary.RetrievesBooks;
+import fun.gusmurphy.library.springboothex.application.port.secondary.BookRepository;
 import java.util.Optional;
 
 public class BookService implements ReceivesBooks, RetrievesBooks {
