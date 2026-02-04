@@ -1,7 +1,7 @@
 package fun.gusmurphy.library.springboothex.adapter.userhttp;
 
 import fun.gusmurphy.library.springboothex.application.UserId;
-import fun.gusmurphy.library.springboothex.application.port.driving.RegistersUsers;
+import fun.gusmurphy.library.springboothex.application.port.primary.RegistersUsers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

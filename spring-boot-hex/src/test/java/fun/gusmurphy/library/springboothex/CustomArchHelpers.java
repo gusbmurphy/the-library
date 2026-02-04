@@ -38,27 +38,27 @@ public class CustomArchHelpers {
                 }
             };
 
-    public static final ArchCondition<JavaClass> notDependOnDrivenPortsUnlessImplementingThem =
+    public static final ArchCondition<JavaClass> notDependOnSecondaryPortsUnlessImplementingThem =
             conditionThatClassDoesNotDependOnPackageUnlessImplementing(
-                    "driven",
-                    "not depend on driven ports unless implementing them",
-                    "Class %s depends on driven port %s that it is not implementing");
+                    "secondary",
+                    "not depend on secondary ports unless implementing them",
+                    "Class %s depends on secondary port %s that it is not implementing");
 
-    public static final ArchCondition<JavaClass> notDependOnDrivingPortsUnlessImplementingThem =
+    public static final ArchCondition<JavaClass> notDependOnPrimaryPortsUnlessImplementingThem =
             conditionThatClassDoesNotDependOnPackageUnlessImplementing(
-                    "driving",
-                    "not depend on driving ports unless implementing them",
-                    "Class %s depends on driving port %s that it is not implementing");
+                    "primary",
+                    "not depend on primary ports unless implementing them",
+                    "Class %s depends on primary port %s that it is not implementing");
 
-    public static final ArchCondition<JavaClass> notDependOnImplementationsOfDrivingPorts =
-            new ArchCondition<>("not depend on implementations of driven ports") {
+    public static final ArchCondition<JavaClass> notDependOnImplementationsOfPrimaryPorts =
+            new ArchCondition<>("not depend on implementations of primary ports") {
                 @Override
                 public void check(JavaClass item, ConditionEvents events) {
                     for (var dependency : item.getDirectDependenciesFromSelf()) {
-                        if (implementsDrivingPort(dependency)) {
+                        if (implementsPrimaryPort(dependency)) {
                             String message =
                                     String.format(
-                                            "Class %s depends on implementation of driving port %s",
+                                            "Class %s depends on implementation of primary port %s",
                                             item.getName(), dependency.getTargetClass().getName());
                             events.add(SimpleConditionEvent.violated(dependency, message));
                         }
@@ -66,20 +66,20 @@ public class CustomArchHelpers {
                 }
             };
 
-    public static final ArchCondition<JavaClass> notImplementDrivenPorts =
-            new ArchCondition<>("not implement driven ports") {
+    public static final ArchCondition<JavaClass> notImplementSecondaryPorts =
+            new ArchCondition<>("not implement secondary ports") {
                 @Override
                 public void check(JavaClass item, ConditionEvents events) {
-                    var drivenPortDependencies = getDependenciesFromPackage(item, "driven");
+                    var secondaryPortDependencies = getDependenciesFromPackage(item, "secondary");
 
-                    for (var dependency : drivenPortDependencies) {
+                    for (var dependency : secondaryPortDependencies) {
                         var isAnImplementedClass =
                                 classImplementsInterface(item, dependency.getTargetClass());
 
                         if (isAnImplementedClass) {
                             String message =
                                     String.format(
-                                            "Class %s implements driven port %s",
+                                            "Class %s implements secondary port %s",
                                             item.getName(), dependency.getTargetClass().getName());
                             events.add(SimpleConditionEvent.violated(dependency, message));
                         }
@@ -123,8 +123,8 @@ public class CustomArchHelpers {
         return javaClass.getInterfaces().stream().anyMatch(c -> c.equals(javaInterface));
     }
 
-    private static boolean implementsDrivingPort(Dependency dependency) {
+    private static boolean implementsPrimaryPort(Dependency dependency) {
         return dependency.getTargetClass().getInterfaces().stream()
-                .anyMatch(c -> c.toErasure().getPackageName().contains("driving"));
+                .anyMatch(c -> c.toErasure().getPackageName().contains("primary"));
     }
 }

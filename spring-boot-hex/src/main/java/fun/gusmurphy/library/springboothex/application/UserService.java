@@ -1,7 +1,7 @@
 package fun.gusmurphy.library.springboothex.application;
 
-import fun.gusmurphy.library.springboothex.application.port.driven.UserRepository;
-import fun.gusmurphy.library.springboothex.application.port.driving.RegistersUsers;
+import fun.gusmurphy.library.springboothex.application.port.secondary.UserRepository;
+import fun.gusmurphy.library.springboothex.application.port.primary.RegistersUsers;
 
 public class UserService implements RegistersUsers {
 

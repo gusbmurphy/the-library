@@ -2,7 +2,7 @@ package fun.gusmurphy.library.springboothex.doubles;
 
 import fun.gusmurphy.library.springboothex.application.User;
 import fun.gusmurphy.library.springboothex.application.UserId;
-import fun.gusmurphy.library.springboothex.application.port.driven.UserRepository;
+import fun.gusmurphy.library.springboothex.application.port.secondary.UserRepository;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;

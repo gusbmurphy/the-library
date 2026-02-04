@@ -3,7 +3,7 @@ package fun.gusmurphy.library.springboothex.adapter.setpersistence;
 import fun.gusmurphy.library.springboothex.application.Book;
 import fun.gusmurphy.library.springboothex.application.Isbn;
 import fun.gusmurphy.library.springboothex.application.UserId;
-import fun.gusmurphy.library.springboothex.application.port.driven.BookRepository;
+import fun.gusmurphy.library.springboothex.application.port.secondary.BookRepository;
 import java.time.ZonedDateTime;
 import java.util.*;
 

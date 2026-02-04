@@ -2,7 +2,7 @@ package fun.gusmurphy.library.springboothex.adapter.mongodb;
 
 import fun.gusmurphy.library.springboothex.application.User;
 import fun.gusmurphy.library.springboothex.application.UserId;
-import fun.gusmurphy.library.springboothex.application.port.driven.UserRepository;
+import fun.gusmurphy.library.springboothex.application.port.secondary.UserRepository;
 import java.util.Optional;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;

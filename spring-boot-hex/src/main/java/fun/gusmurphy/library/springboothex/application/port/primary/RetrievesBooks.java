@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.springboothex.application.port.driving;
+package fun.gusmurphy.library.springboothex.application.port.primary;
 
 import fun.gusmurphy.library.springboothex.application.Book;
 import fun.gusmurphy.library.springboothex.application.Isbn;

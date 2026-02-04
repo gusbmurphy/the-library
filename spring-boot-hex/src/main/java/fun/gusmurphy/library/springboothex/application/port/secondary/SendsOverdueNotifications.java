@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.springboothex.application.port.driven;
+package fun.gusmurphy.library.springboothex.application.port.secondary;
 
 import fun.gusmurphy.library.springboothex.application.OverdueNotification;
 

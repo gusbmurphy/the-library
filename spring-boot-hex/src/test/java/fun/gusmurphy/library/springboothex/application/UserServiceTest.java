@@ -2,7 +2,7 @@ package fun.gusmurphy.library.springboothex.application;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import fun.gusmurphy.library.springboothex.application.port.driving.RegistersUsers;
+import fun.gusmurphy.library.springboothex.application.port.primary.RegistersUsers;
 import fun.gusmurphy.library.springboothex.doubles.UserRepositoryDouble;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

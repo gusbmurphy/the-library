@@ -1,6 +1,6 @@
 package fun.gusmurphy.library.springboothex.doubles;
 
-import fun.gusmurphy.library.springboothex.application.port.driven.TellsTime;
+import fun.gusmurphy.library.springboothex.application.port.secondary.TellsTime;
 import java.time.ZonedDateTime;
 
 public class TestClock implements TellsTime {

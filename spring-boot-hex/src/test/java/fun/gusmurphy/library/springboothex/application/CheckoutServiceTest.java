@@ -2,7 +2,7 @@ package fun.gusmurphy.library.springboothex.application;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import fun.gusmurphy.library.springboothex.application.port.driving.ChecksOutBooks;
+import fun.gusmurphy.library.springboothex.application.port.primary.ChecksOutBooks;
 import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.TestClock;
 import fun.gusmurphy.library.springboothex.doubles.UserRepositoryDouble;

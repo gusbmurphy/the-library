@@ -28,15 +28,15 @@ public class ArchitectureTest {
                     .resideOutsideOfPackages(APP_PACKAGE, JAVA_PACKAGES, PORT_PACKAGE);
 
     @ArchTest
-    public static final ArchRule applicationClassesCantDependOnDrivingPortsUnlessImplementingThem =
+    public static final ArchRule applicationClassesCantDependOnPrimaryPortsUnlessImplementingThem =
             classes()
                     .that()
                     .resideInAPackage(APP_PACKAGE)
-                    .should(notDependOnDrivingPortsUnlessImplementingThem);
+                    .should(notDependOnPrimaryPortsUnlessImplementingThem);
 
     @ArchTest
-    public static final ArchRule applicationClassesCantImplementDrivenPorts =
-            classes().that().resideInAPackage(APP_PACKAGE).should(notImplementDrivenPorts);
+    public static final ArchRule applicationClassesCantImplementSecondaryPorts =
+            classes().that().resideInAPackage(APP_PACKAGE).should(notImplementSecondaryPorts);
 
     @ArchTest
     public static final ArchRule adaptersCannotDependOnOtherAdapters =
@@ -46,16 +46,16 @@ public class ArchitectureTest {
                     .should(notDependOnAdaptersOutsideItsOwnPackage);
 
     @ArchTest
-    public static final ArchRule adaptersCannotDependOnDrivingPortImplementations =
+    public static final ArchRule adaptersCannotDependOnPrimaryPortImplementations =
             classes()
                     .that()
                     .resideInAPackage(ADAPTER_PACKAGE)
-                    .should(notDependOnImplementationsOfDrivingPorts);
+                    .should(notDependOnImplementationsOfPrimaryPorts);
 
     @ArchTest
-    public static final ArchRule adaptersCannotDependOnDrivenPortsUnlessImplementingThem =
+    public static final ArchRule adaptersCannotDependOnSecondaryPortsUnlessImplementingThem =
             classes()
                     .that()
                     .resideInAPackage(ADAPTER_PACKAGE)
-                    .should(notDependOnDrivenPortsUnlessImplementingThem);
+                    .should(notDependOnSecondaryPortsUnlessImplementingThem);
 }
