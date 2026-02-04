@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.OverdueNotificationSpy;
 import fun.gusmurphy.library.springboothex.doubles.TestClock;
-import fun.gusmurphy.library.springboothex.port.driving.ChecksForOverdueBooks;
+import fun.gusmurphy.library.springboothex.domain.port.driving.ChecksForOverdueBooks;
 import java.time.ZonedDateTime;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.TestClock;
 import fun.gusmurphy.library.springboothex.doubles.UserRepositoryDouble;
-import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
+import fun.gusmurphy.library.springboothex.domain.port.driving.ChecksOutBooks;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,9 +1,9 @@
 package fun.gusmurphy.library.springboothex.domain;
 
-import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
-import fun.gusmurphy.library.springboothex.port.driven.SendsOverdueNotifications;
-import fun.gusmurphy.library.springboothex.port.driven.TellsTime;
-import fun.gusmurphy.library.springboothex.port.driving.ChecksForOverdueBooks;
+import fun.gusmurphy.library.springboothex.domain.port.driven.BookRepository;
+import fun.gusmurphy.library.springboothex.domain.port.driven.SendsOverdueNotifications;
+import fun.gusmurphy.library.springboothex.domain.port.driven.TellsTime;
+import fun.gusmurphy.library.springboothex.domain.port.driving.ChecksForOverdueBooks;
 
 public class OverdueNotificationService implements ChecksForOverdueBooks {
 

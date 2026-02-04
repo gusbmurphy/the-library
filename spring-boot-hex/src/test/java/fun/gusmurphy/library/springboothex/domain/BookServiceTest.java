@@ -1,8 +1,8 @@
 package fun.gusmurphy.library.springboothex.domain;
 
 import fun.gusmurphy.library.springboothex.adapter.setpersistence.SetBookRepository;
-import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
-import fun.gusmurphy.library.springboothex.port.driving.ReceivesBooks;
+import fun.gusmurphy.library.springboothex.domain.port.driven.BookRepository;
+import fun.gusmurphy.library.springboothex.domain.port.driving.ReceivesBooks;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

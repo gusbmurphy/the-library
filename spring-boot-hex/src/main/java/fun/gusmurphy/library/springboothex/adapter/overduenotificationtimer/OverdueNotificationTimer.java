@@ -1,6 +1,6 @@
 package fun.gusmurphy.library.springboothex.adapter.overduenotificationtimer;
 
-import fun.gusmurphy.library.springboothex.port.driving.ChecksForOverdueBooks;
+import fun.gusmurphy.library.springboothex.domain.port.driving.ChecksForOverdueBooks;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

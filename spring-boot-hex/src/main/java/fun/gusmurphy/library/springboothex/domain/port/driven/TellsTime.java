@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.springboothex.port.driven;
+package fun.gusmurphy.library.springboothex.domain.port.driven;
 
 import java.time.ZonedDateTime;
 

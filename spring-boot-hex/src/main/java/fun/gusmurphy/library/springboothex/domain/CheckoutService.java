@@ -1,9 +1,9 @@
 package fun.gusmurphy.library.springboothex.domain;
 
-import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
-import fun.gusmurphy.library.springboothex.port.driven.TellsTime;
-import fun.gusmurphy.library.springboothex.port.driven.UserRepository;
-import fun.gusmurphy.library.springboothex.port.driving.ChecksOutBooks;
+import fun.gusmurphy.library.springboothex.domain.port.driven.BookRepository;
+import fun.gusmurphy.library.springboothex.domain.port.driven.TellsTime;
+import fun.gusmurphy.library.springboothex.domain.port.driven.UserRepository;
+import fun.gusmurphy.library.springboothex.domain.port.driving.ChecksOutBooks;
 import java.util.stream.Collectors;
 
 public class CheckoutService implements ChecksOutBooks {

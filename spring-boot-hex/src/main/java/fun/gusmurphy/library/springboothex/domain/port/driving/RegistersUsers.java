@@ -1,4 +1,4 @@
-package fun.gusmurphy.library.springboothex.port.driving;
+package fun.gusmurphy.library.springboothex.domain.port.driving;
 
 import fun.gusmurphy.library.springboothex.domain.UserId;
 
