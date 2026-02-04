@@ -1,7 +1,5 @@
-package fun.gusmurphy.library.springboothex.application;
+package fun.gusmurphy.library.springboothex.domain;
 
-import fun.gusmurphy.library.springboothex.domain.Book;
-import fun.gusmurphy.library.springboothex.domain.Isbn;
 import fun.gusmurphy.library.springboothex.port.driven.BookRepository;
 import fun.gusmurphy.library.springboothex.port.driving.ReceivesBooks;
 import fun.gusmurphy.library.springboothex.port.driving.RetrievesBooks;

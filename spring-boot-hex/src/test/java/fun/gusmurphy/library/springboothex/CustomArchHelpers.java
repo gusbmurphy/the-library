@@ -50,6 +50,22 @@ public class CustomArchHelpers {
                     "not depend on driving ports unless implementing them",
                     "Class %s depends on driving port %s that it is not implementing");
 
+    public static final ArchCondition<JavaClass> notDependOnImplementationsOfDrivingPorts =
+            new ArchCondition<>("not depend on implementations of driven ports") {
+                @Override
+                public void check(JavaClass item, ConditionEvents events) {
+                    for (var dependency : item.getDirectDependenciesFromSelf()) {
+                        if (implementsDrivingPort(dependency)) {
+                            String message =
+                                    String.format(
+                                            "Class %s depends on implementation of driving port %s",
+                                            item.getName(), dependency.getTargetClass().getName());
+                            events.add(SimpleConditionEvent.violated(dependency, message));
+                        }
+                    }
+                }
+            };
+
     public static final ArchCondition<JavaClass> notImplementDrivenPorts =
             new ArchCondition<>("not implement driven ports") {
                 @Override
@@ -105,5 +121,10 @@ public class CustomArchHelpers {
 
     private static boolean classImplementsInterface(JavaClass javaClass, JavaClass javaInterface) {
         return javaClass.getInterfaces().stream().anyMatch(c -> c.equals(javaInterface));
+    }
+
+    private static boolean implementsDrivingPort(Dependency dependency) {
+        return dependency.getTargetClass().getInterfaces().stream()
+                .anyMatch(c -> c.toErasure().getPackageName().contains("driving"));
     }
 }

@@ -1,7 +1,5 @@
-package fun.gusmurphy.library.springboothex.application;
+package fun.gusmurphy.library.springboothex.domain;
 
-import fun.gusmurphy.library.springboothex.domain.User;
-import fun.gusmurphy.library.springboothex.domain.UserId;
 import fun.gusmurphy.library.springboothex.port.driven.UserRepository;
 import fun.gusmurphy.library.springboothex.port.driving.RegistersUsers;
 

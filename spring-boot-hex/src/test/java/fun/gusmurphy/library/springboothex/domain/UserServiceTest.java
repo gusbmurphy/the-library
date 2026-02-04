@@ -1,8 +1,7 @@
-package fun.gusmurphy.library.springboothex.application;
+package fun.gusmurphy.library.springboothex.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import fun.gusmurphy.library.springboothex.domain.UserId;
 import fun.gusmurphy.library.springboothex.doubles.UserRepositoryDouble;
 import fun.gusmurphy.library.springboothex.port.driving.RegistersUsers;
 import org.junit.jupiter.api.BeforeEach;
