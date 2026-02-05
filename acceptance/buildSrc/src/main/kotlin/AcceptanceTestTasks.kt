@@ -1,5 +1,6 @@
 import org.gradle.api.Project
 import org.gradle.api.tasks.Exec
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.register
 import java.io.ByteArrayOutputStream
 
@@ -59,7 +60,7 @@ fun Project.registerAcceptanceTestTasks(appName: String, appDescription: String,
         errorOutput = ByteArrayOutputStream()
     }
 
-    tasks.register("test$appName") {
+    tasks.register("test$appName", Test::class) {
         description = "Run acceptance tests against the $appDescription"
         group = "verification"
 
