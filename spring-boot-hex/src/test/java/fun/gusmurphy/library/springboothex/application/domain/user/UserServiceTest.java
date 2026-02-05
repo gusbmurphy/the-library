@@ -21,8 +21,10 @@ public class UserServiceTest {
     void aUserCanBeRegistered() {
         var userId = UserId.random();
 
-        service.registerUser(userId);
+        service.registerUser(userId, UserType.REGULAR);
 
-        assertTrue(userRepository.existsById(userId));
+        var registeredUser = userRepository.findById(userId).orElseThrow();
+        assertEquals(userId, registeredUser.id());
+        assertEquals(UserType.REGULAR, registeredUser.type());
     }
 }

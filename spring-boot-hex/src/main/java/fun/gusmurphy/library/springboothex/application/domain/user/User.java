@@ -6,13 +6,19 @@ import java.util.Collection;
 public class User {
 
     private final UserId id;
+    private final UserType type;
 
-    public User(UserId id) {
+    public User(UserId id, UserType type) {
         this.id = id;
+        this.type = type;
     }
 
     public UserId id() {
         return id;
+    }
+
+    public UserType type() {
+        return type;
     }
 
     public boolean canCheckoutAnotherBook(Collection<Isbn> currentlyCheckedOutIsbns) {

@@ -6,6 +6,7 @@ import fun.gusmurphy.library.springboothex.application.domain.book.Book;
 import fun.gusmurphy.library.springboothex.application.domain.book.Isbn;
 import fun.gusmurphy.library.springboothex.application.domain.user.User;
 import fun.gusmurphy.library.springboothex.application.domain.user.UserId;
+import fun.gusmurphy.library.springboothex.application.domain.user.UserType;
 import fun.gusmurphy.library.springboothex.application.port.primary.ChecksOutBooks;
 import fun.gusmurphy.library.springboothex.doubles.BookRepositoryDouble;
 import fun.gusmurphy.library.springboothex.doubles.TestClock;
@@ -95,7 +96,7 @@ public class CheckoutServiceTest {
 
     private UserId registerNewUser() {
         var id = UserId.random();
-        userRepository.save(new User(id));
+        userRepository.save(new User(id, UserType.REGULAR));
         return id;
     }
 

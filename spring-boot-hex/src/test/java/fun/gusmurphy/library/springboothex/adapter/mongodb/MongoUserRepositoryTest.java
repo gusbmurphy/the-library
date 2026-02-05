@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import fun.gusmurphy.library.springboothex.application.domain.user.User;
 import fun.gusmurphy.library.springboothex.application.domain.user.UserId;
+import fun.gusmurphy.library.springboothex.application.domain.user.UserType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
@@ -41,11 +42,13 @@ public class MongoUserRepositoryTest {
     @Test
     void userCanBeSaved() {
         var userId = UserId.random();
-        var user = new User(userId);
+        var user = new User(userId, UserType.REGULAR);
 
         repository.save(user);
 
-        assertTrue(repository.existsById(userId));
+        var savedUser = repository.findById(userId).orElseThrow();
+        assertEquals(userId, savedUser.id());
+        assertEquals(UserType.REGULAR, savedUser.type());
     }
 
     @Test

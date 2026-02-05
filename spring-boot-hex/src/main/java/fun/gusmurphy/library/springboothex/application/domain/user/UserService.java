@@ -12,8 +12,8 @@ public class UserService implements RegistersUsers {
     }
 
     @Override
-    public void registerUser(UserId userId) {
-        var user = new User(userId);
+    public void registerUser(UserId userId, UserType type) {
+        var user = new User(userId, type);
         userRepository.save(user);
     }
 }
