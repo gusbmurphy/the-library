@@ -38,7 +38,7 @@ public class CheckoutServiceTest {
 
     @Test
     void aRegisteredUserCanSuccessfullyCheckoutABook() {
-        var userId = registerNewUser();
+        var userId = registerNewRegularUser();
         var result = service.checkoutBook(isbn, userId);
         assertEquals(CheckoutResult.SUCCESS, result);
     }
@@ -52,7 +52,7 @@ public class CheckoutServiceTest {
 
     @Test
     void theSavedCheckoutRecordHasTheCorrectAttributes() {
-        var userId = registerNewUser();
+        var userId = registerNewRegularUser();
         service.checkoutBook(isbn, userId);
 
         var bookAfterCheckout = bookRepository.findByIsbn(isbn).get();
@@ -63,7 +63,7 @@ public class CheckoutServiceTest {
 
     @Test
     void anUnknownBookCannotBeCheckedOut() {
-        var userId = registerNewUser();
+        var userId = registerNewRegularUser();
         var someUnknownIsbn = Isbn.fromString("?");
         var result = service.checkoutBook(someUnknownIsbn, userId);
         assertEquals(CheckoutResult.UNKNOWN_BOOK, result);
@@ -71,8 +71,8 @@ public class CheckoutServiceTest {
 
     @Test
     void twoUsersCannotSimultaneouslyCheckoutABook() {
-        var firstUserId = registerNewUser();
-        var secondUserId = registerNewUser();
+        var firstUserId = registerNewRegularUser();
+        var secondUserId = registerNewRegularUser();
 
         service.checkoutBook(isbn, firstUserId);
         var secondResult = service.checkoutBook(isbn, secondUserId);
@@ -82,11 +82,8 @@ public class CheckoutServiceTest {
 
     @Test
     void aRegularUserCannotCheckoutMoreThan5Books() {
-        var userId = registerNewUser();
-        for (int i = 0; i < 5; i++) {
-            var book = saveNewBook();
-            service.checkoutBook(book.isbn(), userId);
-        }
+        var userId = registerNewRegularUser();
+        successfullyCheckoutNBooks(5, userId);
 
         var sixthBook = saveNewBook();
         var sixthResult = service.checkoutBook(sixthBook.isbn(), userId);
@@ -94,9 +91,26 @@ public class CheckoutServiceTest {
         assertEquals(CheckoutResult.USER_AT_CHECKOUT_MAX, sixthResult);
     }
 
-    private UserId registerNewUser() {
+    @Test
+    void aSuperUserCannotCheckoutMoreThan8Books() {
+        var userId = registerNewSuperUser();
+        successfullyCheckoutNBooks(8, userId);
+
+        var ninthBook = saveNewBook();
+        var ninthResult = service.checkoutBook(ninthBook.isbn(), userId);
+
+        assertEquals(CheckoutResult.USER_AT_CHECKOUT_MAX, ninthResult);
+    }
+
+    private UserId registerNewRegularUser() {
         var id = UserId.random();
         userRepository.save(new User(id, UserType.REGULAR));
+        return id;
+    }
+
+    private UserId registerNewSuperUser() {
+        var id = UserId.random();
+        userRepository.save(new User(id, UserType.SUPER));
         return id;
     }
 
@@ -109,5 +123,13 @@ public class CheckoutServiceTest {
     private void saveBookWithIsbn(Isbn isbn) {
         var book = new Book(isbn, checkoutTimeInDays);
         bookRepository.saveBook(book);
+    }
+
+    private void successfullyCheckoutNBooks(int n, UserId userId) {
+        for (int i = 0; i < n; i++) {
+            var book = saveNewBook();
+            var result = service.checkoutBook(book.isbn(), userId);
+            assertEquals(CheckoutResult.SUCCESS, result, "User should be able to checkout a " + (i + 1) + "th book");
+        }
     }
 }

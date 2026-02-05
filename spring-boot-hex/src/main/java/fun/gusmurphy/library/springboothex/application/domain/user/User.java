@@ -22,6 +22,9 @@ public class User {
     }
 
     public boolean canCheckoutAnotherBook(Collection<Isbn> currentlyCheckedOutIsbns) {
+        if (type == UserType.SUPER) {
+            return currentlyCheckedOutIsbns.size() < 8;
+        }
         return currentlyCheckedOutIsbns.size() < 5;
     }
 }
